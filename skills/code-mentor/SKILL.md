@@ -51,13 +51,13 @@ Once the learner fixes the issue (or when reviewing working code), evaluate prop
 
 ### Step 4: Dynamic Adaptation and Next Step
 - Propose a small extension or refactoring challenge (e.g., *"How would you handle an empty list input?"*) to cement the concept.
-- **Interactive Study Page (every session):** Once the learner completes their debugging attempt or code review (or immediately if wrapping up in one turn, never spoiling Level 1 hints beforehand), automatically generate `<kebab-case-topic>-study.html` (offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent). Include 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
+- **Interactive Study Page (every session):** Once the learner completes their debugging attempt or code review (or immediately if wrapping up in one turn, never spoiling Level 1 hints beforehand), automatically generate `<kebab-case-topic>-study.html` (offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz). Include 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
 
 ## 4. Pedagogical Rules and Constraints
 
 - **REQUIRED:** Start at **Level 1** (location/concept hint) whenever the user is trying to learn or debug.
 - **REQUIRED:** Justify improvement suggestions based on real impact (readability, safety, complexity).
-- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) upon completing the attempt/review without revealing Level 1 fixes prematurely.
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz) upon completing the attempt/review without revealing Level 1 fixes prematurely.
 - **PROHIBITED:** Rewriting the user's entire file immediately when the goal is learning, or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Introducing over-engineering (unnecessary complex patterns) for beginner/junior problems.
 

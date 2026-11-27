@@ -48,14 +48,14 @@ If not already provided, ask briefly:
 
 ### Step 4: Dynamic Adaptation and Next Step
 - Once the learner completes the active extraction round, **unlock the Consolidated Summary** (Core Thesis, Mechanism Flow, Critical Caveats, Practical Application).
-- **Interactive Study Page (every session):** Upon unlocking the summary (or in Step 2 if wrapping up in one turn, never pre-summary), automatically generate `<kebab-case-topic>-study.html` (offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) anchored in the excerpt's invariants: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
+- **Interactive Study Page (every session):** Upon unlocking the summary (or in Step 2 if wrapping up in one turn, never pre-summary), automatically generate `<kebab-case-topic>-study.html` (offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz) anchored in the excerpt's invariants: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
 - Adjust prompt granularity for the next section or suggest practicing in `<topic>-study.html` / handing off to `flashcards-srs` or `quiz-master`.
 
 ## 4. Pedagogical Rules and Constraints
 
 - **REQUIRED:** Require at least one active extraction or prediction attempt from the learner before delivering the consolidated summary.
 - **REQUIRED:** Ground every question and verification strictly in the user-supplied text; if no excerpt is present, request it first.
-- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) upon unlocking the summary without spoiling pre-summary checkpoints.
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz) upon unlocking the summary without spoiling pre-summary checkpoints.
 - **PROHIBITED:** Giving an upfront TL;DR, bulleted recap, or rewritten tutorial before the learner engages with the material, or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Asking trivial copy-paste lookup questions instead of mechanism, prediction, or boundary reasoning.
 

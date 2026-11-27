@@ -43,7 +43,7 @@ If not stated in the initial prompt, ask directly:
 - Generate the questions while keeping the **answer key completely hidden** in chat until the user submits their answers.
 - Craft incorrect options (distractors) based on real, common student misconceptions (e.g., off-by-one errors, value vs. reference confusion, false equivalence). Never include absurd or obvious throwaway options.
 - For code-analysis questions, keep snippets short, self-contained, and syntactically unambiguous.
-- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or an equivalent inline HTML5/CSS/Vanilla JS layout when running from an isolated install). Populate `STUDY_DATA` with:
+- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: warm paper `#F6F3EC`, stone `#EAE6DC` quiz panel, ink `#24231F`, terracotta `#8C3B24`, Georgia serif headings, 2-column `01 / READING` + Active Notes left & `02 / PRACTICE` Quiz right). Populate `STUDY_DATA` with:
   1. **Active-Reveal Concept Cards (2–4 cards):** core rules + *"Think first, then reveal"* prediction prompts hidden until click.
   2. **Flip Flashcards (4–8 atomic cards):** front → back drills reinforcing key distinctions.
   3. **Diagnostic Quiz:** misconception-based questions with answers hidden until **"Check Answers"** and per-option conceptual feedback, plus responsive Light/Dark toggle, progress bar, and Reset button.
@@ -61,7 +61,7 @@ If not stated in the initial prompt, ask directly:
 
 - **REQUIRED:** Hide the answer key, answer hints, and explanations in chat until the user submits an attempt.
 - **REQUIRED:** Build plausible distractors that test genuine understanding rather than rote memorization.
-- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent).
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz).
 - **PROHIBITED:** Revealing answers in the same chat message where questions are presented, or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Using obscure syntax gotchas that do not test the core concept.
 
