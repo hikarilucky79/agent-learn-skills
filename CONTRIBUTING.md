@@ -19,7 +19,8 @@ Thank you for helping expand this catalog of Agent Skills for active learning. T
 2. **No trigger overlap:** before proposing a skill, review the `description` fields of existing skills under `skills/`. State explicitly in `description` (using `DO NOT activate`) and in the **Scope** section when *to use* and when *not to use* (pointing to the right sibling skill).
 3. **Lean context:** write direct, actionable instructions. Avoid long introductions, repetition, or bloated examples that waste the model's context window.
 4. **Active learning above all:** the skill must always require cognitive effort from the learner (attempt, explanation, debugging, choice) before providing ready-made answers or solutions.
-5. **Portability:** do not depend on tools, commands, or APIs exclusive to a single CLI or IDE. Instructions must work on any `SKILL.md`-compatible agent.
+5. **Offline HTML study page in every skill:** every skill automatically generates a self-contained offline `.html` companion (`<kebab-case-topic>-study.html`, using [`templates/STUDY_PAGE_TEMPLATE.html`](templates/STUDY_PAGE_TEMPLATE.html) or a portable inline HTML5/CSS/Vanilla JS fallback when installed outside the repo) without leaking active-turn answers in chat.
+6. **Portability:** do not depend on tools, commands, or APIs exclusive to a single CLI or IDE. Instructions must work on any `SKILL.md`-compatible agent.
 
 ---
 
