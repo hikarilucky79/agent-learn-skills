@@ -1,85 +1,85 @@
 ---
-name: nome-da-skill-em-kebab-case
+name: skill-name-in-kebab-case
 description: >
-  Descrição curta e acionável explicando exatamente QUANDO ativar esta skill
-  e QUANDO NÃO ativar (evitando conflito com outras skills do repositório).
+  Short, actionable description explaining exactly WHEN to activate this skill
+  and WHEN NOT to activate it (preventing overlap with other repository skills).
 ---
 
 <!--
-INSTRUÇÕES DE PREENCHIMENTO:
-- O campo `name` acima DEVE ser idêntico ao nome da pasta em `skills/<nome-da-skill>/`.
-- Mantenha a `description` objetiva: agentes usam esse texto para decidir quando carregar a skill.
-- Remova estes comentários HTML antes de abrir seu Pull Request.
+TEMPLATE INSTRUCTIONS:
+- The `name` field above MUST match the parent folder name in `skills/<skill-name>/`.
+- Keep `description` concise and clear: agents use it to decide when to load the skill.
+- Remove these HTML comments before opening your Pull Request.
 -->
 
-# [Nome Legível da Skill]
+# [Human-Readable Skill Name]
 
-## 1. Papel e Objetivo
+## 1. Role and Objective
 
-<!-- Defina em 2–3 frases a persona pedagógica do agente e qual técnica de aprendizagem ativa ele aplica. -->
+<!-- Define the pedagogical persona in 2-3 sentences and which active learning technique it applies. -->
 
-Atue como [persona pedagógica]. Seu objetivo é [objetivo mensurável de aprendizagem], priorizando recuperação ativa, prática guiada e feedback diagnóstico em vez de respostas passivas.
+Act as [pedagogical persona]. Your objective is to [measurable learning outcome], prioritizing active recall, guided practice, and diagnostic feedback over passive answers.
 
-## 2. Escopo (Quando Usar / Quando Não Usar)
+## 2. Scope (When to Use / When Not to Use)
 
-<!-- Estabeleça fronteiras explícitas para evitar disparos indevidos e sobreposição com outras skills. -->
+<!-- Establish explicit boundaries to avoid false triggers and overlap with other skills. -->
 
-**Use esta skill quando:**
-- [Caso de uso principal 1]
-- [Caso de uso principal 2]
+**Use this skill when:**
+- [Primary use case 1]
+- [Primary use case 2]
 
-**Não use esta skill quando:**
-- [Caso fora de escopo que pertence a outra skill — cite a skill alternativa, ex.: `quiz-master`, `code-mentor`]
-- [Pedido de resposta pronta sem intenção de estudo/prática]
+**Do not use this skill when:**
+- [Out-of-scope case belonging to another skill — cite the alternative skill, e.g., `quiz-master`, `code-mentor`]
+- [Request for a ready-made answer with no study/practice intent]
 
-## 3. Fluxo de Execução (Passo a Passo)
+## 3. Execution Flow (Step by Step)
 
-<!-- Siga os 4 passos obrigatórios abaixo adaptando-os à técnica pedagógica da skill. -->
+<!-- Follow the 4 mandatory steps below, adapting them to the skill's pedagogical technique. -->
 
-### Passo 1: Diagnóstico Rápido
-Se o usuário não tiver informado, pergunte de forma breve e direta:
-1. **Tema ou escopo:** [o que será estudado].
-2. **Nível atual:** [iniciante, intermediário, avançado ou equivalente].
-3. **Objetivo:** [prova, entrevista, projeto prático, revisão].
+### Step 1: Quick Diagnosis
+If not already provided by the user, ask briefly and directly:
+1. **Topic or scope:** [what will be studied].
+2. **Current level:** [beginner, intermediate, advanced, or equivalent].
+3. **Goal:** [exam, interview, practical project, review].
 
-### Passo 2: Execução da Técnica Pedagógica
-- [Descreva a ação principal do agente nesta etapa.]
-- [Inclua critérios de qualidade do material gerado ou das perguntas feitas.]
+### Step 2: Execute the Pedagogical Technique
+- [Describe the agent's main action in this stage.]
+- [Include quality criteria for the generated material or questions.]
 
-### Passo 3: Avaliação e Feedback Específico
-- Analise a resposta ou entrega do usuário antes de avançar.
-- Explique claramente o **porquê** de cada acerto, lacuna ou erro conceitual.
-- [Detalhe como o feedback deve ser estruturado.]
+### Step 3: Evaluation and Specific Feedback
+- Analyze the user's response or submission before moving forward.
+- Clearly explain **why** each answer is right, incomplete, or conceptually wrong.
+- [Detail how feedback should be structured.]
 
-### Passo 4: Adaptação Dinâmica e Próximo Passo
-- Ajuste a dificuldade, o ritmo ou o foco com base no desempenho observado.
-- Sugira uma única próxima ação concreta (ex.: aprofundar ponto fraco, aumentar nível ou encerrar ciclo).
+### Step 4: Dynamic Adaptation and Next Step
+- Adjust difficulty, pace, or focus based on observed performance.
+- Suggest a single concrete next action (e.g., drill a weak spot, level up, or wrap up the cycle).
 
-## 4. Regras Pedagógicas e Restrições
+## 4. Pedagogical Rules and Constraints
 
-<!-- Liste comportamentos obrigatórios e proibidos em formato de bullets curtos e verificáveis. -->
+<!-- List mandatory and prohibited behaviors as short, verifiable bullets. -->
 
-- **OBRIGATÓRIO:** [Regra positiva essencial — ex.: aguardar a tentativa do usuário antes de mostrar a solução].
-- **OBRIGATÓRIO:** [Regra de clareza, atomicidade ou rigor técnico].
-- **PROIBIDO:** [Comportamento passivo ou anti-padrão pedagógico a evitar].
-- **PROIBIDO:** [Sobrecarga cognitiva, respostas genéricas ou entrega antecipada de gabarito].
+- **REQUIRED:** [Core positive rule — e.g., wait for the user's attempt before showing the solution].
+- **REQUIRED:** [Clarity, atomicity, or technical rigor rule].
+- **PROHIBITED:** [Passive behavior or pedagogical anti-pattern to avoid].
+- **PROHIBITED:** [Cognitive overload, generic responses, or revealing the answer key early].
 
-## 5. Formato de Saída
+## 5. Output Format
 
-<!-- Defina a estrutura visual padrão (tabelas, listas, blocos de código, separadores) que o agente deve usar. -->
+<!-- Define the standard visual structure (tables, lists, code blocks, separators) the agent must use. -->
 
 ```markdown
-### [Cabeçalho da Etapa]
-- **Item 1:** [conteúdo]
-- **Item 2:** [conteúdo]
+### [Stage Heading]
+- **Item 1:** [content]
+- **Item 2:** [content]
 ```
 
-## 6. Exemplo Curto (Input → Output)
+## 6. Short Example (Input → Output)
 
-<!-- Forneça um exemplo enxuto e realista demonstrando o tom, a concisão e a formatação esperados. -->
+<!-- Provide a lean, realistic example demonstrating the expected tone, conciseness, and formatting. -->
 
-**Input do usuário:**
-> [Prompt curto e realista do estudante]
+**User input:**
+> [Short, realistic learner prompt]
 
-**Output esperado do agente:**
-> [Resposta curta seguindo exatamente o Formato de Saída e as Regras Pedagógicas]
+**Expected agent output:**
+> [Concise response following the Output Format and Pedagogical Rules]

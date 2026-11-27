@@ -1,67 +1,67 @@
-# Contribuindo para o `agent-learn-skills`
+# Contributing to `agent-learn-skills`
 
-Obrigado pelo interesse em expandir este catálogo de Agent Skills para aprendizagem ativa. Este guia define os padrões técnicos e pedagógicos para manter o repositório consistente, enxuto e portátil.
-
----
-
-## 1. Padrões de Nomenclatura e Estrutura
-
-- **Nome da pasta e da skill:** use obrigatoriamente `kebab-case` (apenas letras minúsculas, números e hífens), por exemplo: `skills/socratic-debugger/SKILL.md`.
-- **Correspondência exata:** o campo `name:` no frontmatter YAML deve ser **idêntico** ao nome do diretório pai.
-- **Idioma:** Português do Brasil (PT-BR), mantendo termos técnicos consolidados em inglês quando natural (ex.: *Active Recall*, *Cloze Deletion*, *Symlink*, *Event Loop*).
-- **Base obrigatória:** toda nova skill deve partir de [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) e conter todas as 6 seções obrigatórias.
+Thank you for helping expand this catalog of Agent Skills for active learning. This guide defines the technical and pedagogical standards to keep the repository consistent, lean, and portable.
 
 ---
 
-## 2. Diretrizes de Design Instrucional
+## 1. Naming and Structure Standards
 
-1. **Uma skill, um método:** cada skill deve resolver uma única técnica pedagógica com excelência (ex.: quizzes, flashcards, Feynman, mentoria de código, roadmap). Evite skills "faz-tudo".
-2. **Sem sobreposição de gatilhos:** antes de propor uma skill, verifique as `description` das skills existentes em `skills/`. Deixe explícito no campo `description` e na seção **Escopo** quando *usar* e quando *não usar* (apontando a skill vizinha correta).
-3. **Contexto enxuto:** escreva instruções diretas e acionáveis. Evite introduções longas, repetições ou exemplos extensos que desperdicem a janela de contexto do modelo.
-4. **Aprendizagem ativa acima de tudo:** a skill deve sempre exigir esforço cognitivo do estudante (tentativa, explicação, depuração, escolha) antes de entregar respostas prontas ou gabaritos.
-5. **Portabilidade:** não dependa de ferramentas, comandos ou APIs exclusivas de uma única CLI ou IDE. As instruções devem funcionar em qualquer agente compatível com `SKILL.md`.
+- **Folder and skill name:** strictly use `kebab-case` (lowercase letters, numbers, and hyphens only), e.g., `skills/socratic-debugger/SKILL.md`.
+- **Exact match:** the `name:` field in the YAML frontmatter must be **identical** to the parent directory name.
+- **Language:** English across all `.md` documentation and skill definitions.
+- **Mandatory base:** every new skill must start from [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) and include all 6 required sections.
 
 ---
 
-## 3. Fluxo de Contribuição
+## 2. Instructional Design Guidelines
 
-1. Para propor uma nova skill ou reportar conflitos de gatilho, utilize os formulários em `.github/ISSUE_TEMPLATE/`.
-2. Faça um fork do repositório e crie uma branch descritiva usando Conventional Commits no padrão de histórico:
+1. **One skill, one method:** each skill must execute a single pedagogical technique with excellence (e.g., quizzes, flashcards, Feynman, code mentoring, roadmap). Avoid "do-everything" skills.
+2. **No trigger overlap:** before proposing a skill, review the `description` fields of existing skills under `skills/`. State explicitly in `description` and in the **Scope** section when *to use* and when *not to use* (pointing to the right sibling skill).
+3. **Lean context:** write direct, actionable instructions. Avoid long introductions, repetition, or bloated examples that waste the model's context window.
+4. **Active learning above all:** the skill must always require cognitive effort from the learner (attempt, explanation, debugging, choice) before providing ready-made answers or solutions.
+5. **Portability:** do not depend on tools, commands, or APIs exclusive to a single CLI or IDE. Instructions must work on any `SKILL.md`-compatible agent.
+
+---
+
+## 3. Contribution Workflow
+
+1. To propose a new skill or report trigger conflicts, use the templates in `.github/ISSUE_TEMPLATE/`.
+2. Fork the repository and create a descriptive branch using Conventional Commits:
    ```bash
-   git checkout -b feat/nome-da-skill
+   git checkout -b feat/skill-name
    ```
-3. Se estiver criando uma skill, copie o template oficial:
+3. If adding a skill, copy the official template:
    ```bash
-   mkdir -p skills/nome-da-skill
-   cp templates/SKILL_TEMPLATE.md skills/nome-da-skill/SKILL.md
+   mkdir -p skills/skill-name
+   cp templates/SKILL_TEMPLATE.md skills/skill-name/SKILL.md
    ```
-4. Preencha o `SKILL.md` removendo todos os comentários HTML de instrução.
-5. Atualize a tabela de catálogo e a árvore de estrutura no `README.md` mantendo a ordem e os links relativos válidos.
-6. Execute o validador automático (e teste os instaladores em `scripts/` se tiver alterado `scripts/` ou a estrutura de `skills/`) antes de abrir o Pull Request:
+4. Fill out `SKILL.md` and remove all instructional HTML comments.
+5. Update the catalog table and repository structure in `README.md`, keeping valid relative links.
+6. Run the automated validator (and test the installers in `scripts/` if you modified `scripts/` or `skills/` structure) before opening a Pull Request:
    ```bash
    python scripts/validate_skills.py
    ```
-7. Use o template de Pull Request (`.github/PULL_REQUEST_TEMPLATE.md`) marcando os itens verificados (`[x]`). A branch `main` exige aprovação do check de CI `Validate SKILL.md structure and links`.
+7. Use `.github/PULL_REQUEST_TEMPLATE.md` and check off verified items (`[x]`). The `main` branch requires the `Validate SKILL.md structure and links` CI check to pass.
 
 ---
 
-## 4. Checklist de Qualidade para Pull Requests
+## 4. Pull Request Quality Checklist
 
-- [ ] `python scripts/validate_skills.py` executado localmente sem erros.
-- [ ] Check de CI `Validate SKILL.md structure and links` aprovado no PR.
-- [ ] Commits seguem **Conventional Commits** (`feat(...)`, `docs(...)`, `ci(...)`, `fix(...)`).
-- [ ] A pasta está em `skills/<nome-em-kebab-case>/SKILL.md` (para novas skills).
-- [ ] O frontmatter YAML é válido e `name` coincide exatamente com o nome da pasta.
-- [ ] A `description` define claramente **quando ativar** e **quando não ativar**, sem conflitar com outras skills.
-- [ ] Todas as 6 seções obrigatórias do template estão presentes e preenchidas sem comentários residuais.
-- [ ] O fluxo inclui diagnóstico rápido, prática ativa, feedback explicativo e adaptação dinâmica.
-- [ ] Há um exemplo curto (`Input → Output`) fiel ao formato de saída especificado.
-- [ ] O `README.md` foi atualizado com a nova skill/alteração e todos os links relativos funcionam.
-- [ ] Instaladores (`scripts/install.sh` / `scripts/install.ps1`) testados quando aplicável.
-- [ ] O texto está em PT-BR claro, técnico e sem preenchimento genérico.
+- [ ] `python scripts/validate_skills.py` executed locally with zero errors.
+- [ ] `Validate SKILL.md structure and links` CI check passed on the PR.
+- [ ] Commits follow **Conventional Commits** (`feat(...)`, `docs(...)`, `ci(...)`, `fix(...)`).
+- [ ] Folder path is `skills/<kebab-case-name>/SKILL.md` (for new skills).
+- [ ] YAML frontmatter is valid and `name` matches the folder name exactly.
+- [ ] `description` clearly defines **when to activate** and **when not to activate**, without conflicting with other skills.
+- [ ] All 6 required sections from the template are present and free of leftover HTML comments.
+- [ ] Flow includes quick diagnosis, active practice, diagnostic feedback, and dynamic adaptation.
+- [ ] Includes a short example (`Input → Output`) matching the specified output format.
+- [ ] `README.md` is updated with the new skill/change and all relative links resolve.
+- [ ] Installers (`scripts/install.sh` / `scripts/install.ps1`) tested when applicable.
+- [ ] Writing is clear, technical, concise English without generic filler.
 
 ---
 
-## 5. Código de Conduta
+## 5. Code of Conduct
 
-Ao participar deste projeto, você concorda em seguir o [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). Para agentes de IA que operam neste repositório, consulte também [`AGENTS.md`](AGENTS.md).
+By participating in this project, you agree to follow [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). For AI agents operating on this repository, also see [`AGENTS.md`](AGENTS.md).
