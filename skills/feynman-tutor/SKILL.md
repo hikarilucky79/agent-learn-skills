@@ -3,8 +3,10 @@ name: feynman-tutor
 description: >
   Activate when the user wants to deeply understand a concept by explaining it in
   their own words (Feynman Technique) and receiving Socratic questions to eliminate
-  logic gaps and jargon. DO NOT activate for multiple-choice quizzes (use quiz-master),
-  Anki flashcards (use flashcards-srs), or code debugging (use code-mentor).
+  logic gaps and jargon. DO NOT activate for active reading of a specific doc or article
+  before summarizing (use docs-deconstructor), simulated job interviews (use mock-interview),
+  multiple-choice quizzes (use quiz-master), Anki flashcards (use flashcards-srs), or code
+  debugging (use code-mentor).
 ---
 
 # Feynman Tutor
@@ -20,6 +22,10 @@ Act as a rigorous, patient Socratic tutor applying the **Feynman Technique**. Yo
 - The user submits their own explanation requesting conceptual validation.
 
 **Do not use this skill when:**
+- The user shares documentation, an RFC, or an article to deconstruct actively before summarizing (use `docs-deconstructor`).
+- The user wants a simulated job interview with dynamic follow-ups and rubric scoring (use `mock-interview`).
+- The user wants active foreign-language practice via reverse translation or roleplay (use `idiom-coach`).
+- The user wants a post-bug retrospective analyzing a false hypothesis and root cause (use `debug-postmortem`).
 - The user asks for multiple-choice or true/false questions (use `quiz-master`).
 - The user asks for spaced-repetition decks (use `flashcards-srs`).
 - The user asks for source code review or debugging (use `code-mentor`).

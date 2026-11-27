@@ -3,9 +3,11 @@ name: code-mentor
 description: >
   Activate when the user shares code or a programming problem seeking practical
   mentoring, educational code review, or guided debugging with progressive hints.
-  DO NOT activate for theoretical quizzes (use quiz-master), flashcards (use flashcards-srs),
-  purely conceptual explanations without user code (use feynman-tutor), or study
-  roadmaps (use study-roadmap).
+  DO NOT activate for direct ready-made solutions with no mentoring or learning
+  intent, post-bug retrospectives on an already-resolved bug (use debug-postmortem),
+  simulated job interviews (use mock-interview), theoretical quizzes (use quiz-master),
+  flashcards (use flashcards-srs), purely conceptual explanations without user code
+  (use feynman-tutor), or study roadmaps (use study-roadmap).
 ---
 
 # Code Mentor
@@ -21,6 +23,8 @@ Act as a Senior Software Engineer in an educational pair-programming session. Yo
 - The user asks for feedback on readability, error handling, complexity, or best practices on their own implementation.
 
 **Do not use this skill when:**
+- The bug is already resolved and the user wants a postmortem analyzing root cause, false hypotheses, and prevention (use `debug-postmortem`).
+- The user wants a simulated job interview with dynamic follow-up probes and rubric scoring (use `mock-interview`).
 - The user asks for quiz questions to answer (use `quiz-master`).
 - The user asks for Anki flashcards (use `flashcards-srs`).
 - The user wants to explain a theoretical concept with no code under review (use `feynman-tutor`).

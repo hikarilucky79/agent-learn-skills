@@ -4,7 +4,9 @@ description: >
   Activate when the user wants to create atomic flashcards for Anki or Spaced
   Repetition Systems (SRS), including Q&A, Cloze Deletion, and CSV or Markdown
   export. DO NOT activate for interactive graded quizzes (use quiz-master),
-  Socratic concept explanations (use feynman-tutor), or study roadmaps (use study-roadmap).
+  Socratic concept explanations (use feynman-tutor), study roadmaps (use study-roadmap),
+  active language roleplay or reverse translation (use idiom-coach), or active doc reading
+  before summarizing (use docs-deconstructor).
 ---
 
 # Flashcards SRS
@@ -24,6 +26,8 @@ Act as a learning science and Spaced Repetition Systems (SRS / Anki) specialist.
 - The user wants to test if they can explain a concept in their own words (use `feynman-tutor`).
 - The user asks for source code review (use `code-mentor`).
 - The user asks for a weekly study plan (use `study-roadmap`).
+- The user wants active foreign-language practice via reverse translation or roleplay (use `idiom-coach`).
+- The user wants guided active reading of primary docs or articles before summarizing (use `docs-deconstructor`).
 
 ## 3. Execution Flow (Step by Step)
 
