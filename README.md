@@ -42,6 +42,9 @@ chmod +x scripts/install.sh
 
 # Install specific skills in the current project
 ./scripts/install.sh --agent cursor --scope project --skill quiz-master --skill code-mentor
+
+# Uninstall repository skills from the target agent
+./scripts/install.sh --uninstall --agent claude --scope global
 ```
 
 **Windows PowerShell ([`scripts/install.ps1`](scripts/install.ps1)):**
@@ -54,9 +57,12 @@ cd agent-learn-skills
 
 # Install specific skills in the current project
 .\scripts\install.ps1 -Agent cursor -Scope project -Skill quiz-master,code-mentor
+
+# Uninstall repository skills from the target agent
+.\scripts\install.ps1 -Uninstall -Agent claude -Scope global
 ```
 
-> **Tip:** use `--copy` (`install.sh`) or `-Symlink` (`install.ps1`) to invert the default mode, and `--force` / `-Force` to overwrite existing skills.
+> **Tip:** use `--copy` (`install.sh`) or `-Symlink` (`install.ps1`) to invert the default mode, `--force` / `-Force` to overwrite existing skills (or remove external symlinks when uninstalling), and `--uninstall` / `-Uninstall` to remove installed repository skills.
 
 ### Manual Installation (Alternative)
 
@@ -72,9 +78,12 @@ done
 
 ## Creating a New Skill
 
-1. Copy the official template [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) to `skills/<kebab-case-name>/SKILL.md`.
-2. Ensure the `name:` field in the YAML frontmatter matches the folder name exactly.
-3. Define clear boundaries in `description` (when to activate and an explicit `DO NOT activate` clause) to avoid conflicting with existing skills.
+1. Scaffold the new skill using [`scripts/new_skill.py`](scripts/new_skill.py) (which creates `skills/<kebab-case-name>/SKILL.md` from [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) with `name:` pre-filled):
+   ```bash
+   python scripts/new_skill.py <kebab-case-name>
+   ```
+2. Complete all 6 sections, define clear boundaries in `description` (when to activate and an explicit `DO NOT activate` clause) to avoid conflicting with existing skills, and remove all HTML comments (`<!-- ... -->`).
+3. Add the new skill to the catalog above and run `python scripts/validate_skills.py` and `python -m unittest discover -s tests -v`.
 4. Follow all guidelines and the checklist in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
@@ -91,11 +100,14 @@ agent-learn-skills/
 ├── scripts/
 │   ├── install.ps1
 │   ├── install.sh
+│   ├── new_skill.py
 │   └── validate_skills.py
 ├── templates/
 │   └── SKILL_TEMPLATE.md
 ├── tests/
 │   ├── activation_prompts.md
+│   ├── test_installers.py
+│   ├── test_new_skill.py
 │   ├── test_validate_anki_csv.py
 │   └── test_validate_skills.py
 └── skills/
