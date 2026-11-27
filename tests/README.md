@@ -97,18 +97,18 @@ OK (skipped=1)
 
 ## 4. End-to-End Agent Behavioral Verification (Multi-Turn Client-Tutor)
 
-All 10 skills + negative boundary scenarios were tested in multi-turn conversations with independent Tutor agents (without naming skills in the user prompt; `interactive-study-page` plus reciprocal checks on `quiz-master`, `flashcards-srs`, and the negative boundary were re-verified after adding `interactive-study-page`):
+All 10 catalog skills + 1 negative boundary scenario were verified end-to-end in multi-turn conversations with independent Tutor agents in isolated worktrees against the 10-skill catalog (without naming skills in the user prompt; transcript audits confirmed zero cross-skill full-body reads):
 
 | Scenario | Target Skill | Result | Verified Behavior |
 |---|---|---|---|
-| 1 | `quiz-master` | PASS | Generates questions with plausible distractors and hides the answer key until submission (2-turn verified with zero overlap with `interactive-study-page`). |
-| 2 | `flashcards-srs` | PASS | Enforces atomicity (1 concept/card) with valid Cloze `{{c1::...}}` and Anki CSV export (2-turn verified with zero overlap with `interactive-study-page`). |
-| 3 | `feynman-tutor` | PASS | Flags unexplained jargon/gaps and asks Socratic questions before the final synthesis. |
-| 4 | `code-mentor` | PASS | Progresses from Hint Level 1 → Level 2 without rewriting the whole file. |
-| 5 | `study-roadmap` | PASS | Structures phases with prerequisites, mini-projects, and objective completion criteria. |
-| 6 | `mock-interview` | PASS | Challenges superficial buzzwords with dynamic follow-up probes and rubric scoring. |
-| 7 | `idiom-coach` | PASS | Applies surgical inline corrections in short layers without long grammar lectures. |
-| 8 | `docs-deconstructor` | PASS | Requires active prediction/invariant extraction and corrects misconceptions before summarizing. |
-| 9 | `debug-postmortem` | PASS | Rejects vague root causes (*"I forgot"* / *"be more careful"*) and enforces systemic prevention. |
+| 1 | `quiz-master` | PASS | Generates 5 questions with plausible distractors, hides the key in Turn 1, and grades `4/5` with misconception analysis in Turn 2 (zero overlap with `interactive-study-page`). |
+| 2 | `flashcards-srs` | PASS | Enforces atomicity (1 concept/card) with valid Cloze `{{c1::...}}`, Anki CSV export, and draft-card splitting in Turn 2 (zero overlap with `interactive-study-page`). |
+| 3 | `feynman-tutor` | PASS | Flags `POST` and error-free misconceptions with 3 Socratic questions in Turn 1, then unlocks Revised Summary + Concrete Analogy after learner refinement in Turn 2. |
+| 4 | `code-mentor` | PASS | Starts at Hint Level 1 (`print` vs. `return`) without rewriting the function in Turn 1, then delivers Readability/Edge-Cases/`O(n)` review + extension challenge in Turn 2. |
+| 5 | `study-roadmap` | PASS | Runs feasibility check with SQL MVP scope cut and 3 progressive phases in Turn 1, then breaks Week 1 into 3 × 2h local SQLite sessions in Turn 2. |
+| 6 | `mock-interview` | PASS | Poses 1 scenario without hints in Turn 1, probes cache-invalidation race conditions under `8,000 req/s` in Turn 2, and scores via 1–4 rubric (`3.0/4`) in Turn 3. |
+| 7 | `idiom-coach` | PASS | Presents 3 Portuguese-to-English standup prompts hiding target answers in Turn 1, then applies 3-layer surgical corrections (`Minimal fix` / `More natural` / `Why`) + adapted follow-up in Turn 2. |
+| 8 | `docs-deconstructor` | PASS | Withholds upfront summary behind 3 text-grounded checkpoints in Turn 1, sharpens `may` vs. `must` and `"without revalidation"` qualifiers, and unlocks synthesis in Turn 2. |
+| 9 | `debug-postmortem` | PASS | Probes false lead and invariants in Turn 1, rejects *"forgot `SKIP LOCKED`"* / *"review SQL more carefully"* in Turn 2, and locks `Learning Postmortem` with structural guardrails in Turn 3. |
 | 10 | `interactive-study-page` | PASS | Runs Quick Diagnosis (Turn 1), generates offline `http-caching-study.html` from `assets/template.html` with 4 concept cards, 7 flashcards, and 5 quiz items passing HTML5/DOM verification (Turn 2), and provides diagnostic gap remediation on `no-cache` vs. `no-store` (Turn 3). |
 | 11 | *(Negative boundary)* | PASS | Direct-answer requests with no study/mentoring intent trigger **zero** full `SKILL.md` reads. |
