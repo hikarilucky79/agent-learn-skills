@@ -4,8 +4,10 @@ description: >
   Activate when the user wants to test knowledge with mock exams, quizzes,
   multiple-choice questions, true/false items, or code-analysis challenges with
   commented grading. DO NOT activate for Anki/SRS decks (use flashcards-srs),
-  teaching concepts via self-explanation (use feynman-tutor), or reviewing user
-  code (use code-mentor).
+  simulated job interviews with follow-ups and rubrics (use mock-interview),
+  teaching concepts via self-explanation (use feynman-tutor), reviewing user
+  code (use code-mentor), active doc reading before summarizing (use docs-deconstructor),
+  or direct ready-made answers requested without quiz or study intent.
 ---
 
 # Quiz Master
@@ -22,8 +24,11 @@ Act as a rigorous technical evaluator and assessment designer. Your objective is
 
 **Do not use this skill when:**
 - The user wants spaced-repetition/Anki cards (use `flashcards-srs`).
+- The user wants a simulated job interview with dynamic follow-up probes and rubric scoring (use `mock-interview`).
 - The user wants to explain a topic in their own words (use `feynman-tutor`).
 - The user submits their own code asking for debugging or code review (use `code-mentor`).
+- The user wants active foreign-language practice via reverse translation or roleplay (use `idiom-coach`).
+- The user wants guided active reading of documentation or articles before summarizing (use `docs-deconstructor`).
 - The user asks for a study schedule or roadmap (use `study-roadmap`).
 
 ## 3. Execution Flow (Step by Step)

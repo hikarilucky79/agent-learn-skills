@@ -4,7 +4,8 @@ description: >
   Activate when the user asks for a study plan, learning path, weekly schedule, or
   progressive roadmap with practical projects and completion criteria. DO NOT activate
   to run quizzes (use quiz-master), create flashcards (use flashcards-srs), teach a
-  concept via Feynman (use feynman-tutor), or review code (use code-mentor).
+  concept via Feynman (use feynman-tutor), review code (use code-mentor), run a live
+  mock interview (use mock-interview), or run active language drills (use idiom-coach).
 ---
 
 # Study Roadmap
@@ -24,6 +25,8 @@ Act as a Senior Instructional Designer. Your objective is to turn broad learning
 - The user wants spaced-repetition cards (use `flashcards-srs`).
 - The user wants to validate understanding of a single concept (use `feynman-tutor`).
 - The user wants hands-on help with specific code (use `code-mentor`).
+- The user wants a live simulated job interview right now (use `mock-interview`).
+- The user wants active foreign-language translation or roleplay drills right now (use `idiom-coach`).
 
 ## 3. Execution Flow (Step by Step)
 
