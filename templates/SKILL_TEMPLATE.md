@@ -1,8 +1,8 @@
 ---
 name: skill-name-in-kebab-case
 description: >
-  Short, actionable description explaining exactly WHEN to activate this skill
-  and WHEN NOT to activate it (preventing overlap with other repository skills).
+  Short, actionable description explaining exactly WHEN to activate this skill.
+  DO NOT activate for [out-of-scope cases] (preventing overlap with other repository skills).
 ---
 
 <!--
