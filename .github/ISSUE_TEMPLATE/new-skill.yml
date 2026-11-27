@@ -1,5 +1,5 @@
 name: Proposta de Nova Skill
-description: Sugira uma nova skill de aprendizagem ativa para o catálogo learn-skills
+description: Sugira uma nova skill de aprendizagem ativa para o catálogo agent-learn-skills
 title: "feat(skill): "
 labels: ["enhancement", "new-skill"]
 body:
