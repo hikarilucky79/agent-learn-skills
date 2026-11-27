@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Instruções para agentes de IA que editam ou mantêm este repositório (`learn-skills`).
+Instruções para agentes de IA que editam ou mantêm este repositório (`agent-learn-skills`).
 
 ## Visão Geral
 - Catálogo open-source de Agent Skills no padrão `SKILL.md` focado em **aprendizagem ativa** (*Active Recall*, SRS, Técnica Feynman, mentoria de código e roadmaps).

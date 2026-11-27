@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validador estrutural de skills e documentação do repositório learn-skills."""
+"""Validador estrutural de skills e documentação do repositório agent-learn-skills."""
 
 from __future__ import annotations
 

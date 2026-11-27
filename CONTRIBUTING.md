@@ -1,4 +1,4 @@
-# Contribuindo para o `learn-skills`
+# Contribuindo para o `agent-learn-skills`
 
 Obrigado pelo interesse em expandir este catálogo de Agent Skills para aprendizagem ativa. Este guia define os padrões técnicos e pedagógicos para manter o repositório consistente, enxuto e portátil.
 

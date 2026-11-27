@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-Instala skills do repositório learn-skills para agentes CLI/IDE compatíveis com SKILL.md.
+Instala skills do repositório agent-learn-skills para agentes CLI/IDE compatíveis com SKILL.md.
 
 .EXAMPLE
 .\scripts\install.ps1 -Agent claude -Scope global

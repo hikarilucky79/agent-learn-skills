@@ -1,4 +1,4 @@
-# learn-skills
+# agent-learn-skills
 
 Repositório open-source de **Agent Skills para aprendizagem ativa** no padrão `SKILL.md`. Projetado para transformar agentes de IA (CLIs e IDEs) em tutores rigorosos que priorizam **prática guiada, recuperação ativa (*Active Recall*) e feedback diagnóstico** em vez de respostas passivas.
 
@@ -84,7 +84,7 @@ done
 ## Estrutura do Repositório
 
 ```text
-learn-skills/
+agent-learn-skills/
 ├── README.md
 ├── CONTRIBUTING.md
 ├── LICENSE
