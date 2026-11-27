@@ -61,9 +61,10 @@
     }
 
     .container {
-      max-width: 1040px;
+      width: 100%;
+      max-width: 1680px;
       margin: 0 auto;
-      padding: 32px 40px 40px 40px;
+      padding: 28px clamp(24px, 4vw, 64px) 44px;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -191,13 +192,12 @@
       transition: width 0.25s ease;
     }
 
-    /* Main 2-Column Layout (.leitura-e-pr-tica: 600px + 40px gap + 320px) */
+    /* Main 2-Column Layout (fluid ~60/40 editorial ratio) */
     .workspace {
       display: grid;
-      grid-template-columns: minmax(0, 600px) minmax(300px, 320px);
-      gap: 40px;
+      grid-template-columns: minmax(0, 1.55fr) minmax(380px, 1fr);
+      gap: clamp(24px, 3vw, 48px);
       align-items: start;
-      justify-content: space-between;
     }
 
     .eyebrow-row {
@@ -243,7 +243,7 @@
       color: var(--muted);
       font-size: 15px;
       line-height: 22px;
-      max-width: 560px;
+      max-width: 72ch;
     }
 
     .concept-card {
@@ -268,7 +268,7 @@
       margin: 0 0 12px;
       font-size: 16px;
       line-height: 24px;
-      max-width: 560px;
+      max-width: 72ch;
     }
 
     pre {
@@ -561,7 +561,49 @@
       padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .quiz-nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .quiz-pill {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      padding: 4px 10px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .quiz-pill.is-active {
+      border-color: var(--border-strong);
+      background: var(--text);
+      color: var(--ink-contrast);
+    }
+
+    .quiz-pill.is-answered:not(.is-active) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .quiz-nav-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .quiz-nav-row .btn-subtle {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 12px;
     }
 
     .quiz-heading {
@@ -708,7 +750,10 @@
 
     .quiz-score[hidden] { display: none; }
 
-    @media (max-width: 960px) {
+      @media (max-width: 960px) {
+      .practice-panel {
+        position: static;
+      }
       .container {
         padding: 24px 20px 32px;
       }
@@ -805,10 +850,15 @@
           <span class="eyebrow-meta" id="quiz-count-meta">0 questions</span>
         </div>
         <h2 class="quiz-heading">Quiz</h2>
+        <div id="quiz-nav-pills" class="quiz-nav-pills"></div>
         <div id="quiz-list"></div>
 
         <div class="quiz-footer">
           <div id="quiz-status" class="quiz-status" aria-live="polite"></div>
+          <div class="quiz-nav-row">
+            <button id="quiz-prev-btn" class="btn-subtle" type="button">Previous</button>
+            <button id="quiz-next-btn" class="btn-subtle" type="button">Next</button>
+          </div>
           <div class="quiz-actions">
             <button id="check-quiz-btn" class="btn-dark" type="button">Check Answers</button>
           </div>
@@ -891,6 +941,8 @@
       const state = {
         revealedConcepts: new Set(),
         flippedCards: new Set(),
+        quizSelections: [],
+        currentQuestion: 0,
         quizChecked: false
       };
 
@@ -910,7 +962,10 @@
         conceptsList: document.getElementById("concepts-list"),
         flashcardsGrid: document.getElementById("flashcards-grid"),
         quizCountMeta: document.getElementById("quiz-count-meta"),
+        quizNavPills: document.getElementById("quiz-nav-pills"),
         quizList: document.getElementById("quiz-list"),
+        quizPrevBtn: document.getElementById("quiz-prev-btn"),
+        quizNextBtn: document.getElementById("quiz-next-btn"),
         checkQuizBtn: document.getElementById("check-quiz-btn"),
         quizStatus: document.getElementById("quiz-status"),
         quizScore: document.getElementById("quiz-score"),
@@ -1097,97 +1152,81 @@
       }
 
       function renderQuiz() {
-        els.quizList.replaceChildren();
+        const total = STUDY_DATA.quiz.length;
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        els.quizCountMeta.textContent = `${STUDY_DATA.quiz.length} questions`;
+        els.quizCountMeta.textContent = `${state.currentQuestion + 1} of ${total}`;
 
-        STUDY_DATA.quiz.forEach((q, qIdx) => {
-          const card = createEl("div", "quiz-card");
-          card.setAttribute("role", "radiogroup");
-          card.setAttribute("aria-labelledby", `quiz-q-label-${qIdx}`);
-          card.dataset.questionIndex = String(qIdx);
-
-          const prompt = createEl("p", "quiz-prompt", `Q${qIdx + 1}. ${q.prompt}`);
-          prompt.id = `quiz-q-label-${qIdx}`;
-          card.appendChild(prompt);
-
-          if (q.code && q.code.trim()) {
-            const pre = createEl("pre");
-            pre.appendChild(createEl("code", "", q.code));
-            card.appendChild(pre);
-          }
-
-          const optionsWrap = createEl("div", "quiz-options");
-          q.options.forEach((optText, oIdx) => {
-            const label = createEl("label", "quiz-option");
-            const radio = createEl("input");
-            radio.type = "radio";
-            radio.name = `quiz-q-${qIdx}`;
-            radio.value = String(oIdx);
-            radio.addEventListener("change", () => {
-              card.classList.remove("is-missing");
-              const answeredCount = els.quizList.querySelectorAll("input:checked").length;
-              els.quizStatus.textContent = `${answeredCount} of ${STUDY_DATA.quiz.length} answered`;
-            });
-
-            label.appendChild(radio);
-            label.appendChild(createEl("span", "option-letter", letters[oIdx] || String(oIdx + 1)));
-            label.appendChild(createEl("span", "", optText));
-            optionsWrap.appendChild(label);
+        els.quizNavPills.replaceChildren();
+        STUDY_DATA.quiz.forEach((_, idx) => {
+          const pill = createEl("button", "quiz-pill", `Q${idx + 1}`);
+          pill.type = "button";
+          if (idx === state.currentQuestion) pill.classList.add("is-active");
+          if (state.quizSelections[idx] !== null) pill.classList.add("is-answered");
+          pill.addEventListener("click", () => {
+            state.currentQuestion = idx;
+            renderQuiz();
           });
-
-          const feedback = createEl("div", "quiz-feedback");
-          feedback.hidden = true;
-
-          card.appendChild(optionsWrap);
-          card.appendChild(feedback);
-          els.quizList.appendChild(card);
-        });
-      }
-
-      function checkQuiz() {
-        if (state.quizChecked) return;
-
-        const cards = Array.from(els.quizList.querySelectorAll(".quiz-card"));
-        let firstMissing = null;
-        const selections = [];
-
-        cards.forEach((card, qIdx) => {
-          const checked = card.querySelector(`input[name="quiz-q-${qIdx}"]:checked`);
-          if (!checked) {
-            card.classList.add("is-missing");
-            if (!firstMissing) firstMissing = card;
-          } else {
-            card.classList.remove("is-missing");
-            selections.push(Number(checked.value));
-          }
+          els.quizNavPills.appendChild(pill);
         });
 
-        if (firstMissing) {
-          els.quizStatus.textContent = "Please answer every question before checking answers.";
-          firstMissing.scrollIntoView({ behavior: "smooth", block: "center" });
-          return;
+        els.quizPrevBtn.disabled = state.currentQuestion <= 0;
+        els.quizNextBtn.disabled = state.currentQuestion >= total - 1;
+
+        els.quizList.replaceChildren();
+        const qIdx = state.currentQuestion;
+        const q = STUDY_DATA.quiz[qIdx];
+        if (!q) return;
+
+        const card = createEl("div", "quiz-card");
+        card.setAttribute("role", "radiogroup");
+        card.setAttribute("aria-labelledby", `quiz-q-label-${qIdx}`);
+        card.dataset.questionIndex = String(qIdx);
+
+        const prompt = createEl("p", "quiz-prompt", `Q${qIdx + 1}. ${q.prompt}`);
+        prompt.id = `quiz-q-label-${qIdx}`;
+        card.appendChild(prompt);
+
+        if (q.code && q.code.trim()) {
+          const pre = createEl("pre");
+          pre.appendChild(createEl("code", "", q.code));
+          card.appendChild(pre);
         }
 
-        let score = 0;
-        cards.forEach((card, qIdx) => {
-          const q = STUDY_DATA.quiz[qIdx];
-          const chosen = selections[qIdx];
-          const isRight = chosen === q.correctIndex;
-          if (isRight) score += 1;
+        const chosen = state.quizSelections[qIdx];
+        const optionsWrap = createEl("div", "quiz-options");
+        q.options.forEach((optText, oIdx) => {
+          const label = createEl("label", "quiz-option");
+          const radio = createEl("input");
+          radio.type = "radio";
+          radio.name = `quiz-q-${qIdx}`;
+          radio.value = String(oIdx);
+          radio.checked = chosen === oIdx;
+          radio.disabled = state.quizChecked;
 
-          const labels = Array.from(card.querySelectorAll(".quiz-option"));
-          labels.forEach((label, oIdx) => {
-            const input = label.querySelector("input");
-            input.disabled = true;
+          if (state.quizChecked) {
             if (oIdx === q.correctIndex) label.classList.add("is-correct");
-            if (!isRight && oIdx === chosen) label.classList.add("is-wrong");
+            if (chosen !== q.correctIndex && oIdx === chosen) label.classList.add("is-wrong");
+          }
+
+          radio.addEventListener("change", () => {
+            if (state.quizChecked) return;
+            state.quizSelections[qIdx] = oIdx;
+            const answeredCount = state.quizSelections.filter((v) => v !== null).length;
+            els.quizStatus.textContent = `${answeredCount} of ${total} answered`;
+            renderQuiz();
           });
 
-          const feedback = card.querySelector(".quiz-feedback");
-          feedback.hidden = false;
-          feedback.classList.add(isRight ? "is-right" : "is-wrong");
+          label.appendChild(radio);
+          label.appendChild(createEl("span", "option-letter", letters[oIdx] || String(oIdx + 1)));
+          label.appendChild(createEl("span", "", optText));
+          optionsWrap.appendChild(label);
+        });
 
+        card.appendChild(optionsWrap);
+
+        if (state.quizChecked) {
+          const isRight = chosen === q.correctIndex;
+          const feedback = createEl("div", `quiz-feedback ${isRight ? "is-right" : "is-wrong"}`);
           const chosenNote = (q.optionNotes && q.optionNotes[chosen]) ? ` ${q.optionNotes[chosen]}` : "";
           const statusLabel = isRight ? "Correct:" : "Incorrect:";
           feedback.replaceChildren(
@@ -1195,23 +1234,46 @@
             document.createTextNode(`${chosenNote} `),
             createEl("span", "", q.explanation)
           );
-        });
+          card.appendChild(feedback);
+        }
+
+        els.quizList.appendChild(card);
+      }
+
+      function checkQuiz() {
+        if (state.quizChecked) return;
+
+        const missingIdx = state.quizSelections.findIndex((v) => v === null);
+        if (missingIdx !== -1) {
+          state.currentQuestion = missingIdx;
+          renderQuiz();
+          els.quizStatus.textContent = `Please answer Q${missingIdx + 1} before checking answers.`;
+          return;
+        }
+
+        const total = STUDY_DATA.quiz.length;
+        const score = STUDY_DATA.quiz.reduce(
+          (acc, q, idx) => acc + (state.quizSelections[idx] === q.correctIndex ? 1 : 0),
+          0
+        );
 
         state.quizChecked = true;
         els.checkQuizBtn.disabled = true;
         els.quizStatus.textContent = "";
 
-        const total = STUDY_DATA.quiz.length;
         const pct = total > 0 ? Math.round((score / total) * 100) : 0;
         els.quizScore.hidden = false;
         els.quizScore.textContent = `Score: ${score} / ${total} (${pct}%).`;
 
+        renderQuiz();
         updateProgress();
       }
 
       function resetSession() {
         state.revealedConcepts.clear();
         state.flippedCards.clear();
+        state.quizSelections = new Array(STUDY_DATA.quiz.length).fill(null);
+        state.currentQuestion = 0;
         state.quizChecked = false;
         els.checkQuizBtn.disabled = false;
         els.quizStatus.textContent = `0 of ${STUDY_DATA.quiz.length} answered`;
@@ -1234,6 +1296,19 @@
         initTheme();
         renderNotes();
         resetSession();
+
+        els.quizPrevBtn.addEventListener("click", () => {
+          if (state.currentQuestion > 0) {
+            state.currentQuestion -= 1;
+            renderQuiz();
+          }
+        });
+        els.quizNextBtn.addEventListener("click", () => {
+          if (state.currentQuestion < STUDY_DATA.quiz.length - 1) {
+            state.currentQuestion += 1;
+            renderQuiz();
+          }
+        });
 
         els.noteForm.addEventListener("submit", (e) => {
           e.preventDefault();
