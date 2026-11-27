@@ -30,14 +30,13 @@ Thank you for helping expand this catalog of Agent Skills for active learning. T
    ```bash
    git checkout -b feat/skill-name
    ```
-3. If adding a skill, copy the official template:
+3. If adding a skill, scaffold it from the official template with [`scripts/new_skill.py`](scripts/new_skill.py) (or copy [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) manually):
    ```bash
-   mkdir -p skills/skill-name
-   cp templates/SKILL_TEMPLATE.md skills/skill-name/SKILL.md
+   python scripts/new_skill.py skill-name
    ```
 4. Fill out `SKILL.md` and remove all instructional HTML comments.
 5. Update the catalog table and repository structure in `README.md`, keeping valid relative links.
-6. Run the automated validator and unit tests (and test the installers in `scripts/` if you modified `scripts/` or `skills/` structure) before opening a Pull Request:
+6. Run the automated validator and unit tests (and test install/`--uninstall` flows in `scripts/` if you modified `scripts/` or `skills/` structure) before opening a Pull Request:
    ```bash
    python scripts/validate_skills.py
    python -m unittest discover -s tests -v
