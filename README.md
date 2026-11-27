@@ -40,6 +40,7 @@ An open-source repository of **Agent Skills for active learning** built on the `
 | [`idiom-coach`](skills/idiom-coach/SKILL.md) | Reverse translation, roleplay, and surgical correction | Active foreign-language production with targeted feedback | *"Let's practice B1 English via reverse translation for daily standups."* |
 | [`docs-deconstructor`](skills/docs-deconstructor/SKILL.md) | Active reading and invariant extraction pre-summary | Dissecting dense docs, RFCs, or technical articles before summarizing | *"Help me actively read this HTTP caching excerpt before summarizing it."* |
 | [`debug-postmortem`](skills/debug-postmortem/SKILL.md) | Blameless post-bug metacognitive retrospective | Analyzing false hypotheses, root cause, and systemic prevention after a fix | *"I fixed a duplicate-job bug after blaming Redis; help me run a postmortem."* |
+| [`interactive-study-page`](skills/interactive-study-page/SKILL.md) | Self-contained offline HTML active-study page | Generating a single-file interactive `.html` visual study guide for the browser | *"Create a standalone interactive HTML study page on HTTP caching with concept cards, flashcards, and a quiz."* |
 
 ---
 
@@ -123,13 +124,12 @@ agent-learn-skills/
 ├── templates/
 │   └── SKILL_TEMPLATE.md
 ├── tests/
+│   ├── README.md
 │   ├── activation_prompts.md
-<<<<<<< Updated upstream
-│   ├── test_installers.py
-│   ├── test_new_skill.py
-=======
 │   ├── test_activation_prompts.py
->>>>>>> Stashed changes
+│   ├── test_installers.py
+│   ├── test_interactive_study_page_template.py
+│   ├── test_new_skill.py
 │   ├── test_validate_anki_csv.py
 │   └── test_validate_skills.py
 └── skills/
@@ -151,8 +151,12 @@ agent-learn-skills/
     │   └── SKILL.md
     ├── docs-deconstructor/
     │   └── SKILL.md
-    └── debug-postmortem/
-        └── SKILL.md
+    ├── debug-postmortem/
+    │   └── SKILL.md
+    └── interactive-study-page/
+        ├── SKILL.md
+        └── assets/
+            └── template.html
 ```
 
 ---
