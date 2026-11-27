@@ -28,6 +28,6 @@ body:
     id: boundaries
     attributes:
       label: Escopo e fronteiras (Quando usar / Quando não usar)
-      description: Como esta skill se diferencia das skills existentes no catálogo (`quiz-master`, `flashcards-srs`, `feynman-tutor`, `code-mentor`, `study-roadmap`, `mock-interview`, `idiom-coach`, `docs-deconstructor` e `debug-postmortem`)?
+      description: Como esta skill se diferencia das skills existentes no catálogo (`quiz-master`, `flashcards-srs`, `feynman-tutor`, `code-mentor`, `study-roadmap`, `mock-interview`, `idiom-coach`, `docs-deconstructor`, `debug-postmortem` e `interactive-study-page`)?
     validations:
       required: true

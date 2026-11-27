@@ -5,8 +5,9 @@ description: >
   their own words (Feynman Technique) and receiving Socratic questions to eliminate
   logic gaps and jargon. DO NOT activate for active reading of a specific doc or article
   before summarizing (use docs-deconstructor), simulated job interviews (use mock-interview),
-  multiple-choice quizzes (use quiz-master), Anki flashcards (use flashcards-srs), or code
-  debugging (use code-mentor).
+  multiple-choice quizzes (use quiz-master), Anki flashcards (use flashcards-srs), code
+  debugging (use code-mentor), or standalone interactive HTML study pages
+  (use interactive-study-page).
 ---
 
 # Feynman Tutor
@@ -30,6 +31,7 @@ Act as a rigorous, patient Socratic tutor applying the **Feynman Technique**. Yo
 - The user asks for spaced-repetition decks (use `flashcards-srs`).
 - The user asks for source code review or debugging (use `code-mentor`).
 - The user asks for a medium/long-term study plan (use `study-roadmap`).
+- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Study Page Template</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-alt: #f0f4f8;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --accent: #3730a3;
+      --accent-soft: #eef2ff;
+      --accent-contrast: #ffffff;
+      --success: #15803d;
+      --success-soft: #dcfce7;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --warn: #b45309;
+      --warn-soft: #fef3c7;
+      --code-bg: #1e293b;
+      --code-text: #f8fafc;
+      --shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      --radius: 12px;
+      --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-alt: #1e293b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+      --accent: #818cf8;
+      --accent-soft: #1e1b4b;
+      --accent-contrast: #0b1120;
+      --success: #4ade80;
+      --success-soft: #052e16;
+      --danger: #f87171;
+      --danger-soft: #450a0a;
+      --warn: #fbbf24;
+      --warn-soft: #451a03;
+      --code-bg: #020617;
+      --code-text: #e2e8f0;
+      --shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .container {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3.5rem;
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0.35rem 0 0.25rem;
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 0.5rem 0.9rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: transform 0.12s ease, border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    button:hover { border-color: var(--accent); }
+    button:active { transform: translateY(1px); }
+    button:focus-visible, input:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-contrast);
+      border-color: var(--accent);
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-panel {
+      position: sticky;
+      top: 0.75rem;
+      z-index: 10;
+      margin-bottom: 2rem;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--surface-alt);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    .progress-stats {
+      margin-top: 0.55rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    section { margin-top: 2rem; }
+
+    .section-head { margin-bottom: 1rem; }
+    .section-head h2 { margin: 0 0 0.2rem; font-size: 1.3rem; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+    .stack { display: grid; gap: 1rem; }
+
+    .concept-card h3 { margin: 0 0 0.45rem; font-size: 1.08rem; }
+    .concept-card p { margin: 0 0 0.75rem; }
+
+    pre {
+      margin: 0.65rem 0;
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      background: var(--code-bg);
+      color: var(--code-text);
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      overflow-x: auto;
+    }
+
+    .prompt-box {
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      margin-bottom: 0.85rem;
+    }
+
+    .prompt-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .reveal-body {
+      margin-top: 0.85rem;
+      padding: 0.9rem 1rem;
+      border-radius: 8px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+    }
+
+    .flashcards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .flashcard {
+      perspective: 1000px;
+      background: transparent;
+      border: none;
+      padding: 0;
+      text-align: left;
+      min-height: 185px;
+      width: 100%;
+    }
+
+    .flashcard-inner {
+      display: grid;
+      position: relative;
+      width: 100%;
+      min-height: 185px;
+      transform-style: preserve-3d;
+      transition: transform 0.45s ease;
+    }
+
+    .flashcard.is-flipped .flashcard-inner { transform: rotateY(180deg); }
+
+    .flashcard-face {
+      grid-area: 1 / 1;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .flashcard.is-seen .flashcard-face { border-color: var(--accent); }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background: var(--surface-alt);
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .card-text {
+      display: block;
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .flashcard-back .card-text { font-weight: 400; font-size: 0.93rem; }
+    .card-hint { display: block; font-size: 0.78rem; color: var(--muted); }
+
+    .quiz-card.is-missing { border-color: var(--warn); }
+    .quiz-prompt { font-weight: 600; margin: 0 0 0.75rem; }
+    .quiz-options { display: grid; gap: 0.5rem; }
+
+    .quiz-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 0.65rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      background: var(--surface);
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .quiz-option:hover { border-color: var(--accent); }
+    .quiz-option input { margin-top: 0.25rem; flex-shrink: 0; }
+    .quiz-option.is-correct { background: var(--success-soft); border-color: var(--success); }
+    .quiz-option.is-wrong { background: var(--danger-soft); border-color: var(--danger); }
+
+    .quiz-feedback {
+      margin-top: 0.85rem;
+      padding: 0.8rem 0.95rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--border);
+      background: var(--surface-alt);
+      font-size: 0.92rem;
+    }
+
+    .quiz-feedback.is-right { border-left-color: var(--success); }
+    .quiz-feedback.is-wrong { border-left-color: var(--danger); }
+
+    .quiz-actions {
+      margin-top: 1.15rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .quiz-status { font-size: 0.92rem; font-weight: 600; color: var(--warn); }
+
+    .quiz-score {
+      margin-top: 1rem;
+      padding: 0.95rem 1.1rem;
+      border-radius: var(--radius);
+      background: var(--accent-soft);
+      border: 1px solid var(--accent);
+      font-weight: 600;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .flashcard-inner, .progress-fill, body, button { transition: none; }
+      .flashcard-back { transform: none; display: none; }
+      .flashcard.is-flipped .flashcard-inner { transform: none; }
+      .flashcard.is-flipped .flashcard-front { display: none; }
+      .flashcard.is-flipped .flashcard-back { display: flex; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <div>
+        <span class="badge" id="study-level">Intermediate</span>
+        <h1 id="study-title">Interactive Study Guide</h1>
+        <p class="subtitle" id="study-subtitle"></p>
+      </div>
+      <div class="toolbar">
+        <button type="button" id="theme-toggle" aria-pressed="false">Dark Mode</button>
+        <button type="button" id="reset-btn">Reset Session</button>
+      </div>
+    </header>
+
+    <section class="panel progress-panel" aria-label="Session progress">
+      <div class="progress-header">
+        <span>Session Progress</span>
+        <span id="progress-label">0 / 0 completed (0%)</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-stats" id="progress-stats"></div>
+    </section>
+
+    <section aria-labelledby="concepts-heading">
+      <div class="section-head">
+        <h2 id="concepts-heading">1. Active-Reveal Concept Cards</h2>
+        <p>Read the core idea, answer the prediction prompt mentally, then click to reveal.</p>
+      </div>
+      <div class="stack" id="concepts-list"></div>
+    </section>
+
+    <section aria-labelledby="flashcards-heading">
+      <div class="section-head">
+        <h2 id="flashcards-heading">2. Flip Flashcards</h2>
+        <p>4–8 atomic cards. Click any card (or press Enter/Space) to flip from front to back.</p>
+      </div>
+      <div class="flashcards-grid" id="flashcards-grid"></div>
+    </section>
+
+    <section aria-labelledby="quiz-heading">
+      <div class="section-head">
+        <h2 id="quiz-heading">3. Diagnostic Quiz</h2>
+        <p>Select one option for every question. Answers stay hidden until you click Check Answers.</p>
+      </div>
+      <div class="stack" id="quiz-list"></div>
+      <div class="quiz-actions">
+        <button type="button" class="btn-primary" id="check-quiz-btn">Check Answers</button>
+        <span class="quiz-status" id="quiz-status" role="status" aria-live="polite"></span>
+      </div>
+      <div class="quiz-score" id="quiz-score" hidden></div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // Replace STUDY_DATA with topic-specific content generated for the learner.
+      const STUDY_DATA = {
+        title: "[Topic Title]",
+        level: "[Level]",
+        subtitle: "Predict mechanisms before revealing, test recall with atomic cards, and diagnose misconceptions.",
+        concepts: [
+          {
+            title: "Concept 1: [Core Mechanism]",
+            summary: "[2-3 concise sentences explaining the core invariant or rule.]",
+            code: "// Optional short snippet illustrating the concept",
+            predictionPrompt: "[Prediction question requiring mental simulation before clicking reveal]",
+            revealAnswer: "[Direct answer to the prediction + why the underlying mechanism behaves that way.]"
+          },
+          {
+            title: "Concept 2: [Boundary or Trade-off]",
+            summary: "[2-3 concise sentences highlighting a key edge case or design trade-off.]",
+            code: "",
+            predictionPrompt: "[What fails or changes when a constraint or input shifts?]",
+            revealAnswer: "[Clear explanation connecting the cause, effect, and practical takeaway.]"
+          }
+        ],
+        flashcards: [
+          { front: "[Atomic question 1: single focused fact or rule?]", back: "[Concise 1-2 sentence answer.]" },
+          { front: "[Atomic question 2: distinguish concept A vs B?]", back: "[Direct distinction with no fluff.]" },
+          { front: "[Atomic question 3: default behavior or invariant?]", back: "[Exact behavior and condition.]" },
+          { front: "[Atomic question 4: failure mode when constraint breaks?]", back: "[Observed effect and safeguard.]" }
+        ],
+        quiz: [
+          {
+            prompt: "[Question 1 testing conceptual understanding rather than trivia]",
+            code: "",
+            options: [
+              "[Plausible misconception A]",
+              "[Correct answer B]",
+              "[Plausible misconception C]",
+              "[Plausible misconception D]"
+            ],
+            correctIndex: 1,
+            optionNotes: [
+              "[Why misconception A fails conceptually.]",
+              "[Why option B satisfies the mechanism or invariant.]",
+              "[Why misconception C confuses two distinct behaviors.]",
+              "[Why misconception D breaks under the stated condition.]"
+            ],
+            explanation: "[Concise conceptual synthesis tying the question back to the core rule.]"
+          },
+          {
+            prompt: "[Question 2 analyzing a short scenario or edge case]",
+            code: "// Optional code snippet to trace",
+            options: [
+              "[Correct answer A]",
+              "[Plausible misconception B]",
+              "[Plausible misconception C]",
+              "[Plausible misconception D]"
+            ],
+            correctIndex: 0,
+            optionNotes: [
+              "[Why option A holds.]",
+              "[Why misconception B is wrong.]",
+              "[Why misconception C is wrong.]",
+              "[Why misconception D is wrong.]"
+            ],
+            explanation: "[Key takeaway explaining how to spot this pattern.]"
+          }
+        ]
+      };
+
+      const state = {
+        revealedConcepts: new Set(),
+        flippedCards: new Set(),
+        quizChecked: false
+      };
+
+      const els = {
+        root: document.documentElement,
+        title: document.getElementById("study-title"),
+        level: document.getElementById("study-level"),
+        subtitle: document.getElementById("study-subtitle"),
+        themeToggle: document.getElementById("theme-toggle"),
+        resetBtn: document.getElementById("reset-btn"),
+        progressLabel: document.getElementById("progress-label"),
+        progressBar: document.getElementById("progress-bar"),
+        progressFill: document.getElementById("progress-fill"),
+        progressStats: document.getElementById("progress-stats"),
+        conceptsList: document.getElementById("concepts-list"),
+        flashcardsGrid: document.getElementById("flashcards-grid"),
+        quizList: document.getElementById("quiz-list"),
+        checkQuizBtn: document.getElementById("check-quiz-btn"),
+        quizStatus: document.getElementById("quiz-status"),
+        quizScore: document.getElementById("quiz-score")
+      };
+
+      function createEl(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (typeof text === "string") node.textContent = text;
+        return node;
+      }
+
+      function applyTheme(theme) {
+        const isDark = theme === "dark";
+        els.root.setAttribute("data-theme", theme);
+        els.themeToggle.setAttribute("aria-pressed", String(isDark));
+        els.themeToggle.textContent = isDark ? "Light Mode" : "Dark Mode";
+        try {
+          window.localStorage.setItem("interactive-study-theme", theme);
+        } catch (_) {}
+      }
+
+      function initTheme() {
+        let initial = "light";
+        try {
+          const saved = window.localStorage.getItem("interactive-study-theme");
+          if (saved === "light" || saved === "dark") {
+            initial = saved;
+          } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            initial = "dark";
+          }
+        } catch (_) {}
+        applyTheme(initial);
+      }
+
+      function updateProgress() {
+        const totalConcepts = STUDY_DATA.concepts.length;
+        const totalCards = STUDY_DATA.flashcards.length;
+        const totalQuiz = STUDY_DATA.quiz.length;
+        const totalUnits = totalConcepts + totalCards + totalQuiz;
+        const doneQuiz = state.quizChecked ? totalQuiz : 0;
+        const doneUnits = state.revealedConcepts.size + state.flippedCards.size + doneQuiz;
+        const pct = totalUnits > 0 ? Math.round((doneUnits / totalUnits) * 100) : 0;
+
+        els.progressFill.style.width = `${pct}%`;
+        els.progressBar.setAttribute("aria-valuenow", String(pct));
+        els.progressLabel.textContent = `${doneUnits} / ${totalUnits} completed (${pct}%)`;
+        els.progressStats.textContent =
+          `Concepts: ${state.revealedConcepts.size}/${totalConcepts} | ` +
+          `Flashcards: ${state.flippedCards.size}/${totalCards} | ` +
+          `Quiz: ${state.quizChecked ? "Checked" : "Pending"}`;
+      }
+
+      function renderConcepts() {
+        els.conceptsList.replaceChildren();
+        STUDY_DATA.concepts.forEach((item, idx) => {
+          const card = createEl("article", "panel concept-card");
+          card.appendChild(createEl("h3", "", item.title));
+          card.appendChild(createEl("p", "", item.summary));
+
+          if (item.code && item.code.trim()) {
+            const pre = createEl("pre");
+            pre.appendChild(createEl("code", "", item.code));
+            card.appendChild(pre);
+          }
+
+          const promptBox = createEl("div", "prompt-box");
+          promptBox.appendChild(createEl("span", "prompt-label", "Think first, then reveal"));
+          promptBox.appendChild(createEl("span", "", item.predictionPrompt));
+          card.appendChild(promptBox);
+
+          const btn = createEl("button", "", "Reveal Answer");
+          btn.type = "button";
+          btn.setAttribute("aria-expanded", "false");
+
+          const revealBox = createEl("div", "reveal-body");
+          revealBox.hidden = true;
+          revealBox.appendChild(createEl("p", "", item.revealAnswer));
+
+          btn.addEventListener("click", () => {
+            const willShow = revealBox.hidden;
+            revealBox.hidden = !willShow;
+            btn.setAttribute("aria-expanded", String(willShow));
+            btn.textContent = willShow ? "Hide Answer" : "Reveal Answer";
+            if (willShow) {
+              state.revealedConcepts.add(idx);
+              updateProgress();
+            }
+          });
+
+          card.appendChild(btn);
+          card.appendChild(revealBox);
+          els.conceptsList.appendChild(card);
+        });
+      }
+
+      function renderFlashcards() {
+        els.flashcardsGrid.replaceChildren();
+        const total = STUDY_DATA.flashcards.length;
+        STUDY_DATA.flashcards.forEach((item, idx) => {
+          const card = createEl("button", "flashcard");
+          card.type = "button";
+          card.setAttribute("aria-pressed", "false");
+
+          const inner = createEl("span", "flashcard-inner");
+
+          const front = createEl("span", "flashcard-face flashcard-front");
+          const frontMeta = createEl("span", "card-meta");
+          frontMeta.appendChild(createEl("span", "", `Front ${idx + 1}/${total}`));
+          frontMeta.appendChild(createEl("span", "", "Unseen"));
+          front.appendChild(frontMeta);
+          front.appendChild(createEl("span", "card-text", item.front));
+          front.appendChild(createEl("span", "card-hint", "Click to flip"));
+
+          const back = createEl("span", "flashcard-face flashcard-back");
+          const backMeta = createEl("span", "card-meta");
+          backMeta.appendChild(createEl("span", "", `Back ${idx + 1}/${total}`));
+          backMeta.appendChild(createEl("span", "", "Answer"));
+          back.appendChild(backMeta);
+          back.appendChild(createEl("span", "card-text", item.back));
+          back.appendChild(createEl("span", "card-hint", "Click to flip back"));
+
+          inner.appendChild(front);
+          inner.appendChild(back);
+          card.appendChild(inner);
+
+          card.addEventListener("click", () => {
+            const flipped = card.classList.toggle("is-flipped");
+            card.classList.add("is-seen");
+            card.setAttribute("aria-pressed", String(flipped));
+            frontMeta.lastChild.textContent = "Reviewed";
+            state.flippedCards.add(idx);
+            updateProgress();
+          });
+
+          els.flashcardsGrid.appendChild(card);
+        });
+      }
+
+      function renderQuiz() {
+        els.quizList.replaceChildren();
+        STUDY_DATA.quiz.forEach((q, qIdx) => {
+          const card = createEl("div", "panel quiz-card");
+          card.setAttribute("role", "radiogroup");
+          card.setAttribute("aria-labelledby", `quiz-q-label-${qIdx}`);
+          card.dataset.questionIndex = String(qIdx);
+
+          const prompt = createEl("p", "quiz-prompt", `Q${qIdx + 1}. ${q.prompt}`);
+          prompt.id = `quiz-q-label-${qIdx}`;
+          card.appendChild(prompt);
+
+          if (q.code && q.code.trim()) {
+            const pre = createEl("pre");
+            pre.appendChild(createEl("code", "", q.code));
+            card.appendChild(pre);
+          }
+
+          const optionsWrap = createEl("div", "quiz-options");
+          q.options.forEach((optText, oIdx) => {
+            const label = createEl("label", "quiz-option");
+            const radio = createEl("input");
+            radio.type = "radio";
+            radio.name = `quiz-q-${qIdx}`;
+            radio.value = String(oIdx);
+            radio.addEventListener("change", () => {
+              card.classList.remove("is-missing");
+              els.quizStatus.textContent = "";
+            });
+
+            label.appendChild(radio);
+            label.appendChild(createEl("span", "", optText));
+            optionsWrap.appendChild(label);
+          });
+
+          const feedback = createEl("div", "quiz-feedback");
+          feedback.hidden = true;
+
+          card.appendChild(optionsWrap);
+          card.appendChild(feedback);
+          els.quizList.appendChild(card);
+        });
+      }
+
+      function checkQuiz() {
+        if (state.quizChecked) return;
+
+        const cards = Array.from(els.quizList.querySelectorAll(".quiz-card"));
+        let firstMissing = null;
+        const selections = [];
+
+        cards.forEach((card, qIdx) => {
+          const checked = card.querySelector(`input[name="quiz-q-${qIdx}"]:checked`);
+          if (!checked) {
+            card.classList.add("is-missing");
+            if (!firstMissing) firstMissing = card;
+          } else {
+            card.classList.remove("is-missing");
+            selections.push(Number(checked.value));
+          }
+        });
+
+        if (firstMissing) {
+          els.quizStatus.textContent = "Please answer every question before checking answers.";
+          firstMissing.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+
+        let score = 0;
+        cards.forEach((card, qIdx) => {
+          const q = STUDY_DATA.quiz[qIdx];
+          const chosen = selections[qIdx];
+          const isRight = chosen === q.correctIndex;
+          if (isRight) score += 1;
+
+          const labels = Array.from(card.querySelectorAll(".quiz-option"));
+          labels.forEach((label, oIdx) => {
+            const input = label.querySelector("input");
+            input.disabled = true;
+            if (oIdx === q.correctIndex) label.classList.add("is-correct");
+            if (!isRight && oIdx === chosen) label.classList.add("is-wrong");
+          });
+
+          const feedback = card.querySelector(".quiz-feedback");
+          feedback.hidden = false;
+          feedback.classList.add(isRight ? "is-right" : "is-wrong");
+
+          const chosenNote = (q.optionNotes && q.optionNotes[chosen]) ? ` ${q.optionNotes[chosen]}` : "";
+          const statusLabel = isRight ? "Correct:" : "Incorrect:";
+          feedback.replaceChildren(
+            createEl("strong", "", statusLabel),
+            document.createTextNode(`${chosenNote} `),
+            createEl("span", "", q.explanation)
+          );
+        });
+
+        state.quizChecked = true;
+        els.checkQuizBtn.disabled = true;
+        els.quizStatus.textContent = "";
+
+        const total = STUDY_DATA.quiz.length;
+        const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+        els.quizScore.hidden = false;
+        els.quizScore.textContent =
+          `Score: ${score} / ${total} (${pct}%). ` +
+          (pct >= 80
+            ? "Strong grasp — use Reset Session later to test retention again."
+            : "Review the conceptual feedback above, then click Reset Session to retry.");
+
+        updateProgress();
+      }
+
+      function resetSession() {
+        state.revealedConcepts.clear();
+        state.flippedCards.clear();
+        state.quizChecked = false;
+        els.checkQuizBtn.disabled = false;
+        els.quizStatus.textContent = "";
+        els.quizScore.hidden = true;
+        els.quizScore.textContent = "";
+        renderConcepts();
+        renderFlashcards();
+        renderQuiz();
+        updateProgress();
+      }
+
+      function init() {
+        document.title = `${STUDY_DATA.title} — Interactive Study Page`;
+        els.title.textContent = STUDY_DATA.title;
+        els.level.textContent = STUDY_DATA.level;
+        els.subtitle.textContent = STUDY_DATA.subtitle;
+
+        initTheme();
+        resetSession();
+
+        els.themeToggle.addEventListener("click", () => {
+          const current = els.root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+          applyTheme(current === "dark" ? "light" : "dark");
+        });
+        els.resetBtn.addEventListener("click", resetSession);
+        els.checkQuizBtn.addEventListener("click", checkQuiz);
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

@@ -8,7 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `interactive-study-page` skill (`skills/interactive-study-page/SKILL.md` and `skills/interactive-study-page/assets/template.html`) for generating self-contained offline `.html` active-study guides (active-reveal concept cards, flip flashcards, and diagnostic quiz).
+- Reciprocal `interactive-study-page` negative boundaries across catalog skills and activation evals (`tests/activation_prompts.md`), plus template validation tests (`tests/test_interactive_study_page_template.py`).
 - README badges (CI status, MIT license, PRs welcome) and a "Before vs. After" showcase table.
+
+### Fixed
+- Resolved leftover merge conflict markers in the `tests/` repository tree inside `README.md`.
 
 ## [0.1.0] - 2026-11-27
 

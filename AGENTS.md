@@ -3,7 +3,7 @@
 Instructions for AI agents editing or maintaining this repository (`agent-learn-skills`).
 
 ## Overview
-- Open-source catalog of `SKILL.md` Agent Skills focused on **active learning** (Active Recall quizzes, SRS flashcards, Feynman Technique, code mentoring, study roadmaps, mock interviews, active language coaching, active doc deconstruction, and post-bug postmortems).
+- Open-source catalog of `SKILL.md` Agent Skills focused on **active learning** (Active Recall quizzes, SRS flashcards, Feynman Technique, code mentoring, study roadmaps, mock interviews, active language coaching, active doc deconstruction, post-bug postmortems, and standalone offline HTML interactive study pages).
 - Standard language for all `.md` files: **English**.
 
 ## Rules When Creating or Editing Skills
