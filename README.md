@@ -29,29 +29,46 @@ Repositório open-source de **Agent Skills para aprendizagem ativa** no padrão 
 
 Clone o repositório e copie ou crie um *symlink* das pastas desejadas para o diretório de skills do seu agente.
 
-### Linux / macOS (Symlink recomendado)
+### Instalação Rápida (Recomendado)
+
+Clone o repositório e execute o instalador para o seu agente (`claude`, `cursor`, `codex`, `opencode` ou `antigravity`):
+
+**Linux / macOS ([`scripts/install.sh`](scripts/install.sh)):**
+```bash
+git clone https://github.com/hikarilucky79/agent-learn-skills.git
+cd agent-learn-skills
+chmod +x scripts/install.sh
+
+# Instala todas as skills via symlink (padrão: --agent claude --scope global)
+./scripts/install.sh --agent claude --scope global
+
+# Instalar apenas skills específicas no projeto atual
+./scripts/install.sh --agent cursor --scope project --skill quiz-master --skill code-mentor
+```
+
+**Windows PowerShell ([`scripts/install.ps1`](scripts/install.ps1)):**
+```powershell
+git clone https://github.com/hikarilucky79/agent-learn-skills.git
+cd agent-learn-skills
+
+# Instala todas as skills por cópia (padrão: -Agent claude -Scope global)
+.\scripts\install.ps1 -Agent claude -Scope global
+
+# Instalar apenas skills específicas no projeto atual
+.\scripts\install.ps1 -Agent cursor -Scope project -Skill quiz-master,code-mentor
+```
+
+> **Dica:** use `--copy` (`install.sh`) ou `-Symlink` (`install.ps1`) se quiser inverter o modo padrão, e `--force` / `-Force` para atualizar skills já instaladas.
+
+### Instalação Manual (Alternativa)
 
 ```bash
-git clone https://github.com/<seu-usuario>/learn-skills.git
-
-# Exemplo: instalar todas as skills globalmente (ajuste o destino para seu agente)
-# Claude Code: ~/.claude/skills/ | Cursor: ~/.cursor/skills/ | Codex/OpenCode: ~/.agents/skills/
+# Exemplo: symlink manual para Claude Code
 mkdir -p ~/.claude/skills
-for skill in learn-skills/skills/*; do
+for skill in skills/*; do
   ln -s "$(pwd)/$skill" ~/.claude/skills/"$(basename "$skill")"
 done
 ```
-
-### Windows (PowerShell)
-
-```powershell
-git clone https://github.com/<seu-usuario>/learn-skills.git
-
-# Copiar uma skill específica para o projeto atual ou diretório global do agente
-Copy-Item -Recurse .\learn-skills\skills\quiz-master .\.agents\skills\quiz-master
-```
-
-> **Dica:** Para usar apenas em um projeto específico, copie ou faça *symlink* das pastas dentro do diretório de skills do próprio repositório (ex.: `.claude/skills/` ou `.cursor/skills/`).
 
 ---
 
