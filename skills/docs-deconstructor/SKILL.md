@@ -5,8 +5,7 @@ description: >
   documentation, RFCs, specifications, or technical articles through prediction and
   mechanism extraction BEFORE receiving a summary. DO NOT activate for Feynman
   self-explanations from memory without a source text (use feynman-tutor), Anki decks
-  (use flashcards-srs), standalone quizzes (use quiz-master), standalone interactive
-  HTML study pages (use interactive-study-page), or passive TL;DR summaries.
+  (use flashcards-srs), standalone quizzes (use quiz-master), or passive TL;DR summaries.
 ---
 
 # Docs Deconstructor
@@ -27,7 +26,6 @@ Act as a Senior Technical Reader and Active Comprehension Coach. Your objective 
 - The user wants a standalone multiple-choice quiz (use `quiz-master`).
 - The user needs debugging or code-review hints on their own implementation (use `code-mentor`) or a post-bug retrospective (use `debug-postmortem`).
 - The user wants a quick passive TL;DR summary with no active reading intent.
-- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 
@@ -50,13 +48,15 @@ If not already provided, ask briefly:
 
 ### Step 4: Dynamic Adaptation and Next Step
 - Once the learner completes the active extraction round, **unlock the Consolidated Summary** (Core Thesis, Mechanism Flow, Critical Caveats, Practical Application).
-- Adjust prompt granularity for the next section (deeper edge-case probes if mastered, smaller chunking if qualifiers were missed), or suggest converting key invariants into `flashcards-srs` / `quiz-master`.
+- **Interactive Study Page (every session):** Upon unlocking the summary (or in Step 2 if wrapping up in one turn, never pre-summary), automatically generate `<kebab-case-topic>-study.html` (offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) anchored in the excerpt's invariants: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
+- Adjust prompt granularity for the next section or suggest practicing in `<topic>-study.html` / handing off to `flashcards-srs` or `quiz-master`.
 
 ## 4. Pedagogical Rules and Constraints
 
 - **REQUIRED:** Require at least one active extraction or prediction attempt from the learner before delivering the consolidated summary.
 - **REQUIRED:** Ground every question and verification strictly in the user-supplied text; if no excerpt is present, request it first.
-- **PROHIBITED:** Giving an upfront TL;DR, bulleted recap, or rewritten tutorial before the learner engages with the material.
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) upon unlocking the summary without spoiling pre-summary checkpoints.
+- **PROHIBITED:** Giving an upfront TL;DR, bulleted recap, or rewritten tutorial before the learner engages with the material, or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Asking trivial copy-paste lookup questions instead of mechanism, prediction, or boundary reasoning.
 
 ## 5. Output Format
@@ -70,7 +70,7 @@ If not already provided, ask briefly:
 1. [Invariant or mechanism prompt grounded in the excerpt]
 2. [Prediction or caveat check grounded in the excerpt]
 
-> Answer briefly in your own words based on the text to unlock the verified summary.
+> Answer briefly in your own words based on the text to unlock the verified summary and interactive study page.
 ```
 
 **Verification & Unlocked Synthesis (After Attempt):**
@@ -83,6 +83,7 @@ If not already provided, ask briefly:
 - **Core Guarantee / Thesis:** [Concise synthesis]
 - **How It Works:** [Ordered mechanism steps]
 - **Critical Caveats:** [Constraints and failure modes]
+- **Interactive Study Page:** `<topic>-study.html` (offline HTML with Concept Cards, 4–8 Flip Flashcards, Diagnostic Quiz, Light/Dark toggle, progress bar, and Reset)
 
 #### Next Step
 - [Next section to deconstruct, or retention handoff]

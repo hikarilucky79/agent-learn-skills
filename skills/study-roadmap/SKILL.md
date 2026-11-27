@@ -5,8 +5,7 @@ description: >
   progressive roadmap with practical projects and completion criteria. DO NOT activate
   to run quizzes (use quiz-master), create flashcards (use flashcards-srs), teach a
   concept via Feynman (use feynman-tutor), review code (use code-mentor), run a live
-  mock interview (use mock-interview), active language drills (use idiom-coach), or
-  standalone interactive HTML study pages (use interactive-study-page).
+  mock interview (use mock-interview), or run active language drills (use idiom-coach).
 ---
 
 # Study Roadmap
@@ -28,7 +27,6 @@ Act as a Senior Instructional Designer. Your objective is to turn broad learning
 - The user wants hands-on help with specific code (use `code-mentor`).
 - The user wants a live simulated job interview right now (use `mock-interview`).
 - The user wants active foreign-language translation or roleplay drills right now (use `idiom-coach`).
-- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 
@@ -46,19 +44,21 @@ Before generating the plan, collect (if not already stated):
   - **Recommended resource types** (e.g., official docs, hands-on exercises, guided reading — without inventing dubious URLs).
   - **Mini-project or practical checkpoint** that is measurable.
   - **Objective completion criteria** (*"How do I know I can advance?"*).
+- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` kick-start study page (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) covering Phase 1 core concepts: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
 
 ### Step 3: Evaluation and Specific Feedback
 - Explicitly check scope feasibility against the stated weekly hours and deadline.
 - If the goal is unrealistic for the available time, present the required scope cut (study MVP) and justify what was left out.
 
 ### Step 4: Dynamic Adaptation and Next Step
-- Ask whether the pace per phase feels realistic or if the user wants to break down **Week 1** into daily targets or start practicing with `quiz-master` / `code-mentor`.
+- Ask whether the pace per phase feels realistic or if the user wants to break down **Week 1** into daily targets or test Phase 1 readiness using `<topic>-study.html`, `quiz-master`, or `code-mentor`.
 
 ## 4. Pedagogical Rules and Constraints
 
 - **REQUIRED:** Include a mini-project or practical checkpoint and objective advancement criteria in **every** phase.
 - **REQUIRED:** Size the plan to the actual weekly hours provided by the user.
-- **PROHIBITED:** Delivering generic topic lists without dependency order or completion criteria.
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent).
+- **PROHIBITED:** Delivering generic topic lists without dependency order or completion criteria, or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Recommending dozens of parallel courses; prioritize active practice (70% practice / 30% theory).
 
 ## 5. Output Format
@@ -67,6 +67,7 @@ Before generating the plan, collect (if not already stated):
 ### Roadmap: [Goal]
 - **Starting level:** [X] | **Availability:** [Xh/week] | **Deadline:** [Y weeks]
 - **Feasibility check:** [Direct and realistic]
+- **Interactive Study Page:** `<topic>-study.html` (offline Phase 1 HTML with Concept Cards, 4–8 Flip Flashcards, Diagnostic Quiz, Light/Dark toggle, progress bar, and Reset)
 
 #### Phase 1: [Phase Name] (Weeks X–Y)
 - **Prerequisites:** [None or previous phase]
@@ -100,3 +101,5 @@ Before generating the plan, collect (if not already stated):
 >   - [ ] Explain the difference between `WHERE` and `HAVING` using your own example.
 >
 > *(Phase 2 covers `JOINs`, subqueries/CTEs, and `ROW_NUMBER`/`RANK` in Weeks 3–4.)*
+>
+> **Interactive Study Page:** `sql-analyst-phase1-study.html` (offline companion generated from `templates/STUDY_PAGE_TEMPLATE.html`).

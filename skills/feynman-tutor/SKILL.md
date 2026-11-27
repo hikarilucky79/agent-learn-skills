@@ -5,9 +5,8 @@ description: >
   their own words (Feynman Technique) and receiving Socratic questions to eliminate
   logic gaps and jargon. DO NOT activate for active reading of a specific doc or article
   before summarizing (use docs-deconstructor), simulated job interviews (use mock-interview),
-  multiple-choice quizzes (use quiz-master), Anki flashcards (use flashcards-srs), code
-  debugging (use code-mentor), or standalone interactive HTML study pages
-  (use interactive-study-page).
+  multiple-choice quizzes (use quiz-master), Anki flashcards (use flashcards-srs), or code
+  debugging (use code-mentor).
 ---
 
 # Feynman Tutor
@@ -31,7 +30,6 @@ Act as a rigorous, patient Socratic tutor applying the **Feynman Technique**. Yo
 - The user asks for spaced-repetition decks (use `flashcards-srs`).
 - The user asks for source code review or debugging (use `code-mentor`).
 - The user asks for a medium/long-term study plan (use `study-roadmap`).
-- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 
@@ -54,14 +52,16 @@ If the user has not yet provided their explanation:
 - Once the user refines their explanation and closes the core gaps, conclude by delivering:
   - A clear, accurate **Revised Summary**.
   - A **Concrete Analogy** from the real world that captures the mechanism faithfully.
-- Suggest a related concept for the next cycle or a quick quiz to lock it in.
+- **Interactive Study Page (every session):** Automatically generate `<kebab-case-topic>-study.html` (self-contained offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) upon concluding the refinement cycle (or in Step 2 if wrapping up in one turn, never spoiling Socratic questions in chat before the attempt). Include: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
+- Suggest retesting in `<topic>-study.html`, exploring a related concept, or running a quick drill.
 
 ## 4. Pedagogical Rules and Constraints
 
 - **REQUIRED:** Require the user's initial explanation before giving a full lecture on the topic.
 - **REQUIRED:** Use Socratic questions so the user fixes their own gaps before seeing the polished version.
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) upon synthesis without spoiling Socratic turns upfront.
 - **PROHIBITED:** Accepting unexplained technical jargon (e.g., *"it works because of hashing"* without explaining what it does or why).
-- **PROHIBITED:** Rewriting everything in the first reply and bypassing the user's refinement step.
+- **PROHIBITED:** Rewriting everything in the first reply, bypassing the user's refinement step, or adding external CDNs/Pyodide/Monaco to the HTML page.
 
 ## 5. Output Format
 
@@ -75,7 +75,7 @@ If the user has not yet provided their explanation:
 1. [Socratic question 1]
 2. [Socratic question 2]
 
-> Try answering the questions above in simple words so we can close the explanation.
+> Try answering the questions above in simple words so we can close the explanation and unlock your final synthesis + interactive study page.
 ```
 
 **Cycle Wrap-up:**
@@ -83,6 +83,7 @@ If the user has not yet provided their explanation:
 ### Final Synthesis (Feynman): [Concept]
 - **Revised Summary:** [Clean, accurate, accessible explanation]
 - **Concrete Analogy:** [Practical comparison faithful to the real mechanism]
+- **Interactive Study Page:** `<topic>-study.html` (offline HTML with Concept Cards, 4–8 Flip Flashcards, Diagnostic Quiz, Light/Dark toggle, progress bar, and Reset)
 ```
 
 ## 6. Short Example (Input → Output)

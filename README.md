@@ -11,6 +11,7 @@ An open-source repository of **Agent Skills for active learning** built on the `
 ## Value Proposition
 
 - **Active learning first:** the agent requires an attempt, explanation, or debugging step before revealing ready-made answers.
+- **Offline interactive study page in every skill:** every skill automatically generates a single-file offline `.html` study page (`templates/STUDY_PAGE_TEMPLATE.html`) with active-reveal concept cards (*"Think first, then reveal"*), 4–8 flip flashcards, and a diagnostic quiz (hidden key until **Check Answers**), plus Light/Dark toggle, progress bar, and Reset.
 - **Modularity:** each skill executes a single pedagogical method with clear boundaries and zero trigger overlap.
 - **Lean context:** concise, actionable instructions that save model context window.
 - **Portability:** compatible with modern `SKILL.md`-based agents (Claude Code, Codex CLI, Cursor, OpenCode, Antigravity, and others).
@@ -40,7 +41,6 @@ An open-source repository of **Agent Skills for active learning** built on the `
 | [`idiom-coach`](skills/idiom-coach/SKILL.md) | Reverse translation, roleplay, and surgical correction | Active foreign-language production with targeted feedback | *"Let's practice B1 English via reverse translation for daily standups."* |
 | [`docs-deconstructor`](skills/docs-deconstructor/SKILL.md) | Active reading and invariant extraction pre-summary | Dissecting dense docs, RFCs, or technical articles before summarizing | *"Help me actively read this HTTP caching excerpt before summarizing it."* |
 | [`debug-postmortem`](skills/debug-postmortem/SKILL.md) | Blameless post-bug metacognitive retrospective | Analyzing false hypotheses, root cause, and systemic prevention after a fix | *"I fixed a duplicate-job bug after blaming Redis; help me run a postmortem."* |
-| [`interactive-study-page`](skills/interactive-study-page/SKILL.md) | Self-contained offline HTML active-study page | Generating a single-file interactive `.html` visual study guide for the browser | *"Create a standalone interactive HTML study page on HTTP caching with concept cards, flashcards, and a quiz."* |
 
 ---
 
@@ -122,14 +122,15 @@ agent-learn-skills/
 │   ├── new_skill.py
 │   └── validate_skills.py
 ├── templates/
-│   └── SKILL_TEMPLATE.md
+│   ├── SKILL_TEMPLATE.md
+│   └── STUDY_PAGE_TEMPLATE.html
 ├── tests/
 │   ├── README.md
 │   ├── activation_prompts.md
 │   ├── test_activation_prompts.py
 │   ├── test_installers.py
-│   ├── test_interactive_study_page_template.py
 │   ├── test_new_skill.py
+│   ├── test_study_page_template.py
 │   ├── test_validate_anki_csv.py
 │   └── test_validate_skills.py
 └── skills/
@@ -151,12 +152,8 @@ agent-learn-skills/
     │   └── SKILL.md
     ├── docs-deconstructor/
     │   └── SKILL.md
-    ├── debug-postmortem/
-    │   └── SKILL.md
-    └── interactive-study-page/
-        ├── SKILL.md
-        └── assets/
-            └── template.html
+    └── debug-postmortem/
+        └── SKILL.md
 ```
 
 ---

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for skills/interactive-study-page/SKILL.md and assets/template.html."""
+"""Tests for templates/STUDY_PAGE_TEMPLATE.html and skill integration across all catalog skills."""
 
 from __future__ import annotations
 
@@ -9,9 +9,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SKILL_DIR = REPO_ROOT / "skills" / "interactive-study-page"
-SKILL_MD = SKILL_DIR / "SKILL.md"
-TEMPLATE_HTML = SKILL_DIR / "assets" / "template.html"
+SKILLS_DIR = REPO_ROOT / "skills"
+TEMPLATE_HTML = REPO_ROOT / "templates" / "STUDY_PAGE_TEMPLATE.html"
 
 VOID_TAGS = {
     "area",
@@ -32,7 +31,7 @@ VOID_TAGS = {
 
 
 class TagBalanceParser(HTMLParser):
-    """Lightweight HTML5 parser checking tag balance and collecting tags/assets."""
+    """Lightweight HTML5 parser checking tag balance and collecting external asset refs."""
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -65,27 +64,13 @@ class TagBalanceParser(HTMLParser):
         self.stack.pop()
 
 
-class TestInteractiveStudyPageSkill(unittest.TestCase):
-    """Validate skill structure, conciseness, and offline HTML template compliance."""
+class TestStudyPageTemplate(unittest.TestCase):
+    """Validate shared offline HTML template and automatic integration across all catalog skills."""
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.skill_text = SKILL_MD.read_text(encoding="utf-8")
         cls.template_text = TEMPLATE_HTML.read_text(encoding="utf-8")
-
-    def test_skill_markdown_is_lean_and_references_template(self) -> None:
-        line_count = len(self.skill_text.splitlines())
-        self.assertLessEqual(line_count, 105, f"SKILL.md too long ({line_count} lines)")
-        self.assertIn("assets/template.html", self.skill_text)
-        self.assertNotIn("<!--", self.skill_text)
-        for marker in (
-            "Think first, then reveal",
-            "Check Answers",
-            "4–8",
-            "Light/Dark",
-            "Reset",
-        ):
-            self.assertIn(marker, self.skill_text)
+        cls.skill_files = sorted(SKILLS_DIR.glob("*/SKILL.md"))
 
     def test_template_is_valid_self_contained_html5(self) -> None:
         self.assertTrue(self.template_text.lstrip().startswith("<!DOCTYPE html>"))
@@ -126,10 +111,27 @@ class TestInteractiveStudyPageSkill(unittest.TestCase):
         for token in required_tokens:
             self.assertIn(token, self.template_text)
 
-        # Verify placeholder deck already models 4-8 atomic flashcards
         front_entries = re.findall(r'\{\s*front:\s*"', self.template_text)
         self.assertGreaterEqual(len(front_entries), 4)
         self.assertLessEqual(len(front_entries), 8)
+
+    def test_every_catalog_skill_requires_automatic_study_page_generation(self) -> None:
+        self.assertGreaterEqual(len(self.skill_files), 9)
+        required_markers = (
+            "templates/STUDY_PAGE_TEMPLATE.html",
+            "Think first, then reveal",
+            "4–8",
+            "Check Answers",
+            "Light/Dark",
+            "Reset",
+        )
+        for skill_md in self.skill_files:
+            text = skill_md.read_text(encoding="utf-8")
+            with self.subTest(skill=skill_md.parent.name):
+                self.assertNotIn("interactive-study-page", text)
+                self.assertIn(".html", text)
+                for marker in required_markers:
+                    self.assertIn(marker, text)
 
 
 if __name__ == "__main__":

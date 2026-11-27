@@ -19,6 +19,7 @@ REQUIRED_ROOT_FILES = (
     "CONTRIBUTING.md",
     "LICENSE",
     "templates/SKILL_TEMPLATE.md",
+    "templates/STUDY_PAGE_TEMPLATE.html",
 )
 
 REQUIRED_SECTIONS = (
