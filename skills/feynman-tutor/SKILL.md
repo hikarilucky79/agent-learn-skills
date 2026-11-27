@@ -52,14 +52,14 @@ If the user has not yet provided their explanation:
 - Once the user refines their explanation and closes the core gaps, conclude by delivering:
   - A clear, accurate **Revised Summary**.
   - A **Concrete Analogy** from the real world that captures the mechanism faithfully.
-- **Interactive Study Page (every session):** Automatically generate `<kebab-case-topic>-study.html` (self-contained offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) upon concluding the refinement cycle (or in Step 2 if wrapping up in one turn, never spoiling Socratic questions in chat before the attempt). Include: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
+- **Interactive Study Page (every session):** Automatically generate `<kebab-case-topic>-study.html` (self-contained offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz) upon concluding the refinement cycle (or in Step 2 if wrapping up in one turn, never spoiling Socratic questions in chat before the attempt). Include: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
 - Suggest retesting in `<topic>-study.html`, exploring a related concept, or running a quick drill.
 
 ## 4. Pedagogical Rules and Constraints
 
 - **REQUIRED:** Require the user's initial explanation before giving a full lecture on the topic.
 - **REQUIRED:** Use Socratic questions so the user fixes their own gaps before seeing the polished version.
-- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) upon synthesis without spoiling Socratic turns upfront.
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz) upon synthesis without spoiling Socratic turns upfront.
 - **PROHIBITED:** Accepting unexplained technical jargon (e.g., *"it works because of hashing"* without explaining what it does or why).
 - **PROHIBITED:** Rewriting everything in the first reply, bypassing the user's refinement step, or adding external CDNs/Pyodide/Monaco to the HTML page.
 

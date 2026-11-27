@@ -49,14 +49,14 @@ If missing from the user's message, ask concisely for:
 
 ### Step 4: Dynamic Adaptation and Next Step
 - Once the causal chain and concrete guardrails are clear, deliver the consolidated **Learning Postmortem Record**.
-- **Interactive Study Page (every session):** Upon finalizing the postmortem record (or in Step 2 if wrapping up in one turn, never before reflection), automatically generate `<kebab-case-topic>-study.html` (offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent). Include 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards** for the debugging heuristics & invariants, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
+- **Interactive Study Page (every session):** Upon finalizing the postmortem record (or in Step 2 if wrapping up in one turn, never before reflection), automatically generate `<kebab-case-topic>-study.html` (offline HTML5/CSS/Vanilla JS, zero external CDNs/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz). Include 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards** for the debugging heuristics & invariants, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
 - Suggest a single concrete next action: implement the missing regression test together (`code-mentor`), capture heuristics in `flashcards-srs`, or review `<topic>-study.html`.
 
 ## 4. Pedagogical Rules and Constraints
 
 - **REQUIRED:** Require the learner to analyze their initial false hypothesis, root cause, and prevention strategy before generating the final postmortem record.
 - **REQUIRED:** Push past *"human error"* or *"pay closer attention"* toward structural causes and automated/verifiable guardrails.
-- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) upon finalizing the postmortem without fabricating facts.
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz) upon finalizing the postmortem without fabricating facts.
 - **PROHIBITED:** Auto-generating a polished corporate postmortem with fabricated timeline facts not stated by the user, or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Treating a localized symptom patch as a complete root-cause analysis.
 
