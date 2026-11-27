@@ -209,6 +209,11 @@ for skill in "${SELECTED_SKILLS[@]}"; do
 
   if [[ "$MODE" == "copy" ]]; then
     cp -R "$src" "$dst"
+    STUDY_TEMPLATE="$REPO_ROOT/templates/STUDY_PAGE_TEMPLATE.html"
+    if [[ -f "$STUDY_TEMPLATE" ]]; then
+      mkdir -p "$dst/assets"
+      cp "$STUDY_TEMPLATE" "$dst/assets/STUDY_PAGE_TEMPLATE.html"
+    fi
   else
     ln -s "$src" "$dst"
   fi

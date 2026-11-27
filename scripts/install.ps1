@@ -210,6 +210,12 @@ foreach ($name in $Skill) {
         New-Item -ItemType SymbolicLink -Path $dst -Target $src | Out-Null
     } else {
         Copy-Item -LiteralPath $src -Destination $dst -Recurse
+        $studyTemplate = Join-Path $RepoRoot "templates\STUDY_PAGE_TEMPLATE.html"
+        if (Test-Path -LiteralPath $studyTemplate) {
+            $assetsDir = Join-Path $dst "assets"
+            New-Item -ItemType Directory -Force -Path $assetsDir | Out-Null
+            Copy-Item -LiteralPath $studyTemplate -Destination (Join-Path $assetsDir "STUDY_PAGE_TEMPLATE.html") -Force
+        }
     }
 
     Write-Host "INSTALADA ($mode): $name -> $dst"
