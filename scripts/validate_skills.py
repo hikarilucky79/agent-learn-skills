@@ -21,12 +21,12 @@ REQUIRED_ROOT_FILES = (
 )
 
 REQUIRED_SECTIONS = (
-    "## 1. Papel e Objetivo",
-    "## 2. Escopo",
-    "## 3. Fluxo de Execução",
-    "## 4. Regras Pedagógicas",
-    "## 5. Formato de Saída",
-    "## 6. Exemplo Curto",
+    "## 1. Role and Objective",
+    "## 2. Scope",
+    "## 3. Execution Flow",
+    "## 4. Pedagogical Rules",
+    "## 5. Output Format",
+    "## 6. Short Example",
 )
 
 
