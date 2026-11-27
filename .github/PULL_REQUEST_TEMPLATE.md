@@ -13,4 +13,6 @@
 - [ ] O campo `name` no frontmatter é idêntico ao nome da pasta em `kebab-case`
 - [ ] A `description` define claramente **quando usar** e **quando não usar**, sem conflito de gatilho
 - [ ] O [`README.md`](../README.md) foi atualizado (se aplicável)
+- [ ] Instaladores ([`scripts/install.sh`](../scripts/install.sh) / [`scripts/install.ps1`](../scripts/install.ps1)) testados (se aplicável)
+- [ ] Commits seguem Conventional Commits
 - [ ] Executei `python scripts/validate_skills.py` localmente e passou sem erros
