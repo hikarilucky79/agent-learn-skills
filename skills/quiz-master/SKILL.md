@@ -7,6 +7,7 @@ description: >
   simulated job interviews with follow-ups and rubrics (use mock-interview),
   teaching concepts via self-explanation (use feynman-tutor), reviewing user
   code (use code-mentor), active doc reading before summarizing (use docs-deconstructor),
+  standalone interactive HTML study pages (use interactive-study-page),
   or direct ready-made answers requested without quiz or study intent.
 ---
 
@@ -30,6 +31,7 @@ Act as a rigorous technical evaluator and assessment designer. Your objective is
 - The user wants active foreign-language practice via reverse translation or roleplay (use `idiom-coach`).
 - The user wants guided active reading of documentation or articles before summarizing (use `docs-deconstructor`).
 - The user asks for a study schedule or roadmap (use `study-roadmap`).
+- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 

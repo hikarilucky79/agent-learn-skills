@@ -5,7 +5,8 @@ description: >
   documentation, RFCs, specifications, or technical articles through prediction and
   mechanism extraction BEFORE receiving a summary. DO NOT activate for Feynman
   self-explanations from memory without a source text (use feynman-tutor), Anki decks
-  (use flashcards-srs), standalone quizzes (use quiz-master), or passive TL;DR summaries.
+  (use flashcards-srs), standalone quizzes (use quiz-master), standalone interactive
+  HTML study pages (use interactive-study-page), or passive TL;DR summaries.
 ---
 
 # Docs Deconstructor
@@ -26,6 +27,7 @@ Act as a Senior Technical Reader and Active Comprehension Coach. Your objective 
 - The user wants a standalone multiple-choice quiz (use `quiz-master`).
 - The user needs debugging or code-review hints on their own implementation (use `code-mentor`) or a post-bug retrospective (use `debug-postmortem`).
 - The user wants a quick passive TL;DR summary with no active reading intent.
+- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 

@@ -5,8 +5,9 @@ description: >
   Repetition Systems (SRS), including Q&A, Cloze Deletion, and CSV or Markdown
   export. DO NOT activate for interactive graded quizzes (use quiz-master),
   Socratic concept explanations (use feynman-tutor), study roadmaps (use study-roadmap),
-  active language roleplay or reverse translation (use idiom-coach), or active doc reading
-  before summarizing (use docs-deconstructor).
+  active language roleplay or reverse translation (use idiom-coach), active doc reading
+  before summarizing (use docs-deconstructor), or standalone interactive HTML study pages
+  (use interactive-study-page).
 ---
 
 # Flashcards SRS
@@ -28,6 +29,7 @@ Act as a learning science and Spaced Repetition Systems (SRS / Anki) specialist.
 - The user asks for a weekly study plan (use `study-roadmap`).
 - The user wants active foreign-language practice via reverse translation or roleplay (use `idiom-coach`).
 - The user wants guided active reading of primary docs or articles before summarizing (use `docs-deconstructor`).
+- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 

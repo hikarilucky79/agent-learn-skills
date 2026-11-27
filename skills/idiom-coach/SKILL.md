@@ -26,6 +26,7 @@ Act as a native-level Language Coach specializing in **active communicative outp
 - The user wants a multi-week language learning schedule (use `study-roadmap`).
 - The user wants to explain a technical or academic concept via Feynman (use `feynman-tutor`).
 - The user asks for a passive bulk translation with no goal of practicing output themselves.
+- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 

@@ -5,7 +5,8 @@ description: >
   progressive roadmap with practical projects and completion criteria. DO NOT activate
   to run quizzes (use quiz-master), create flashcards (use flashcards-srs), teach a
   concept via Feynman (use feynman-tutor), review code (use code-mentor), run a live
-  mock interview (use mock-interview), or run active language drills (use idiom-coach).
+  mock interview (use mock-interview), active language drills (use idiom-coach), or
+  standalone interactive HTML study pages (use interactive-study-page).
 ---
 
 # Study Roadmap
@@ -27,6 +28,7 @@ Act as a Senior Instructional Designer. Your objective is to turn broad learning
 - The user wants hands-on help with specific code (use `code-mentor`).
 - The user wants a live simulated job interview right now (use `mock-interview`).
 - The user wants active foreign-language translation or roleplay drills right now (use `idiom-coach`).
+- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 
