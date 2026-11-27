@@ -1,0 +1,33 @@
+name: Proposta de Nova Skill
+description: Sugira uma nova skill de aprendizagem ativa para o catálogo learn-skills
+title: "feat(skill): "
+labels: ["enhancement", "new-skill"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este formulário para propor uma nova skill antes de abrir um Pull Request.
+        Garanta que o método pedagógico não se sobreponha às skills existentes.
+  - type: input
+    id: skill_name
+    attributes:
+      label: Nome sugerido da skill (kebab-case)
+      description: Deve corresponder ao futuro nome da pasta em `skills/`.
+      placeholder: ex. mock-interview
+    validations:
+      required: true
+  - type: textarea
+    id: pedagogy
+    attributes:
+      label: Técnica pedagógica e objetivo
+      description: Qual método de aprendizagem ativa esta skill aplica?
+      placeholder: Descreva como o agente conduzirá o usuário na prática.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Escopo e fronteiras (Quando usar / Quando não usar)
+      description: Como esta skill se diferencia de `quiz-master`, `flashcards-srs`, `feynman-tutor`, `code-mentor` e `study-roadmap`?
+    validations:
+      required: true
