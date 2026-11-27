@@ -97,12 +97,12 @@ OK (skipped=1)
 
 ## 4. End-to-End Agent Behavioral Verification (Multi-Turn Client-Tutor)
 
-All 9 skills + 1 negative boundary scenario were tested in 2-turn conversations with independent Tutor agents (without naming skills in the user prompt):
+All 10 skills + negative boundary scenarios were tested in multi-turn conversations with independent Tutor agents (without naming skills in the user prompt; `interactive-study-page` plus reciprocal checks on `quiz-master`, `flashcards-srs`, and the negative boundary were re-verified after adding `interactive-study-page`):
 
 | Scenario | Target Skill | Result | Verified Behavior |
 |---|---|---|---|
-| 1 | `quiz-master` | PASS | Generates questions with plausible distractors and hides the answer key until submission. |
-| 2 | `flashcards-srs` | PASS | Enforces atomicity (1 concept/card) with valid Cloze `{{c1::...}}` and Anki CSV export. |
+| 1 | `quiz-master` | PASS | Generates questions with plausible distractors and hides the answer key until submission (2-turn verified with zero overlap with `interactive-study-page`). |
+| 2 | `flashcards-srs` | PASS | Enforces atomicity (1 concept/card) with valid Cloze `{{c1::...}}` and Anki CSV export (2-turn verified with zero overlap with `interactive-study-page`). |
 | 3 | `feynman-tutor` | PASS | Flags unexplained jargon/gaps and asks Socratic questions before the final synthesis. |
 | 4 | `code-mentor` | PASS | Progresses from Hint Level 1 → Level 2 without rewriting the whole file. |
 | 5 | `study-roadmap` | PASS | Structures phases with prerequisites, mini-projects, and objective completion criteria. |
@@ -110,4 +110,5 @@ All 9 skills + 1 negative boundary scenario were tested in 2-turn conversations 
 | 7 | `idiom-coach` | PASS | Applies surgical inline corrections in short layers without long grammar lectures. |
 | 8 | `docs-deconstructor` | PASS | Requires active prediction/invariant extraction and corrects misconceptions before summarizing. |
 | 9 | `debug-postmortem` | PASS | Rejects vague root causes (*"I forgot"* / *"be more careful"*) and enforces systemic prevention. |
-| 10 | *(Negative boundary)* | PASS | Direct-answer requests with no study/mentoring intent trigger **zero** `SKILL.md` reads. |
+| 10 | `interactive-study-page` | PASS | Runs Quick Diagnosis (Turn 1), generates offline `http-caching-study.html` from `assets/template.html` with 4 concept cards, 7 flashcards, and 5 quiz items passing HTML5/DOM verification (Turn 2), and provides diagnostic gap remediation on `no-cache` vs. `no-store` (Turn 3). |
+| 11 | *(Negative boundary)* | PASS | Direct-answer requests with no study/mentoring intent trigger **zero** full `SKILL.md` reads. |
