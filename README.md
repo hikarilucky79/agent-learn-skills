@@ -74,7 +74,7 @@ done
 
 1. Copy the official template [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) to `skills/<kebab-case-name>/SKILL.md`.
 2. Ensure the `name:` field in the YAML frontmatter matches the folder name exactly.
-3. Define clear boundaries in `description` (when to activate and when **not** to activate) to avoid conflicting with existing skills.
+3. Define clear boundaries in `description` (when to activate and an explicit `DO NOT activate` clause) to avoid conflicting with existing skills.
 4. Follow all guidelines and the checklist in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
@@ -95,12 +95,16 @@ agent-learn-skills/
 ├── templates/
 │   └── SKILL_TEMPLATE.md
 ├── tests/
-│   └── activation_prompts.md
+│   ├── activation_prompts.md
+│   ├── test_validate_anki_csv.py
+│   └── test_validate_skills.py
 └── skills/
     ├── quiz-master/
     │   └── SKILL.md
     ├── flashcards-srs/
-    │   └── SKILL.md
+    │   ├── SKILL.md
+    │   └── scripts/
+    │       └── validate_anki_csv.py
     ├── feynman-tutor/
     │   └── SKILL.md
     ├── code-mentor/

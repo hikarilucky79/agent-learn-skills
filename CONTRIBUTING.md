@@ -16,7 +16,7 @@ Thank you for helping expand this catalog of Agent Skills for active learning. T
 ## 2. Instructional Design Guidelines
 
 1. **One skill, one method:** each skill must execute a single pedagogical technique with excellence (e.g., quizzes, flashcards, Feynman, code mentoring, roadmap). Avoid "do-everything" skills.
-2. **No trigger overlap:** before proposing a skill, review the `description` fields of existing skills under `skills/`. State explicitly in `description` and in the **Scope** section when *to use* and when *not to use* (pointing to the right sibling skill).
+2. **No trigger overlap:** before proposing a skill, review the `description` fields of existing skills under `skills/`. State explicitly in `description` (using `DO NOT activate`) and in the **Scope** section when *to use* and when *not to use* (pointing to the right sibling skill).
 3. **Lean context:** write direct, actionable instructions. Avoid long introductions, repetition, or bloated examples that waste the model's context window.
 4. **Active learning above all:** the skill must always require cognitive effort from the learner (attempt, explanation, debugging, choice) before providing ready-made answers or solutions.
 5. **Portability:** do not depend on tools, commands, or APIs exclusive to a single CLI or IDE. Instructions must work on any `SKILL.md`-compatible agent.
@@ -37,9 +37,10 @@ Thank you for helping expand this catalog of Agent Skills for active learning. T
    ```
 4. Fill out `SKILL.md` and remove all instructional HTML comments.
 5. Update the catalog table and repository structure in `README.md`, keeping valid relative links.
-6. Run the automated validator (and test the installers in `scripts/` if you modified `scripts/` or `skills/` structure) before opening a Pull Request:
+6. Run the automated validator and unit tests (and test the installers in `scripts/` if you modified `scripts/` or `skills/` structure) before opening a Pull Request:
    ```bash
    python scripts/validate_skills.py
+   python -m unittest discover -s tests -v
    ```
 7. Use `.github/PULL_REQUEST_TEMPLATE.md` and check off verified items (`[x]`). The `main` branch requires the `Validate SKILL.md structure and links` CI check to pass.
 
@@ -47,12 +48,12 @@ Thank you for helping expand this catalog of Agent Skills for active learning. T
 
 ## 4. Pull Request Quality Checklist
 
-- [ ] `python scripts/validate_skills.py` executed locally with zero errors.
+- [ ] `python scripts/validate_skills.py` and `python -m unittest discover -s tests -v` executed locally with zero errors.
 - [ ] `Validate SKILL.md structure and links` CI check passed on the PR.
 - [ ] Commits follow **Conventional Commits** (`feat(...)`, `docs(...)`, `ci(...)`, `fix(...)`).
 - [ ] Folder path is `skills/<kebab-case-name>/SKILL.md` (for new skills).
 - [ ] YAML frontmatter is valid and `name` matches the folder name exactly.
-- [ ] `description` clearly defines **when to activate** and **when not to activate**, without conflicting with other skills.
+- [ ] `description` clearly defines **when to activate** and includes an explicit `DO NOT activate` boundary, without conflicting with other skills.
 - [ ] All 6 required sections from the template are present and free of leftover HTML comments.
 - [ ] Flow includes quick diagnosis, active practice, diagnostic feedback, and dynamic adaptation.
 - [ ] Includes a short example (`Input → Output`) matching the specified output format.
