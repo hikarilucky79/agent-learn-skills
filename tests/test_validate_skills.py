@@ -72,6 +72,10 @@ def build_valid_repo(root: Path, skills: dict[str, str] | None = None) -> None:
 
     templates_dir = root / "templates"
     templates_dir.mkdir(parents=True, exist_ok=True)
+    (templates_dir / "STUDY_PAGE_TEMPLATE.html").write_text(
+        "<!DOCTYPE html><html><head><title>Template</title></head><body></body></html>\n",
+        encoding="utf-8",
+    )
     (templates_dir / "SKILL_TEMPLATE.md").write_text(
         build_skill_markdown(
             name="skill-name-in-kebab-case",

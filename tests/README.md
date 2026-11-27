@@ -11,7 +11,7 @@ This directory contains automated unit/integration tests and manual activation e
 | [`test_validate_skills.py`](test_validate_skills.py) | YAML frontmatter parsing, `kebab-case` naming, 6 required sections, `DO NOT activate` boundary enforcement, and relative Markdown link checks. |
 | [`test_validate_anki_csv.py`](test_validate_anki_csv.py) | Anki CSV/TXT export validation (`#separator:`, UTF-8 BOM, Q&A rows, Cloze `{{c1::...}}` syntax, and error cases). |
 | [`test_installers.py`](test_installers.py) | Cross-platform installer and uninstaller behavior for `scripts/install.sh` and `scripts/install.ps1` (global/project scopes, flags, symlink/junction safety). |
-| [`test_interactive_study_page_template.py`](test_interactive_study_page_template.py) | `skills/interactive-study-page/SKILL.md` conciseness and offline HTML5 template compliance (valid markup, zero external assets, 3 active modules, UX controls). |
+| [`test_study_page_template.py`](test_study_page_template.py) | `templates/STUDY_PAGE_TEMPLATE.html` offline HTML5 compliance (balanced tags, zero external assets, 3 active modules, UX controls) and mandatory `.html` integration across all 9 skills. |
 | [`test_new_skill.py`](test_new_skill.py) | `scripts/new_skill.py` scaffolding CLI, template parsing, comment stripping, and path-traversal/invalid-name rejection. |
 | [`test_activation_prompts.py`](test_activation_prompts.py) | Verifies every catalog skill has a positive activation prompt and reciprocal `Must Not Activate` boundaries in [`activation_prompts.md`](activation_prompts.md). |
 | [`activation_prompts.md`](activation_prompts.md) | Human-readable eval matrix for testing real agent routing without trigger overlap. |
@@ -35,7 +35,7 @@ python -m unittest discover -s tests -v
 ### 3.1. `python scripts/validate_skills.py`
 
 ```text
-OK: 10 skills, template e links validados sem erros.
+OK: 9 skills, template e links validados sem erros.
 ```
 
 ### 3.2. `python -m unittest discover -s tests -v`
@@ -53,15 +53,15 @@ test_help_and_conflicting_flags (test_installers.TestInstallSh.test_help_and_con
 test_invalid_skill_name_rejected_before_uninstall (test_installers.TestInstallSh.test_invalid_skill_name_rejected_before_uninstall) ... ok
 test_project_scope_install_and_uninstall (test_installers.TestInstallSh.test_project_scope_install_and_uninstall) ... ok
 test_symlink_uninstall_and_external_symlink_protection (test_installers.TestInstallSh.test_symlink_uninstall_and_external_symlink_protection) ... skipped 'Platform/shell ln -s created a copy instead of symlink'
-test_skill_markdown_is_lean_and_references_template (test_interactive_study_page_template.TestInteractiveStudyPageSkill.test_skill_markdown_is_lean_and_references_template) ... ok
-test_template_includes_required_modules_and_ux_controls (test_interactive_study_page_template.TestInteractiveStudyPageSkill.test_template_includes_required_modules_and_ux_controls) ... ok
-test_template_is_valid_self_contained_html5 (test_interactive_study_page_template.TestInteractiveStudyPageSkill.test_template_is_valid_self_contained_html5) ... ok
 test_cli_help_executes_successfully (test_new_skill.TestNewSkillScaffolding.test_cli_help_executes_successfully) ... ok
 test_creates_skill_with_prefilled_name_and_default_title (test_new_skill.TestNewSkillScaffolding.test_creates_skill_with_prefilled_name_and_default_title) ... ok
 test_custom_title_and_strip_comments_passes_skill_validator (test_new_skill.TestNewSkillScaffolding.test_custom_title_and_strip_comments_passes_skill_validator) ... ok
 test_existing_skill_requires_force_to_overwrite (test_new_skill.TestNewSkillScaffolding.test_existing_skill_requires_force_to_overwrite) ... ok
 test_rejects_invalid_names_and_path_traversal (test_new_skill.TestNewSkillScaffolding.test_rejects_invalid_names_and_path_traversal) ... ok
 test_rejects_invalid_title_and_missing_or_malformed_template (test_new_skill.TestNewSkillScaffolding.test_rejects_invalid_title_and_missing_or_malformed_template) ... ok
+test_every_catalog_skill_requires_automatic_study_page_generation (test_study_page_template.TestStudyPageTemplate.test_every_catalog_skill_requires_automatic_study_page_generation) ... ok
+test_template_includes_required_modules_and_ux_controls (test_study_page_template.TestStudyPageTemplate.test_template_includes_required_modules_and_ux_controls) ... ok
+test_template_is_valid_self_contained_html5 (test_study_page_template.TestStudyPageTemplate.test_template_is_valid_self_contained_html5) ... ok
 test_main_missing_file_returns_one (test_validate_anki_csv.TestValidateAnkiCli.test_main_missing_file_returns_one) ... ok
 test_subprocess_valid_and_invalid_files (test_validate_anki_csv.TestValidateAnkiCli.test_subprocess_valid_and_invalid_files) ... ok
 test_row_and_card_validation_errors (test_validate_anki_csv.TestValidateAnkiFile.test_row_and_card_validation_errors) ... ok
@@ -97,18 +97,17 @@ OK (skipped=1)
 
 ## 4. End-to-End Agent Behavioral Verification (Multi-Turn Client-Tutor)
 
-All 10 catalog skills + 1 negative boundary scenario were verified end-to-end in multi-turn conversations with independent Tutor agents in isolated worktrees against the 10-skill catalog (without naming skills in the user prompt; transcript audits confirmed zero cross-skill full-body reads):
+All 9 catalog skills + 1 negative boundary scenario were verified end-to-end in multi-turn conversations with independent Tutor agents in isolated worktrees (without naming skills in the user prompt). After moving the study-page template to `templates/STUDY_PAGE_TEMPLATE.html` across all 9 skills, scenarios **1 (`quiz-master`)**, **3 (`feynman-tutor`)**, **5 (`study-roadmap`)**, and **10 (negative boundary)** were re-executed end-to-end and their generated offline `.html` files passed HTML5/DOM verification (`0% -> 100% -> Reset 0%`):
 
 | Scenario | Target Skill | Result | Verified Behavior |
 |---|---|---|---|
-| 1 | `quiz-master` | PASS | Generates 5 questions with plausible distractors, hides the key in Turn 1, and grades `4/5` with misconception analysis in Turn 2 (zero overlap with `interactive-study-page`). |
-| 2 | `flashcards-srs` | PASS | Enforces atomicity (1 concept/card) with valid Cloze `{{c1::...}}`, Anki CSV export, and draft-card splitting in Turn 2 (zero overlap with `interactive-study-page`). |
-| 3 | `feynman-tutor` | PASS | Flags `POST` and error-free misconceptions with 3 Socratic questions in Turn 1, then unlocks Revised Summary + Concrete Analogy after learner refinement in Turn 2. |
-| 4 | `code-mentor` | PASS | Starts at Hint Level 1 (`print` vs. `return`) without rewriting the function in Turn 1, then delivers Readability/Edge-Cases/`O(n)` review + extension challenge in Turn 2. |
-| 5 | `study-roadmap` | PASS | Runs feasibility check with SQL MVP scope cut and 3 progressive phases in Turn 1, then breaks Week 1 into 3 × 2h local SQLite sessions in Turn 2. |
-| 6 | `mock-interview` | PASS | Poses 1 scenario without hints in Turn 1, probes cache-invalidation race conditions under `8,000 req/s` in Turn 2, and scores via 1–4 rubric (`3.0/4`) in Turn 3. |
-| 7 | `idiom-coach` | PASS | Presents 3 Portuguese-to-English standup prompts hiding target answers in Turn 1, then applies 3-layer surgical corrections (`Minimal fix` / `More natural` / `Why`) + adapted follow-up in Turn 2. |
-| 8 | `docs-deconstructor` | PASS | Withholds upfront summary behind 3 text-grounded checkpoints in Turn 1, sharpens `may` vs. `must` and `"without revalidation"` qualifiers, and unlocks synthesis in Turn 2. |
-| 9 | `debug-postmortem` | PASS | Probes false lead and invariants in Turn 1, rejects *"forgot `SKIP LOCKED`"* / *"review SQL more carefully"* in Turn 2, and locks `Learning Postmortem` with structural guardrails in Turn 3. |
-| 10 | `interactive-study-page` | PASS | Runs Quick Diagnosis (Turn 1), generates offline `http-caching-study.html` from `assets/template.html` with 4 concept cards, 7 flashcards, and 5 quiz items passing HTML5/DOM verification (Turn 2), and provides diagnostic gap remediation on `no-cache` vs. `no-store` (Turn 3). |
-| 11 | *(Negative boundary)* | PASS | Direct-answer requests with no study/mentoring intent trigger **zero** full `SKILL.md` reads. |
+| 1 | `quiz-master` | PASS | Hides key in chat, generates `js-event-loop-study.html` (`3` concepts, `6` cards, `3` quiz items) in Turn 1, and grades `2/3` pointing to Concept 3 + **Reset Session** in Turn 2. |
+| 2 | `flashcards-srs` | PASS | Enforces atomicity (1 concept/card) with valid Cloze `{{c1::...}}`, Anki CSV export, and draft-card splitting in Turn 2 *(verified pre-refactor; `.html` rule enforced statically via `test_study_page_template.py`)*. |
+| 3 | `feynman-tutor` | PASS | Keeps Turn 1 strictly Socratic with zero spoilers, then delivers synthesis + `rest-idempotency-study.html` (`3` concepts, `6` cards, `4` quiz items) after Turn 2 refinement. |
+| 4 | `code-mentor` | PASS | Starts at Hint Level 1 (`print` vs. `return`) without rewriting the function in Turn 1, then delivers Readability/Edge-Cases/`O(n)` review in Turn 2 *(verified pre-refactor; `.html` rule enforced statically)*. |
+| 5 | `study-roadmap` | PASS | Runs feasibility check with SQL MVP scope cut and 3 progressive phases alongside `sql-analyst-phase1-study.html` (`4` concepts, `6` cards, `5` quiz items) in Turn 1. |
+| 6 | `mock-interview` | PASS | Poses 1 scenario without hints, probes cache-invalidation race conditions under `8,000 req/s`, and scores via 1–4 rubric (`3.0/4`) *(verified pre-refactor; `.html` rule enforced statically)*. |
+| 7 | `idiom-coach` | PASS | Presents PT→EN prompts hiding answers, applies 3-layer surgical corrections, and adapts follow-up *(verified pre-refactor; `.html` rule enforced statically)*. |
+| 8 | `docs-deconstructor` | PASS | Withholds upfront summary behind 3 text-grounded checkpoints, sharpens qualifiers, and unlocks synthesis *(verified pre-refactor; `.html` rule enforced statically)*. |
+| 9 | `debug-postmortem` | PASS | Rejects *"forgot `SKIP LOCKED`"* / *"review SQL more carefully"* and locks `Learning Postmortem` with structural guardrails *(verified pre-refactor; `.html` rule enforced statically)*. |
+| 10 | *(Negative boundary)* | PASS | Direct-answer requests with no study/mentoring intent trigger **zero** full `SKILL.md` reads and generate **zero** `.html` files. |
