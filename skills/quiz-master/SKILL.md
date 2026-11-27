@@ -46,7 +46,7 @@ If not stated in the initial prompt, ask directly:
 - **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: warm paper `#F6F3EC`, stone `#EAE6DC` quiz panel, ink `#24231F`, terracotta `#8C3B24`, Georgia serif headings, 2-column `01 / READING` + Active Notes left & `02 / PRACTICE` Quiz right). Populate `STUDY_DATA` with:
   1. **Active-Reveal Concept Cards (2–4 cards):** core rules + *"Think first, then reveal"* prediction prompts hidden until click.
   2. **Flip Flashcards (4–8 atomic cards):** front → back drills reinforcing key distinctions.
-  3. **Diagnostic Quiz:** misconception-based questions with answers hidden until **"Check Answers"** and per-option conceptual feedback, plus responsive Light/Dark toggle, progress bar, and Reset button.
+  3. **Diagnostic Quiz:** misconception-based questions with answers hidden until **"Check Answers"** and per-option conceptual feedback, plus responsive Light/Dark toggle, progress bar, and Reset button. Immediately after writing the `.html` file, automatically open it in the user's default browser when a local shell/GUI is available (`Start-Process <file>` on Windows, `open <file>` on macOS, `xdg-open <file>` on Linux, or `python -c "import webbrowser, pathlib; webbrowser.open(pathlib.Path('<file>').resolve().as_uri())"`); if headless or no shell is available, provide the file path.
 
 ### Step 3: Evaluation and Specific Feedback
 - After the user submits their answers, grade item by item.
