@@ -3,7 +3,7 @@
 Instructions for AI agents editing or maintaining this repository (`agent-learn-skills`).
 
 ## Overview
-- Open-source catalog of `SKILL.md` Agent Skills focused on **active learning** (Active Recall, SRS, Feynman Technique, code mentoring, and study roadmaps).
+- Open-source catalog of `SKILL.md` Agent Skills focused on **active learning** (Active Recall quizzes, SRS flashcards, Feynman Technique, code mentoring, study roadmaps, mock interviews, active language coaching, active doc deconstruction, and post-bug postmortems).
 - Standard language for all `.md` files: **English**.
 
 ## Rules When Creating or Editing Skills
@@ -21,7 +21,7 @@ python scripts/validate_skills.py
 python -m unittest discover -s tests -v
 ```
 
-This suite verifies repository structure, frontmatter (including the explicit `DO NOT activate` boundary), required sections, absence of leftover HTML comments, relative link integrity, and the validator unit tests (also enforced in CI by `.github/workflows/validate.yml`).
+This suite verifies repository structure, frontmatter (including the explicit `DO NOT activate` boundary), required sections, absence of leftover HTML comments, relative link integrity, activation prompt boundary alignment, and the validator unit tests (also enforced in CI by `.github/workflows/validate.yml`).
 
 ## Commits
 - Use **Conventional Commits** (`feat(skill-name): ...`, `docs: ...`, `ci: ...`, `fix: ...`).

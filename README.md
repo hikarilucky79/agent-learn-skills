@@ -27,7 +27,7 @@ An open-source repository of **Agent Skills for active learning** built on the `
 
 ---
 
-## Skills Catalog (MVP)
+## Skills Catalog
 
 | Skill | Pedagogical Technique | When to Use | Example Prompt |
 |---|---|---|---|
@@ -36,6 +36,10 @@ An open-source repository of **Agent Skills for active learning** built on the `
 | [`feynman-tutor`](skills/feynman-tutor/SKILL.md) | Feynman Technique and Socratic questioning | Validating deep understanding by explaining in your own words | *"I want to study REST Idempotency using Feynman; here is my explanation..."* |
 | [`code-mentor`](skills/code-mentor/SKILL.md) | Pair programming and 3-level progressive hints | Guided debugging, refactoring, and educational code review | *"My Python function returns None instead of the sum; give me hints without rewriting everything."* |
 | [`study-roadmap`](skills/study-roadmap/SKILL.md) | Project-oriented instructional design | Planning study tracks with deadlines, milestones, and checkpoints | *"Build a 4-week SQL roadmap (6h/week, beginner level)."* |
+| [`mock-interview`](skills/mock-interview/SKILL.md) | Simulated interviewing with dynamic follow-ups & rubric | Practicing technical, system design, or behavioral (STAR) interviews | *"Run a mid-level backend mock interview on caching strategies."* |
+| [`idiom-coach`](skills/idiom-coach/SKILL.md) | Reverse translation, roleplay, and surgical correction | Active foreign-language production with targeted feedback | *"Let's practice B1 English via reverse translation for daily standups."* |
+| [`docs-deconstructor`](skills/docs-deconstructor/SKILL.md) | Active reading and invariant extraction pre-summary | Dissecting dense docs, RFCs, or technical articles before summarizing | *"Help me actively read this HTTP caching excerpt before summarizing it."* |
+| [`debug-postmortem`](skills/debug-postmortem/SKILL.md) | Blameless post-bug metacognitive retrospective | Analyzing false hypotheses, root cause, and systemic prevention after a fix | *"I fixed a duplicate-job bug after blaming Redis; help me run a postmortem."* |
 
 ---
 
@@ -120,8 +124,12 @@ agent-learn-skills/
 │   └── SKILL_TEMPLATE.md
 ├── tests/
 │   ├── activation_prompts.md
+<<<<<<< Updated upstream
 │   ├── test_installers.py
 │   ├── test_new_skill.py
+=======
+│   ├── test_activation_prompts.py
+>>>>>>> Stashed changes
 │   ├── test_validate_anki_csv.py
 │   └── test_validate_skills.py
 └── skills/
@@ -135,7 +143,15 @@ agent-learn-skills/
     │   └── SKILL.md
     ├── code-mentor/
     │   └── SKILL.md
-    └── study-roadmap/
+    ├── study-roadmap/
+    │   └── SKILL.md
+    ├── mock-interview/
+    │   └── SKILL.md
+    ├── idiom-coach/
+    │   └── SKILL.md
+    ├── docs-deconstructor/
+    │   └── SKILL.md
+    └── debug-postmortem/
         └── SKILL.md
 ```
 
