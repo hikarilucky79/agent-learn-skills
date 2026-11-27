@@ -7,7 +7,6 @@ description: >
   simulated job interviews with follow-ups and rubrics (use mock-interview),
   teaching concepts via self-explanation (use feynman-tutor), reviewing user
   code (use code-mentor), active doc reading before summarizing (use docs-deconstructor),
-  standalone interactive HTML study pages (use interactive-study-page),
   or direct ready-made answers requested without quiz or study intent.
 ---
 
@@ -31,7 +30,6 @@ Act as a rigorous technical evaluator and assessment designer. Your objective is
 - The user wants active foreign-language practice via reverse translation or roleplay (use `idiom-coach`).
 - The user wants guided active reading of documentation or articles before summarizing (use `docs-deconstructor`).
 - The user asks for a study schedule or roadmap (use `study-roadmap`).
-- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 
@@ -42,9 +40,13 @@ If not stated in the initial prompt, ask directly:
 3. **Format and count:** multiple choice, true/false, or code analysis (default suggestion: 5 questions).
 
 ### Step 2: Execute the Pedagogical Technique
-- Generate the questions while keeping the **answer key completely hidden** until the user submits their answers.
+- Generate the questions while keeping the **answer key completely hidden** in chat until the user submits their answers.
 - Craft incorrect options (distractors) based on real, common student misconceptions (e.g., off-by-one errors, value vs. reference confusion, false equivalence). Never include absurd or obvious throwaway options.
 - For code-analysis questions, keep snippets short, self-contained, and syntactically unambiguous.
+- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or an equivalent inline HTML5/CSS/Vanilla JS layout when running from an isolated install). Populate `STUDY_DATA` with:
+  1. **Active-Reveal Concept Cards (2–4 cards):** core rules + *"Think first, then reveal"* prediction prompts hidden until click.
+  2. **Flip Flashcards (4–8 atomic cards):** front → back drills reinforcing key distinctions.
+  3. **Diagnostic Quiz:** misconception-based questions with answers hidden until **"Check Answers"** and per-option conceptual feedback, plus responsive Light/Dark toggle, progress bar, and Reset button.
 
 ### Step 3: Evaluation and Specific Feedback
 - After the user submits their answers, grade item by item.
@@ -53,13 +55,14 @@ If not stated in the initial prompt, ask directly:
 
 ### Step 4: Dynamic Adaptation and Next Step
 - Calculate the score and highlight recurring weak spots.
-- Propose targeted review of missed concepts or a new round adjusting difficulty (step up to `Mid-level`/`Advanced` if ≥ 80%, or reinforce fundamentals if < 60%).
+- Propose targeted review of missed concepts, using the generated `.html` page's Reset button to retest, or a new round adjusting difficulty (step up if ≥ 80%, reinforce fundamentals if < 60%).
 
 ## 4. Pedagogical Rules and Constraints
 
-- **REQUIRED:** Hide the answer key, answer hints, and explanations until the user submits an attempt.
+- **REQUIRED:** Hide the answer key, answer hints, and explanations in chat until the user submits an attempt.
 - **REQUIRED:** Build plausible distractors that test genuine understanding rather than rote memorization.
-- **PROHIBITED:** Revealing answers in the same message where questions are presented.
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent).
+- **PROHIBITED:** Revealing answers in the same chat message where questions are presented, or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Using obscure syntax gotchas that do not test the core concept.
 
 ## 5. Output Format
@@ -74,7 +77,8 @@ If not stated in the initial prompt, ask directly:
 - C) [Plausible distractor or answer]
 - D) [Plausible distractor or answer]
 
-> Send your answers (e.g., `1-B, 2-A...`) to receive commented grading.
+- **Interactive Study Page:** `<topic>-study.html` (offline HTML with Concept Cards, 4–8 Flip Flashcards, Diagnostic Quiz, Light/Dark toggle, progress bar, and Reset)
+> Send your answers (e.g., `1-B, 2-A...`) or practice offline in `<topic>-study.html` to receive commented grading.
 ```
 
 **Grading Phase:**
@@ -115,4 +119,5 @@ If not stated in the initial prompt, ask directly:
 > - A) True
 > - B) False
 >
-> > Send your answers (e.g., `1-C, 2-B`) to receive commented grading.
+> - **Interactive Study Page:** `js-event-loop-study.html` (offline companion generated from `templates/STUDY_PAGE_TEMPLATE.html`)
+> > Send your answers (e.g., `1-C, 2-B`) or open `js-event-loop-study.html` offline to receive commented grading.

@@ -5,9 +5,8 @@ description: >
   Repetition Systems (SRS), including Q&A, Cloze Deletion, and CSV or Markdown
   export. DO NOT activate for interactive graded quizzes (use quiz-master),
   Socratic concept explanations (use feynman-tutor), study roadmaps (use study-roadmap),
-  active language roleplay or reverse translation (use idiom-coach), active doc reading
-  before summarizing (use docs-deconstructor), or standalone interactive HTML study pages
-  (use interactive-study-page).
+  active language roleplay or reverse translation (use idiom-coach), or active doc reading
+  before summarizing (use docs-deconstructor).
 ---
 
 # Flashcards SRS
@@ -29,7 +28,6 @@ Act as a learning science and Spaced Repetition Systems (SRS / Anki) specialist.
 - The user asks for a weekly study plan (use `study-roadmap`).
 - The user wants active foreign-language practice via reverse translation or roleplay (use `idiom-coach`).
 - The user wants guided active reading of primary docs or articles before summarizing (use `docs-deconstructor`).
-- The user asks for a standalone interactive HTML study page for the browser (use `interactive-study-page`).
 
 ## 3. Execution Flow (Step by Step)
 
@@ -43,6 +41,7 @@ If not provided, ask briefly:
 - Apply the **Atomicity Rule**: strictly **1 testable concept or fact per card**.
 - Break long lists into multiple independent cards or focused Cloze cards.
 - Keep fronts short and unambiguous (no multiple valid interpretations) and backs concise (ideally 1–2 sentences or a short code snippet).
+- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or an equivalent inline HTML5/CSS/Vanilla JS layout when running from an isolated install). Populate `STUDY_DATA` with: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards** matching the deck, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"** with conceptual feedback), plus Light/Dark toggle, progress bar, and Reset button.
 
 ### Step 3: Evaluation and Specific Feedback
 - If the user submits existing flashcards for review, evaluate each card and flag:
@@ -51,14 +50,15 @@ If not provided, ask briefly:
   - Rewrite problematic cards explaining the cognitive improvement.
 
 ### Step 4: Dynamic Adaptation and Next Step
-- Ask if the user wants to adjust detail depth, export the deck as Anki-ready `CSV` (`;` or `\t` delimited), or generate additional cards for the hardest subtopics.
+- Ask if the user wants to adjust detail depth, export the deck as Anki-ready `CSV` (`;` or `\t` delimited), practice with `<topic>-study.html` offline, or generate additional cards for the hardest subtopics.
 
 ## 4. Pedagogical Rules and Constraints
 
 - **REQUIRED:** Enforce strict atomicity (1 idea per card).
 - **REQUIRED:** Use standard Anki Cloze syntax (`{{c1::term}}`, `{{c2::term}}`).
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent).
 - **PROHIBITED:** Creating vague prompts (e.g., *"Explain everything about HTTP"*).
-- **PROHIBITED:** Putting long lists (4+ loose items) on the back of a single card.
+- **PROHIBITED:** Putting long lists (4+ loose items) on the back of a single card, or adding external CDNs/Pyodide/Monaco to the HTML page.
 
 ## 5. Output Format
 
@@ -78,6 +78,7 @@ If not provided, ask briefly:
 #html:false
 [Front];[Back];[topic_tag]
 ```
+- **Interactive Study Page:** `<topic>-study.html` (generated offline from `templates/STUDY_PAGE_TEMPLATE.html` with Concept Cards, 4–8 Flip Flashcards, Diagnostic Quiz, Light/Dark toggle, progress bar, and Reset)
 
 ## 6. Short Example (Input → Output)
 
@@ -101,3 +102,4 @@ If not provided, ask briefly:
 > What is the main trade-off of keeping many indexes on a table?;Slower write operations (INSERT, UPDATE, DELETE) and higher storage usage.;sql_indexes
 > In relational databases, the default data structure for general-purpose indexes is the {{c1::B-Tree}}.;;sql_indexes
 > ```
+> - **Interactive Study Page:** `sql-indexes-study.html` (offline companion generated from `templates/STUDY_PAGE_TEMPLATE.html`)
