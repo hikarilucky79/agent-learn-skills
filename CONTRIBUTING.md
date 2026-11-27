@@ -36,12 +36,16 @@ Obrigado pelo interesse em expandir este catálogo de Agent Skills para aprendiz
    ```
 3. Preencha o `SKILL.md` removendo todos os comentários HTML de instrução.
 4. Atualize a tabela de catálogo no `README.md` mantendo a ordem e os links relativos válidos.
-5. Valide o checklist abaixo antes de abrir o Pull Request.
+5. Execute o validador automático e confira o checklist abaixo antes de abrir o Pull Request:
+   ```bash
+   python scripts/validate_skills.py
+   ```
 
 ---
 
 ## 4. Checklist de Qualidade para Pull Requests
 
+- [ ] `python scripts/validate_skills.py` executado sem erros.
 - [ ] A pasta está em `skills/<nome-em-kebab-case>/SKILL.md`.
 - [ ] O frontmatter YAML é válido e `name` coincide exatamente com o nome da pasta.
 - [ ] A `description` define claramente **quando ativar** e **quando não ativar**, sem conflitar com outras skills.
@@ -50,3 +54,9 @@ Obrigado pelo interesse em expandir este catálogo de Agent Skills para aprendiz
 - [ ] Há um exemplo curto (`Input → Output`) fiel ao formato de saída especificado.
 - [ ] O `README.md` foi atualizado com a nova skill e todos os links relativos funcionam.
 - [ ] O texto está em PT-BR claro, técnico e sem preenchimento genérico.
+
+---
+
+## 5. Código de Conduta
+
+Ao participar deste projeto, você concorda em seguir o [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). Para agentes de IA que operam neste repositório, consulte também [`AGENTS.md`](AGENTS.md).

@@ -1,0 +1,24 @@
+name: Relato de Problema ou Conflito de Gatilho
+description: Reporte falhas em uma skill, conflitos de ativação ou erros de documentação
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: input
+    id: target
+    attributes:
+      label: Skill ou arquivo afetado
+      placeholder: ex. skills/quiz-master/SKILL.md
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrição do problema
+      description: O que aconteceu vs. o que era esperado?
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agente / IDE utilizado (opcional)
+      placeholder: ex. Claude Code, Cursor, Codex CLI, Antigravity
