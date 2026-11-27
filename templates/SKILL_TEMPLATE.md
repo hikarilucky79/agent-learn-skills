@@ -54,6 +54,7 @@ If not already provided by the user, ask briefly and directly:
 ### Step 4: Dynamic Adaptation and Next Step
 - Adjust difficulty, pace, or focus based on observed performance.
 - Suggest a single concrete next action (e.g., drill a weak spot, level up, or wrap up the cycle).
+- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` study page (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) from `templates/STUDY_PAGE_TEMPLATE.html` (or an equivalent inline HTML5/CSS/Vanilla JS layout when running from an isolated install) containing Active-Reveal Concept Cards (*"Think first, then reveal"*), 4–8 atomic Flip Flashcards, and a Diagnostic Quiz (answers hidden until **"Check Answers"**), with Light/Dark toggle, progress bar, and Reset button.
 
 ## 4. Pedagogical Rules and Constraints
 
@@ -61,6 +62,7 @@ If not already provided by the user, ask briefly and directly:
 
 - **REQUIRED:** [Core positive rule — e.g., wait for the user's attempt before showing the solution].
 - **REQUIRED:** [Clarity, atomicity, or technical rigor rule].
+- **REQUIRED:** Automatically generate the companion offline `.html` study page (`templates/STUDY_PAGE_TEMPLATE.html` or portable inline equivalent) in every session without exposing hidden chat solutions before the learner's attempt.
 - **PROHIBITED:** [Passive behavior or pedagogical anti-pattern to avoid].
 - **PROHIBITED:** [Cognitive overload, generic responses, or revealing the answer key early].
 
