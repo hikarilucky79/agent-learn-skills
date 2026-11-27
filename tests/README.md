@@ -11,6 +11,7 @@ This directory contains automated unit/integration tests and manual activation e
 | [`test_validate_skills.py`](test_validate_skills.py) | YAML frontmatter parsing, `kebab-case` naming, 6 required sections, `DO NOT activate` boundary enforcement, and relative Markdown link checks. |
 | [`test_validate_anki_csv.py`](test_validate_anki_csv.py) | Anki CSV/TXT export validation (`#separator:`, UTF-8 BOM, Q&A rows, Cloze `{{c1::...}}` syntax, and error cases). |
 | [`test_installers.py`](test_installers.py) | Cross-platform installer and uninstaller behavior for `scripts/install.sh` and `scripts/install.ps1` (global/project scopes, flags, symlink/junction safety). |
+| [`test_interactive_study_page_template.py`](test_interactive_study_page_template.py) | `skills/interactive-study-page/SKILL.md` conciseness and offline HTML5 template compliance (valid markup, zero external assets, 3 active modules, UX controls). |
 | [`test_new_skill.py`](test_new_skill.py) | `scripts/new_skill.py` scaffolding CLI, template parsing, comment stripping, and path-traversal/invalid-name rejection. |
 | [`test_activation_prompts.py`](test_activation_prompts.py) | Verifies every catalog skill has a positive activation prompt and reciprocal `Must Not Activate` boundaries in [`activation_prompts.md`](activation_prompts.md). |
 | [`activation_prompts.md`](activation_prompts.md) | Human-readable eval matrix for testing real agent routing without trigger overlap. |
@@ -34,7 +35,7 @@ python -m unittest discover -s tests -v
 ### 3.1. `python scripts/validate_skills.py`
 
 ```text
-OK: 9 skills, template e links validados sem erros.
+OK: 10 skills, template e links validados sem erros.
 ```
 
 ### 3.2. `python -m unittest discover -s tests -v`
@@ -52,6 +53,9 @@ test_help_and_conflicting_flags (test_installers.TestInstallSh.test_help_and_con
 test_invalid_skill_name_rejected_before_uninstall (test_installers.TestInstallSh.test_invalid_skill_name_rejected_before_uninstall) ... ok
 test_project_scope_install_and_uninstall (test_installers.TestInstallSh.test_project_scope_install_and_uninstall) ... ok
 test_symlink_uninstall_and_external_symlink_protection (test_installers.TestInstallSh.test_symlink_uninstall_and_external_symlink_protection) ... skipped 'Platform/shell ln -s created a copy instead of symlink'
+test_skill_markdown_is_lean_and_references_template (test_interactive_study_page_template.TestInteractiveStudyPageSkill.test_skill_markdown_is_lean_and_references_template) ... ok
+test_template_includes_required_modules_and_ux_controls (test_interactive_study_page_template.TestInteractiveStudyPageSkill.test_template_includes_required_modules_and_ux_controls) ... ok
+test_template_is_valid_self_contained_html5 (test_interactive_study_page_template.TestInteractiveStudyPageSkill.test_template_is_valid_self_contained_html5) ... ok
 test_cli_help_executes_successfully (test_new_skill.TestNewSkillScaffolding.test_cli_help_executes_successfully) ... ok
 test_creates_skill_with_prefilled_name_and_default_title (test_new_skill.TestNewSkillScaffolding.test_creates_skill_with_prefilled_name_and_default_title) ... ok
 test_custom_title_and_strip_comments_passes_skill_validator (test_new_skill.TestNewSkillScaffolding.test_custom_title_and_strip_comments_passes_skill_validator) ... ok
@@ -82,12 +86,12 @@ test_template_requires_negative_boundary_but_allows_comments_and_name (test_vali
 test_valid_skill_passes_with_negative_boundary (test_validate_skills.TestValidateSkillFile.test_valid_skill_passes_with_negative_boundary) ... ok
 
 ----------------------------------------------------------------------
-Ran 40 tests in 5.788s
+Ran 43 tests
 
 OK (skipped=1)
 ```
 
-> **Note:** On Windows Git Bash, `test_symlink_uninstall_and_external_symlink_protection` is skipped when `ln -s` falls back to copying rather than creating a native symlink. On Linux/macOS CI (`ubuntu-latest`), all 40 tests execute.
+> **Note:** On Windows Git Bash, `test_symlink_uninstall_and_external_symlink_protection` is skipped when `ln -s` falls back to copying rather than creating a native symlink. On Linux/macOS CI (`ubuntu-latest`), all 43 tests execute.
 
 ---
 
