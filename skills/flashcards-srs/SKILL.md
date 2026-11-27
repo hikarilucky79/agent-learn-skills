@@ -41,7 +41,7 @@ If not provided, ask briefly:
 - Apply the **Atomicity Rule**: strictly **1 testable concept or fact per card**.
 - Break long lists into multiple independent cards or focused Cloze cards.
 - Keep fronts short and unambiguous (no multiple valid interpretations) and backs concise (ideally 1–2 sentences or a short code snippet).
-- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or an equivalent inline HTML5/CSS/Vanilla JS layout when running from an isolated install). Populate `STUDY_DATA` with: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards** matching the deck, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"** with conceptual feedback), plus Light/Dark toggle, progress bar, and Reset button.
+- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: warm paper `#F6F3EC`, stone `#EAE6DC` quiz panel, ink `#24231F`, terracotta `#8C3B24`, Georgia serif headings, 2-column `01 / READING` + Active Notes left & `02 / PRACTICE` Quiz right). Populate `STUDY_DATA` with: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards** matching the deck, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"** with conceptual feedback), plus Light/Dark toggle, progress bar, and Reset button.
 
 ### Step 3: Evaluation and Specific Feedback
 - If the user submits existing flashcards for review, evaluate each card and flag:
@@ -56,7 +56,7 @@ If not provided, ask briefly:
 
 - **REQUIRED:** Enforce strict atomicity (1 idea per card).
 - **REQUIRED:** Use standard Anki Cloze syntax (`{{c1::term}}`, `{{c2::term}}`).
-- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent).
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz).
 - **PROHIBITED:** Creating vague prompts (e.g., *"Explain everything about HTTP"*).
 - **PROHIBITED:** Putting long lists (4+ loose items) on the back of a single card, or adding external CDNs/Pyodide/Monaco to the HTML page.
 

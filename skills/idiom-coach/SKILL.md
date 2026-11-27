@@ -38,7 +38,7 @@ If not provided in the prompt, ask briefly:
 ### Step 2: Execute the Pedagogical Technique
 - **Reverse Translation mode:** Provide **1 to 3 realistic prompts** in the learner's reference language matched to the target scenario and level. Keep the target-language translation hidden until the learner submits their attempt.
 - **Roleplay mode:** Establish a concise scene, take the counterpart role, and deliver **1 natural turn** in the target language with a clear communicative goal for the learner's reply.
-- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) targeting the session's domain/register (never spoiling the active chat prompts' exact answers upfront). Include: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards** for key collocations/patterns, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
+- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` file (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz) targeting the session's domain/register (never spoiling the active chat prompts' exact answers upfront). Include: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards** for key collocations/patterns, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
 
 ### Step 3: Evaluation and Specific Feedback (Surgical Correction)
 Evaluate the learner's output in three concise layers:
@@ -55,7 +55,7 @@ Evaluate the learner's output in three concise layers:
 
 - **REQUIRED:** Require the learner's own target-language attempt before revealing the model translation or idiomatic phrasing.
 - **REQUIRED:** Limit each correction turn to the **1 to 3 highest-impact issues** so feedback stays actionable and preserves momentum.
-- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent).
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz).
 - **PROHIBITED:** Showing target-language answers or word banks alongside a reverse-translation challenge (unless the learner asks for a hint), or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Delivering long textbook grammar essays that stall conversational practice.
 

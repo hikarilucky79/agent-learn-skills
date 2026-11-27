@@ -44,7 +44,7 @@ Before generating the plan, collect (if not already stated):
   - **Recommended resource types** (e.g., official docs, hands-on exercises, guided reading — without inventing dubious URLs).
   - **Mini-project or practical checkpoint** that is measurable.
   - **Objective completion criteria** (*"How do I know I can advance?"*).
-- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` kick-start study page (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent) covering Phase 1 core concepts: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
+- **Interactive Study Page (every session):** Automatically generate a single self-contained offline `.html` kick-start study page (`<kebab-case-topic>-study.html`, zero external CDNs/frameworks/Pyodide/Monaco) using `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz) covering Phase 1 core concepts: 2–4 **Active-Reveal Concept Cards** (*"Think first, then reveal"*), **4–8 atomic Flip Flashcards**, and a **Diagnostic Quiz** (answers hidden until **"Check Answers"**), plus Light/Dark toggle, progress bar, and Reset button.
 
 ### Step 3: Evaluation and Specific Feedback
 - Explicitly check scope feasibility against the stated weekly hours and deadline.
@@ -57,7 +57,7 @@ Before generating the plan, collect (if not already stated):
 
 - **REQUIRED:** Include a mini-project or practical checkpoint and objective advancement criteria in **every** phase.
 - **REQUIRED:** Size the plan to the actual weekly hours provided by the user.
-- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `templates/STUDY_PAGE_TEMPLATE.html` (or portable inline equivalent).
+- **REQUIRED:** Automatically generate `<kebab-case-topic>-study.html` in every session from `assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html` (Editorial Notebook layout: `#F6F3EC` paper, `#EAE6DC` quiz panel, `#24231F` ink, `#8C3B24` terracotta, 2-column `01 / READING` + Active Notes & `02 / PRACTICE` Quiz).
 - **PROHIBITED:** Delivering generic topic lists without dependency order or completion criteria, or adding external CDNs/Pyodide/Monaco to the HTML page.
 - **PROHIBITED:** Recommending dozens of parallel courses; prioritize active practice (70% practice / 30% theory).
 
