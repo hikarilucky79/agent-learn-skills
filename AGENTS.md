@@ -1,26 +1,26 @@
 # AGENTS.md
 
-Instruções para agentes de IA que editam ou mantêm este repositório (`agent-learn-skills`).
+Instructions for AI agents editing or maintaining this repository (`agent-learn-skills`).
 
-## Visão Geral
-- Catálogo open-source de Agent Skills no padrão `SKILL.md` focado em **aprendizagem ativa** (*Active Recall*, SRS, Técnica Feynman, mentoria de código e roadmaps).
-- Idioma padrão: **Português do Brasil (PT-BR)**, mantendo termos técnicos consolidados em inglês quando natural.
+## Overview
+- Open-source catalog of `SKILL.md` Agent Skills focused on **active learning** (Active Recall, SRS, Feynman Technique, code mentoring, and study roadmaps).
+- Standard language for all `.md` files: **English**.
 
-## Regras ao Criar ou Editar Skills
-1. **Base obrigatória:** copie [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) para `skills/<nome-em-kebab-case>/SKILL.md` e remova todos os comentários HTML (`<!-- ... -->`).
-2. **Frontmatter YAML:** o campo `name` deve ser idêntico ao nome da pasta em `kebab-case`. A `description` deve explicitar **quando usar** e **quando não usar** para evitar conflito de gatilho com outras skills.
-3. **Estrutura:** mantenha as 6 seções obrigatórias do template de forma enxuta (sem inflar a janela de contexto).
-4. **Documentação:** ao adicionar ou remover uma skill, script ou regra de CI, atualize o [`README.md`](README.md), o [`CONTRIBUTING.md`](CONTRIBUTING.md) e o [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) conforme a evolução do projeto.
-5. **Portabilidade:** não dependa de comandos, MCPs ou ferramentas exclusivas de uma única CLI ou IDE nas instruções das skills.
+## Rules When Creating or Editing Skills
+1. **Mandatory base:** copy [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) to `skills/<kebab-case-name>/SKILL.md` and remove all HTML comments (`<!-- ... -->`).
+2. **YAML frontmatter:** `name` must match the folder name in `kebab-case`. `description` must state **when to use** and **when not to use** to prevent trigger overlap with other skills.
+3. **Structure:** keep all 6 required sections from the template lean and concise (avoid bloating the context window).
+4. **Documentation:** when adding or removing a skill, script, or CI rule, update [`README.md`](README.md), [`CONTRIBUTING.md`](CONTRIBUTING.md), and [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) to stay aligned with repository evolution.
+5. **Portability:** do not rely on commands, MCPs, or tools exclusive to a single CLI or IDE inside skill instructions.
 
-## Validação Obrigatória
-Antes de finalizar qualquer alteração ou abrir PR, execute:
+## Mandatory Validation
+Before finishing any change or opening a PR, run:
 
 ```bash
 python scripts/validate_skills.py
 ```
 
-O script verifica estrutura, frontmatter, seções obrigatórias, ausência de comentários residuais e integridade dos links relativos (também executado automaticamente no CI em `.github/workflows/validate.yml`).
+This script verifies repository structure, frontmatter, required sections, absence of leftover HTML comments, and relative link integrity (also enforced in CI by `.github/workflows/validate.yml`).
 
 ## Commits
-- Use **Conventional Commits** (`feat(nome-da-skill): ...`, `docs: ...`, `ci: ...`, `fix: ...`).
+- Use **Conventional Commits** (`feat(skill-name): ...`, `docs: ...`, `ci: ...`, `fix: ...`).

@@ -1,37 +1,35 @@
 # agent-learn-skills
 
-Repositório open-source de **Agent Skills para aprendizagem ativa** no padrão `SKILL.md`. Projetado para transformar agentes de IA (CLIs e IDEs) em tutores rigorosos que priorizam **prática guiada, recuperação ativa (*Active Recall*) e feedback diagnóstico** em vez de respostas passivas.
+An open-source repository of **Agent Skills for active learning** built on the `SKILL.md` standard. Designed to turn AI agents (CLIs and IDEs) into rigorous tutors that prioritize **guided practice, active recall, and diagnostic feedback** instead of passive answers.
 
 ---
 
-## Proposta de Valor
+## Value Proposition
 
-- **Aprendizagem ativa primeiro:** o agente exige tentativa, explicação ou depuração antes de revelar respostas prontas.
-- **Modularidade:** cada skill executa um único método pedagógico com fronteiras claras e sem sobreposição de gatilhos.
-- **Contexto enxuto:** instruções diretas que economizam janela de contexto do modelo.
-- **Portabilidade:** compatível com agentes modernos baseados em `SKILL.md` (Claude Code, Codex CLI, Cursor, OpenCode, Antigravity, entre outros).
+- **Active learning first:** the agent requires an attempt, explanation, or debugging step before revealing ready-made answers.
+- **Modularity:** each skill executes a single pedagogical method with clear boundaries and zero trigger overlap.
+- **Lean context:** concise, actionable instructions that save model context window.
+- **Portability:** compatible with modern `SKILL.md`-based agents (Claude Code, Codex CLI, Cursor, OpenCode, Antigravity, and others).
 
 ---
 
-## Catálogo de Skills (MVP)
+## Skills Catalog (MVP)
 
-| Skill | Técnica Pedagógica | Quando Usar | Exemplo de Prompt |
+| Skill | Pedagogical Technique | When to Use | Example Prompt |
 |---|---|---|---|
-| [`quiz-master`](skills/quiz-master/SKILL.md) | *Active Recall* com distratores realistas | Simulados, provas, certificações e análise de código | *"Aplique um quiz de 5 questões sobre Event Loop em JS, nível Júnior."* |
-| [`flashcards-srs`](skills/flashcards-srs/SKILL.md) | Atomicidade e Repetição Espaçada (Anki/SRS) | Criar baralhos P&R ou *Cloze Deletion* com exportação CSV | *"Crie 8 flashcards atômicos sobre índices em SQL e exporte em CSV."* |
-| [`feynman-tutor`](skills/feynman-tutor/SKILL.md) | Técnica Feynman e questionamento socrático | Validar compreensão profunda explicando com suas palavras | *"Quero estudar Idempotência em REST usando Feynman; aqui vai minha explicação..."* |
-| [`code-mentor`](skills/code-mentor/SKILL.md) | *Pair programming* e dicas em 3 níveis | Debugging guiado, refatoração e *code review* educativo | *"Minha função Python retorna None em vez da soma; me dê dicas sem reescrever tudo."* |
-| [`study-roadmap`](skills/study-roadmap/SKILL.md) | Design instrucional orientado a projetos | Planejar trilhas de estudo com prazo, metas e checkpoints | *"Monte um roadmap de 4 semanas para SQL (6h/semana, nível iniciante)."* |
+| [`quiz-master`](skills/quiz-master/SKILL.md) | Active Recall with realistic distractors | Mock exams, quizzes, certifications, and code analysis | *"Give me a 5-question quiz on JS Event Loop, Junior level."* |
+| [`flashcards-srs`](skills/flashcards-srs/SKILL.md) | Atomicity and Spaced Repetition (Anki/SRS) | Building Q&A or Cloze Deletion decks with CSV export | *"Create 8 atomic flashcards on SQL indexes and export as CSV."* |
+| [`feynman-tutor`](skills/feynman-tutor/SKILL.md) | Feynman Technique and Socratic questioning | Validating deep understanding by explaining in your own words | *"I want to study REST Idempotency using Feynman; here is my explanation..."* |
+| [`code-mentor`](skills/code-mentor/SKILL.md) | Pair programming and 3-level progressive hints | Guided debugging, refactoring, and educational code review | *"My Python function returns None instead of the sum; give me hints without rewriting everything."* |
+| [`study-roadmap`](skills/study-roadmap/SKILL.md) | Project-oriented instructional design | Planning study tracks with deadlines, milestones, and checkpoints | *"Build a 4-week SQL roadmap (6h/week, beginner level)."* |
 
 ---
 
-## Instalação e Uso
+## Installation & Usage
 
-Clone o repositório e copie ou crie um *symlink* das pastas desejadas para o diretório de skills do seu agente.
+### Quick Install (Recommended)
 
-### Instalação Rápida (Recomendado)
-
-Clone o repositório e execute o instalador para o seu agente (`claude`, `cursor`, `codex`, `opencode` ou `antigravity`):
+Clone the repository and run the installer for your agent (`claude`, `cursor`, `codex`, `opencode`, or `antigravity`):
 
 **Linux / macOS ([`scripts/install.sh`](scripts/install.sh)):**
 ```bash
@@ -39,10 +37,10 @@ git clone https://github.com/hikarilucky79/agent-learn-skills.git
 cd agent-learn-skills
 chmod +x scripts/install.sh
 
-# Instala todas as skills via symlink (padrão: --agent claude --scope global)
+# Install all skills via symlink (default: --agent claude --scope global)
 ./scripts/install.sh --agent claude --scope global
 
-# Instalar apenas skills específicas no projeto atual
+# Install specific skills in the current project
 ./scripts/install.sh --agent cursor --scope project --skill quiz-master --skill code-mentor
 ```
 
@@ -51,19 +49,19 @@ chmod +x scripts/install.sh
 git clone https://github.com/hikarilucky79/agent-learn-skills.git
 cd agent-learn-skills
 
-# Instala todas as skills por cópia (padrão: -Agent claude -Scope global)
+# Install all skills by copy (default: -Agent claude -Scope global)
 .\scripts\install.ps1 -Agent claude -Scope global
 
-# Instalar apenas skills específicas no projeto atual
+# Install specific skills in the current project
 .\scripts\install.ps1 -Agent cursor -Scope project -Skill quiz-master,code-mentor
 ```
 
-> **Dica:** use `--copy` (`install.sh`) ou `-Symlink` (`install.ps1`) se quiser inverter o modo padrão, e `--force` / `-Force` para atualizar skills já instaladas.
+> **Tip:** use `--copy` (`install.sh`) or `-Symlink` (`install.ps1`) to invert the default mode, and `--force` / `-Force` to overwrite existing skills.
 
-### Instalação Manual (Alternativa)
+### Manual Installation (Alternative)
 
 ```bash
-# Exemplo: symlink manual para Claude Code
+# Example: manual symlink for Claude Code
 mkdir -p ~/.claude/skills
 for skill in skills/*; do
   ln -s "$(pwd)/$skill" ~/.claude/skills/"$(basename "$skill")"
@@ -72,24 +70,32 @@ done
 
 ---
 
-## Como Criar uma Nova Skill
+## Creating a New Skill
 
-1. Copie o modelo oficial [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) para `skills/<nome-em-kebab-case>/SKILL.md`.
-2. Garanta que o campo `name:` no frontmatter YAML seja idêntico ao nome da pasta.
-3. Defina fronteiras claras na `description` (quando ativar e quando **não** ativar) para evitar conflito com as skills existentes.
-4. Siga todas as diretrizes e o checklist em [`CONTRIBUTING.md`](CONTRIBUTING.md).
+1. Copy the official template [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md) to `skills/<kebab-case-name>/SKILL.md`.
+2. Ensure the `name:` field in the YAML frontmatter matches the folder name exactly.
+3. Define clear boundaries in `description` (when to activate and when **not** to activate) to avoid conflicting with existing skills.
+4. Follow all guidelines and the checklist in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
 
-## Estrutura do Repositório
+## Repository Structure
 
 ```text
 agent-learn-skills/
 ├── README.md
 ├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+├── AGENTS.md
 ├── LICENSE
+├── scripts/
+│   ├── install.ps1
+│   ├── install.sh
+│   └── validate_skills.py
 ├── templates/
 │   └── SKILL_TEMPLATE.md
+├── tests/
+│   └── activation_prompts.md
 └── skills/
     ├── quiz-master/
     │   └── SKILL.md
@@ -105,6 +111,6 @@ agent-learn-skills/
 
 ---
 
-## Licença
+## License
 
-Distribuído sob a licença [MIT](LICENSE).
+Distributed under the [MIT](LICENSE) License.
