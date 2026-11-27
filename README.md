@@ -1,5 +1,9 @@
 # agent-learn-skills
 
+[![Validate Skills](https://github.com/hikarilucky79/agent-learn-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/hikarilucky79/agent-learn-skills/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 An open-source repository of **Agent Skills for active learning** built on the `SKILL.md` standard. Designed to turn AI agents (CLIs and IDEs) into rigorous tutors that prioritize **guided practice, active recall, and diagnostic feedback** instead of passive answers.
 
 ---
@@ -10,6 +14,16 @@ An open-source repository of **Agent Skills for active learning** built on the `
 - **Modularity:** each skill executes a single pedagogical method with clear boundaries and zero trigger overlap.
 - **Lean context:** concise, actionable instructions that save model context window.
 - **Portability:** compatible with modern `SKILL.md`-based agents (Claude Code, Codex CLI, Cursor, OpenCode, Antigravity, and others).
+
+---
+
+## Before vs. After
+
+| Scenario | Default AI Agent | With `agent-learn-skills` |
+|---|---|---|
+| *"Why does my Python function return `None`?"* | Rewrites the entire function immediately, robbing you of the debugging step. | **`code-mentor` (Hint Level 1):** points to the last line and asks what happens when you `print()` instead of `return`. |
+| *"Quiz me on JS Event Loop"* | Dumps questions with the answer key right below them. | **`quiz-master`:** presents plausible distractors, **hides the key**, and diagnoses misconceptions after your attempt. |
+| *"Help me understand REST Idempotency"* | Outputs a generic 5-paragraph summary. | **`feynman-tutor`:** asks you to explain it first, flags jargon/gaps, and guides refinement with Socratic questions. |
 
 ---
 
