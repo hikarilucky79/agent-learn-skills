@@ -47,7 +47,27 @@ An open-source repository of **Agent Skills for active learning** built on the `
 
 ## Installation & Usage
 
-### Quick Install (Recommended)
+### 1-Command Package Install (`npx` or `pip`)
+
+**Via npm / `npx` (Node.js 18+):**
+```bash
+# Install all 10 skills globally for Claude Code (default)
+npx agent-learn-skills
+
+# Target Cursor, Codex, OpenCode, or Antigravity
+npx agent-learn-skills --agent cursor --scope global --force
+```
+
+**Via PyPI / `pip` (Python 3.10+):**
+```bash
+pip install agent-learn-skills
+agent-learn-skills --agent claude --scope global
+
+# Optional: include /lesson MP4 video pipeline dependencies
+pip install "agent-learn-skills[video]"
+```
+
+### Quick Install (Local Clone)
 
 Clone the repository and run the installer for your agent (`claude`, `cursor`, `codex`, `opencode`, or `antigravity`):
 
@@ -175,6 +195,19 @@ Render any validated `lesson.json` directly:
 ```bash
 python scripts/validate_lesson.py examples/sample-lesson.json
 python scripts/build_video.py examples/sample-lesson.json --out out/sample/sample.mp4
+```
+
+---
+
+## Publishing (Maintainers)
+
+```bash
+# npm (npx agent-learn-skills)
+npm publish --access public
+
+# PyPI (pip install agent-learn-skills)
+python -m build
+twine upload dist/*
 ```
 
 ---
