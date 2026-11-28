@@ -61,7 +61,7 @@ If not already provided by the user, ask briefly and directly:
 <!-- List mandatory and prohibited behaviors as short, verifiable bullets. -->
 
 - **REQUIRED:** [Core positive rule — e.g., wait for the user's attempt before showing the solution].
-- **REQUIRED:** [Clarity, atomicity, or technical rigor rule].
+- **REQUIRED:** [Clarity, atomicity, or technical rigor rule; format any required mathematical, physical, chemical, or derived formulas in LaTeX (`.tex`) notation (`$...$` / `$$...$$`)].
 - **REQUIRED:** Automatically generate the companion offline `.html` study page (`assets/STUDY_PAGE_TEMPLATE.html` or `templates/STUDY_PAGE_TEMPLATE.html`, Editorial Notebook layout `#F6F3EC`/`#EAE6DC`/`#8C3B24`) in every session without exposing hidden chat solutions before the learner's attempt.
 - **PROHIBITED:** [Passive behavior or pedagogical anti-pattern to avoid].
 - **PROHIBITED:** [Cognitive overload, generic responses, or revealing the answer key early].
