@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling>=1.24.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-learn-skills"
+version = "1.1.0"
+description = "Open-source catalog of SKILL.md Agent Skills for active learning, offline Editorial Notebook HTML study pages, and MP4 video lessons."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+  { name = "Kauã Oliveira" }
+]
+keywords = [
+  "agent-skills",
+  "skill-md",
+  "active-learning",
+  "claude-code",
+  "cursor",
+  "codex",
+  "opencode",
+  "antigravity",
+  "anki"
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Education",
+]
+dependencies = []
+
+[project.optional-dependencies]
+video = [
+  "edge-tts>=6.1.0",
+  "jsonschema>=4.20.0",
+  "mutagen>=1.47.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/hikarilucky79/agent-learn-skills"
+Repository = "https://github.com/hikarilucky79/agent-learn-skills"
+Issues = "https://github.com/hikarilucky79/agent-learn-skills/issues"
+
+[project.scripts]
+agent-learn-skills = "agent_learn_skills.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_learn_skills"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"skills" = "agent_learn_skills/data/skills"
+"templates/STUDY_PAGE_TEMPLATE.html" = "agent_learn_skills/data/templates/STUDY_PAGE_TEMPLATE.html"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/",
+  "skills/",
+  "templates/STUDY_PAGE_TEMPLATE.html",
+  "README.md",
+  "LICENSE",
+  "pyproject.toml",
+]

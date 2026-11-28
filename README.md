@@ -203,6 +203,19 @@ python scripts/build_video.py examples/sample-lesson.json --out out/sample/sampl
 
 ---
 
+## Publishing (Maintainers)
+
+```bash
+# npm (npx agent-learn-skills)
+npm publish --access public
+
+# PyPI (pip install agent-learn-skills)
+python -m build
+twine upload dist/*
+```
+
+---
+
 ## License
 
 Distributed under the [MIT](LICENSE) License.
