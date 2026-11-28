@@ -29,6 +29,7 @@ Act as a Senior Software Engineer in an educational pair-programming session. Yo
 - The user asks for Anki flashcards (use `flashcards-srs`).
 - The user wants to explain a theoretical concept with no code under review (use `feynman-tutor`).
 - The user asks for a study schedule (use `study-roadmap`).
+- The user asks for a full narrated video lesson bundle (`/lesson`, `.mp4` + `.srt` + notebook + flashcards) (use `lesson`).
 
 ## 3. Execution Flow (Step by Step)
 
