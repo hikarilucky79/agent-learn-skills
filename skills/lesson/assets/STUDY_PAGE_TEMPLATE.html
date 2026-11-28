@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notebook — Interactive Study Page</title>
+  <style>
+    :root {
+      --bg: #f5f3ed;
+      --surface: #f5f3ed;
+      --surface-panel: #eae8df;
+      --input-bg: #e5e0d1;
+      --text: #262821;
+      --muted: #696a61;
+      --border: #cccbc1;
+      --border-strong: #262821;
+      --accent: #91412c;
+      --accent-soft: #efe4df;
+      --ink-contrast: #f5f3ed;
+      --success: #2d6a4f;
+      --success-soft: #e3efe8;
+      --danger: #91412c;
+      --danger-soft: #f4e4df;
+      --code-bg: #262821;
+      --code-text: #f5f3ed;
+      --font-serif: "Libre Baskerville", Georgia, "Times New Roman", Times, serif;
+      --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #181915;
+      --surface: #181915;
+      --surface-panel: #22231e;
+      --input-bg: #2a2b24;
+      --text: #f5f3ed;
+      --muted: #a6a59b;
+      --border: #3a3b33;
+      --border-strong: #e8e6dd;
+      --accent: #d47a5e;
+      --accent-soft: #31231d;
+      --ink-contrast: #181915;
+      --success: #52b788;
+      --success-soft: #172b21;
+      --danger: #e07a5f;
+      --danger-soft: #331f1a;
+      --code-bg: #10110e;
+      --code-text: #f5f3ed;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 28px clamp(24px, 4vw, 64px) 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Figma Header (.cabe-alho + .identifica-o + .divisor) */
+    .topbar {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .topbar-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      min-height: 30px;
+    }
+
+    .topbar-brand {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 30px;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    .topbar-meta {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 17px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .topbar-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .topbar-lesson {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 15px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+
+    .topbar-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border-strong);
+    }
+
+    .btn-subtle {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      padding: 4px 10px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-subtle:hover {
+      border-color: var(--border-strong);
+      color: var(--text);
+    }
+
+    .btn-dark {
+      appearance: none;
+      border: none;
+      background: var(--text);
+      color: var(--ink-contrast);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 20px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn-dark:hover:not(:disabled) { opacity: 0.88; }
+    .btn-dark:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* Minimal Progress Strip */
+    .progress-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      line-height: 17px;
+      color: var(--muted);
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 240px;
+      height: 2px;
+      background: var(--border);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    /* Main 2-Column Layout (fluid ~60/40 editorial ratio) */
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(380px, 1fr);
+      gap: clamp(24px, 3vw, 48px);
+      align-items: start;
+    }
+
+    .eyebrow-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 18px;
+      font-size: 11px;
+      line-height: 17px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .eyebrow-meta {
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* Left Column: 01 / READING & Notes (.aula-e-anota-es) */
+    .reading-col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .lesson-title {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 44px;
+      line-height: 49px;
+      margin: 0 0 12px;
+      color: var(--text);
+    }
+
+    .lesson-subtitle {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 22px;
+      max-width: 72ch;
+    }
+
+    .video-block {
+      margin: 0 0 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .video-player {
+      width: 100%;
+      display: block;
+      background: #262821;
+      border: 1px solid var(--border);
+    }
+
+    .concept-card {
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .concept-card:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .concept-card h3 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 26px;
+      margin: 0 0 8px;
+    }
+
+    .concept-card p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 24px;
+      max-width: 72ch;
+    }
+
+    pre {
+      margin: 10px 0;
+      padding: 12px 14px;
+      background: var(--code-bg);
+      color: var(--code-text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      overflow-x: auto;
+    }
+
+    .key-formula {
+      margin: 14px 0 8px;
+      padding: 14px 0 4px;
+      border-top: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+    }
+
+    .prompt-box {
+      margin: 10px 0;
+      padding: 10px 14px;
+      border-left: 2px solid var(--accent);
+      background: var(--surface-panel);
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    .prompt-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+
+    .reveal-btn {
+      appearance: none;
+      border: 1px solid var(--border-strong);
+      background: transparent;
+      color: var(--text);
+      padding: 6px 14px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .reveal-btn:hover {
+      background: var(--text);
+      color: var(--ink-contrast);
+    }
+
+    .reveal-body {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-left: 2px solid var(--success);
+      background: var(--success-soft);
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    .reveal-body[hidden] { display: none; }
+
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border-strong);
+      border: 0;
+      margin: 4px 0 0;
+    }
+
+    /* Active Notes (.caixa-de-anota-o + .exibi-o-de-anota-o) */
+    .notes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 24px;
+    }
+
+    .notes-title {
+      font-size: 17px;
+      line-height: 26px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .notes-badge {
+      font-size: 10px;
+      line-height: 15px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .notes-prompt {
+      margin: 8px 0 12px;
+      font-size: 14px;
+      line-height: 21px;
+      color: var(--muted);
+    }
+
+    .note-form-wrap {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+
+    .note-form {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--input-bg);
+      border-bottom: 2px solid var(--accent);
+      height: 38px;
+    }
+
+    .note-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      padding: 0 12px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      line-height: 18px;
+      outline: none;
+      height: 36px;
+    }
+
+    .note-input::placeholder {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .note-submit-btn {
+      width: 142px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+
+    .saved-notes {
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .saved-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 22px;
+      margin-bottom: 8px;
+    }
+
+    .saved-title {
+      font-size: 13px;
+      line-height: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .saved-count {
+      font-size: 11px;
+      line-height: 17px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .note-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .note-text {
+      margin: 0 0 4px;
+      font-size: 15px;
+      line-height: 23px;
+    }
+
+    .note-time {
+      font-size: 11px;
+      line-height: 17px;
+      color: var(--muted);
+    }
+
+    .note-delete {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 15px;
+      padding: 0 4px;
+    }
+
+    .note-delete:hover { color: var(--accent); }
+
+    /* Active Recall Flip Flashcards */
+    .flashcards-section {
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .flashcards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .flashcard {
+      appearance: none;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      perspective: 1000px;
+      min-height: 150px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      display: block;
+      width: 100%;
+      min-height: 150px;
+      transform-style: preserve-3d;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flashcard.is-flipped .flashcard-inner { transform: rotateY(180deg); }
+
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: var(--surface-panel);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      color: var(--text);
+    }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background: var(--text);
+      color: var(--ink-contrast);
+      border-color: var(--text);
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .flashcard-back .card-meta { color: var(--accent-soft); }
+
+    .card-text {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+
+    .card-hint {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .flashcard-back .card-hint { color: var(--accent-soft); }
+
+    /* Right Column: 02 / PRACTICE (.quiz-lateral) */
+    .practice-panel {
+      background: var(--surface-panel);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .quiz-nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .quiz-pill {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      padding: 4px 10px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .quiz-pill.is-active {
+      border-color: var(--border-strong);
+      background: var(--text);
+      color: var(--ink-contrast);
+    }
+
+    .quiz-pill.is-answered:not(.is-active) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .quiz-nav-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .quiz-nav-row .btn-subtle {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .quiz-heading {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 38px;
+      line-height: 43px;
+      margin: 0;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-strong);
+    }
+
+    .quiz-card {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-card:last-child { border-bottom: none; }
+
+    .quiz-card.is-missing {
+      border-left: 3px solid var(--accent);
+      padding-left: 10px;
+    }
+
+    .quiz-prompt {
+      font-size: 20px;
+      line-height: 29px;
+      font-weight: 500;
+      margin: 0 0 14px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-height: 59px;
+      padding: 10px 14px;
+      background: var(--surface-panel);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 23px;
+      font-weight: 400;
+      transition: background-color 0.12s ease, color 0.12s ease;
+    }
+
+    .quiz-option:hover {
+      background: rgba(38, 40, 33, 0.06);
+    }
+
+    .quiz-option:has(input:checked) {
+      background: var(--text);
+      color: var(--ink-contrast);
+      font-weight: 600;
+    }
+
+    .quiz-option input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+    }
+
+    .option-letter {
+      font-size: 11px;
+      line-height: 17px;
+      font-weight: 500;
+      color: var(--muted);
+      min-width: 12px;
+    }
+
+    .quiz-option:has(input:checked) .option-letter {
+      color: var(--ink-contrast);
+    }
+
+    .quiz-option.is-correct {
+      background: var(--success);
+      color: #ffffff;
+    }
+
+    .quiz-option.is-wrong {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    .quiz-option.is-correct .option-letter,
+    .quiz-option.is-wrong .option-letter {
+      color: #ffffff;
+    }
+
+    .quiz-feedback {
+      margin-top: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 19px;
+      background: var(--bg);
+      border-left: 3px solid var(--border-strong);
+    }
+
+    .quiz-feedback[hidden] { display: none; }
+    .quiz-feedback.is-right { border-left-color: var(--success); }
+    .quiz-feedback.is-wrong { border-left-color: var(--danger); }
+
+    .quiz-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .quiz-status {
+      font-size: 11px;
+      line-height: 17px;
+      color: var(--muted);
+      min-height: 17px;
+    }
+
+    .quiz-actions .btn-dark {
+      width: 100%;
+      height: 46px;
+      font-size: 13px;
+      line-height: 20px;
+      font-weight: 500;
+    }
+
+    .quiz-helper {
+      margin: 0;
+      font-size: 11px;
+      line-height: 17px;
+      color: var(--muted);
+    }
+
+    .quiz-score {
+      padding-top: 14px;
+      border-top: 1px solid var(--border-strong);
+      font-family: var(--font-serif);
+      font-size: 18px;
+    }
+
+    .quiz-score[hidden] { display: none; }
+
+      @media (max-width: 960px) {
+      .practice-panel {
+        position: static;
+      }
+      .container {
+        padding: 24px 20px 32px;
+      }
+      .workspace {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .topbar-row {
+        grid-template-columns: 1fr;
+      }
+      .topbar-meta {
+        text-align: left;
+      }
+      .topbar-actions {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <div class="topbar-row">
+        <div class="topbar-brand">NOTEBOOK</div>
+        <div class="topbar-meta" id="study-level">[DISCIPLINE / UNIT]</div>
+        <div class="topbar-actions">
+          <span class="topbar-lesson" id="lesson-tag">STUDY LESSON</span>
+          <button id="theme-toggle" class="btn-subtle" type="button" aria-pressed="false">Dark Mode</button>
+          <button id="reset-btn" class="btn-subtle" type="button">Reset</button>
+        </div>
+      </div>
+      <div class="topbar-divider"></div>
+    </header>
+
+    <div class="progress-strip">
+      <span id="progress-label">0 / 0 completed (0%)</span>
+      <div class="progress-track" id="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span id="progress-stats">Concepts: 0/0 | Flashcards: 0/0 | Quiz: Pending</span>
+    </div>
+
+    <main class="workspace">
+      <section class="reading-col" aria-label="Reading and Active Synthesis">
+        <div>
+          <div class="eyebrow-row">
+            <span class="eyebrow">01 / READING</span>
+            <span class="eyebrow-meta" id="reading-time">5 min</span>
+          </div>
+
+          <h1 class="lesson-title" id="study-title">[Topic Title]</h1>
+          <p class="lesson-subtitle" id="study-subtitle">[Short active-learning subtitle]</p>
+
+          <div id="video-slot"></div>
+          <div id="concepts-list"></div>
+        </div>
+
+        <hr class="section-divider" />
+
+        <div>
+          <div class="notes-header">
+            <h2 class="notes-title">Write in your own words</h2>
+            <span class="notes-badge">PRIVATE</span>
+          </div>
+          <p class="notes-prompt">What is worth remembering from this lesson?</p>
+
+          <div class="note-form-wrap">
+            <form class="note-form" id="note-form">
+              <input class="note-input" id="note-input" type="text" placeholder="Your notes are collected below." required />
+              <button class="btn-dark note-submit-btn" id="note-submit" type="submit">Save note</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="saved-notes">
+          <div class="saved-header">
+            <h3 class="saved-title">Saved notes</h3>
+            <span class="saved-count" id="saved-count">00</span>
+          </div>
+          <div id="notes-list"></div>
+        </div>
+
+        <div class="flashcards-section">
+          <div class="eyebrow-row">
+            <span class="eyebrow">ACTIVE RECALL CARDS</span>
+            <span class="eyebrow-meta">Click to flip</span>
+          </div>
+          <div id="flashcards-grid" class="flashcards-grid"></div>
+        </div>
+      </section>
+
+      <aside class="practice-panel" aria-label="Practice Quiz">
+        <div class="eyebrow-row">
+          <span class="eyebrow">02 / PRACTICE</span>
+          <span class="eyebrow-meta" id="quiz-count-meta">0 questions</span>
+        </div>
+        <h2 class="quiz-heading">Quiz</h2>
+        <div id="quiz-nav-pills" class="quiz-nav-pills"></div>
+        <div id="quiz-list"></div>
+
+        <div class="quiz-footer">
+          <div id="quiz-status" class="quiz-status" aria-live="polite"></div>
+          <div class="quiz-nav-row">
+            <button id="quiz-prev-btn" class="btn-subtle" type="button">Previous</button>
+            <button id="quiz-next-btn" class="btn-subtle" type="button">Next</button>
+          </div>
+          <div class="quiz-actions">
+            <button id="check-quiz-btn" class="btn-dark" type="button">Check Answers</button>
+          </div>
+          <p class="quiz-helper">Review your answers before submitting.</p>
+          <div id="quiz-score" class="quiz-score" hidden aria-live="polite"></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const STUDY_DATA = {
+        id: "template-lesson-01",
+        title: "[Topic Name]",
+        level: "[Discipline / Unit]",
+        lessonTag: "SAMPLE LESSON",
+        readingTime: "5 min",
+        videoSrc: "",
+        subtitlesSrc: "",
+        subtitlesLang: "en",
+        subtitle: "[Short objective guiding what the learner should verify in this session.]",
+        concepts: [
+          {
+            title: "Concept 1: [Core Mechanism]",
+            summary: "[2-3 concise sentences explaining the core invariant or rule.]",
+            keyFormula: "[Optional core invariant or formula highlighted in terracotta]",
+            code: "",
+            predictionPrompt: "[Prediction question requiring mental simulation before clicking reveal]",
+            revealAnswer: "[Direct answer to the prediction + why the underlying mechanism behaves that way.]"
+          },
+          {
+            title: "Concept 2: [Boundary or Trade-off]",
+            summary: "[2-3 concise sentences highlighting a key edge case or design trade-off.]",
+            keyFormula: "",
+            code: "",
+            predictionPrompt: "[What fails or changes when a constraint or input shifts?]",
+            revealAnswer: "[Clear explanation connecting the cause, effect, and practical takeaway.]"
+          }
+        ],
+        flashcards: [
+          { front: "[Atomic question 1: single focused fact or rule?]", back: "[Concise 1-2 sentence answer.]" },
+          { front: "[Atomic question 2: distinguish concept A vs B?]", back: "[Direct distinction with no fluff.]" },
+          { front: "[Atomic question 3: default behavior or invariant?]", back: "[Exact behavior and condition.]" },
+          { front: "[Atomic question 4: failure mode when constraint breaks?]", back: "[Observed effect and safeguard.]" }
+        ],
+        quiz: [
+          {
+            prompt: "[Question 1 testing conceptual understanding rather than trivia]",
+            code: "",
+            options: [
+              "[Plausible misconception A]",
+              "[Correct answer B]",
+              "[Plausible misconception C]"
+            ],
+            correctIndex: 1,
+            optionNotes: [
+              "[Why misconception A fails conceptually.]",
+              "[Why option B satisfies the mechanism or invariant.]",
+              "[Why misconception C confuses two distinct behaviors.]"
+            ],
+            explanation: "[Concise conceptual synthesis tying the question back to the core rule.]"
+          },
+          {
+            prompt: "[Question 2 analyzing a short scenario or edge case]",
+            code: "",
+            options: [
+              "[Correct answer A]",
+              "[Plausible misconception B]",
+              "[Plausible misconception C]"
+            ],
+            correctIndex: 0,
+            optionNotes: [
+              "[Why option A holds.]",
+              "[Why misconception B is wrong.]",
+              "[Why misconception C is wrong.]"
+            ],
+            explanation: "[Key takeaway explaining how to spot this pattern.]"
+          }
+        ]
+      };
+
+      const state = {
+        revealedConcepts: new Set(),
+        flippedCards: new Set(),
+        quizSelections: [],
+        currentQuestion: 0,
+        quizChecked: false
+      };
+
+      const els = {
+        root: document.documentElement,
+        title: document.getElementById("study-title"),
+        level: document.getElementById("study-level"),
+        lessonTag: document.getElementById("lesson-tag"),
+        readingTime: document.getElementById("reading-time"),
+        subtitle: document.getElementById("study-subtitle"),
+        themeToggle: document.getElementById("theme-toggle"),
+        resetBtn: document.getElementById("reset-btn"),
+        progressLabel: document.getElementById("progress-label"),
+        progressBar: document.getElementById("progress-bar"),
+        progressFill: document.getElementById("progress-fill"),
+        progressStats: document.getElementById("progress-stats"),
+        conceptsList: document.getElementById("concepts-list"),
+        videoSlot: document.getElementById("video-slot"),
+        flashcardsGrid: document.getElementById("flashcards-grid"),
+        quizCountMeta: document.getElementById("quiz-count-meta"),
+        quizNavPills: document.getElementById("quiz-nav-pills"),
+        quizList: document.getElementById("quiz-list"),
+        quizPrevBtn: document.getElementById("quiz-prev-btn"),
+        quizNextBtn: document.getElementById("quiz-next-btn"),
+        checkQuizBtn: document.getElementById("check-quiz-btn"),
+        quizStatus: document.getElementById("quiz-status"),
+        quizScore: document.getElementById("quiz-score"),
+        noteForm: document.getElementById("note-form"),
+        noteInput: document.getElementById("note-input"),
+        notesList: document.getElementById("notes-list"),
+        savedCount: document.getElementById("saved-count")
+      };
+
+      function createEl(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (typeof text === "string") node.textContent = text;
+        return node;
+      }
+
+      function applyTheme(theme) {
+        const isDark = theme === "dark";
+        els.root.setAttribute("data-theme", theme);
+        els.themeToggle.setAttribute("aria-pressed", String(isDark));
+        els.themeToggle.textContent = isDark ? "Light Mode" : "Dark Mode";
+        try {
+          window.localStorage.setItem("interactive-study-theme", theme);
+        } catch (_) {}
+      }
+
+      function initTheme() {
+        let initial = "light";
+        try {
+          const saved = window.localStorage.getItem("interactive-study-theme");
+          if (saved === "light" || saved === "dark") {
+            initial = saved;
+          }
+        } catch (_) {}
+        applyTheme(initial);
+      }
+
+      const notesStorageKey = "learn_skills_notes_" + (STUDY_DATA.id || "default");
+
+      function loadNotes() {
+        try {
+          return JSON.parse(window.localStorage.getItem(notesStorageKey) || "[]");
+        } catch (_) {
+          return [];
+        }
+      }
+
+      function saveNotes(notes) {
+        try {
+          window.localStorage.setItem(notesStorageKey, JSON.stringify(notes));
+        } catch (_) {}
+      }
+
+      function renderNotes() {
+        const notes = loadNotes();
+        els.savedCount.textContent = String(notes.length).padStart(2, "0");
+        els.notesList.replaceChildren();
+        notes.forEach((note, idx) => {
+          const item = createEl("div", "note-item");
+          const left = createEl("div");
+          left.appendChild(createEl("p", "note-text", note.text));
+          left.appendChild(createEl("span", "note-time", note.time || "In this lesson · just now"));
+
+          const delBtn = createEl("button", "note-delete", "×");
+          delBtn.type = "button";
+          delBtn.title = "Delete note";
+          delBtn.addEventListener("click", () => {
+            const updated = loadNotes().filter((_, i) => i !== idx);
+            saveNotes(updated);
+            renderNotes();
+          });
+
+          item.appendChild(left);
+          item.appendChild(delBtn);
+          els.notesList.appendChild(item);
+        });
+      }
+
+      function updateProgress() {
+        const totalConcepts = STUDY_DATA.concepts.length;
+        const totalCards = STUDY_DATA.flashcards.length;
+        const totalQuiz = STUDY_DATA.quiz.length;
+        const totalUnits = totalConcepts + totalCards + totalQuiz;
+        const doneQuiz = state.quizChecked ? totalQuiz : 0;
+        const doneUnits = state.revealedConcepts.size + state.flippedCards.size + doneQuiz;
+        const pct = totalUnits > 0 ? Math.round((doneUnits / totalUnits) * 100) : 0;
+
+        els.progressFill.style.width = `${pct}%`;
+        els.progressBar.setAttribute("aria-valuenow", String(pct));
+        els.progressLabel.textContent = `${doneUnits} / ${totalUnits} completed (${pct}%)`;
+        els.progressStats.textContent =
+          `Concepts: ${state.revealedConcepts.size}/${totalConcepts} | ` +
+          `Flashcards: ${state.flippedCards.size}/${totalCards} | ` +
+          `Quiz: ${state.quizChecked ? "Checked" : "Pending"}`;
+      }
+
+      function renderVideo() {
+        els.videoSlot.replaceChildren();
+        if (!STUDY_DATA.videoSrc || !STUDY_DATA.videoSrc.trim()) return;
+        const wrap = createEl("div", "video-block");
+        const video = createEl("video", "video-player");
+        video.controls = true;
+        video.preload = "metadata";
+
+        const source = document.createElement("source");
+        source.src = STUDY_DATA.videoSrc;
+        source.type = "video/mp4";
+        video.appendChild(source);
+
+        if (STUDY_DATA.subtitlesSrc && STUDY_DATA.subtitlesSrc.trim()) {
+          const track = document.createElement("track");
+          track.kind = "subtitles";
+          track.src = STUDY_DATA.subtitlesSrc;
+          track.srclang = STUDY_DATA.subtitlesLang || "en";
+          track.label = "Subtitles";
+          track.default = true;
+          video.appendChild(track);
+        }
+
+        wrap.appendChild(video);
+        els.videoSlot.appendChild(wrap);
+      }
+
+      function renderConcepts() {
+        els.conceptsList.replaceChildren();
+        STUDY_DATA.concepts.forEach((item, idx) => {
+          const card = createEl("article", "concept-card");
+          card.appendChild(createEl("h3", "", item.title));
+          card.appendChild(createEl("p", "", item.summary));
+
+          if (item.keyFormula && item.keyFormula.trim()) {
+            card.appendChild(createEl("div", "key-formula", item.keyFormula));
+          }
+
+          if (item.code && item.code.trim()) {
+            const pre = createEl("pre");
+            pre.appendChild(createEl("code", "", item.code));
+            card.appendChild(pre);
+          }
+
+          const promptBox = createEl("div", "prompt-box");
+          promptBox.appendChild(createEl("span", "prompt-label", "Think first, then reveal"));
+          promptBox.appendChild(createEl("span", "", item.predictionPrompt));
+          card.appendChild(promptBox);
+
+          const btn = createEl("button", "reveal-btn", "Reveal Answer");
+          btn.type = "button";
+          btn.setAttribute("aria-expanded", "false");
+
+          const revealBox = createEl("div", "reveal-body");
+          revealBox.hidden = true;
+          revealBox.appendChild(createEl("p", "", item.revealAnswer));
+
+          btn.addEventListener("click", () => {
+            const willShow = revealBox.hidden;
+            revealBox.hidden = !willShow;
+            btn.setAttribute("aria-expanded", String(willShow));
+            btn.textContent = willShow ? "Hide Answer" : "Reveal Answer";
+            if (willShow) {
+              state.revealedConcepts.add(idx);
+              updateProgress();
+            }
+          });
+
+          card.appendChild(btn);
+          card.appendChild(revealBox);
+          els.conceptsList.appendChild(card);
+        });
+      }
+
+      function renderFlashcards() {
+        els.flashcardsGrid.replaceChildren();
+        const total = STUDY_DATA.flashcards.length;
+        STUDY_DATA.flashcards.forEach((item, idx) => {
+          const card = createEl("button", "flashcard");
+          card.type = "button";
+          card.setAttribute("aria-pressed", "false");
+
+          const inner = createEl("span", "flashcard-inner");
+
+          const front = createEl("span", "flashcard-face flashcard-front");
+          const frontMeta = createEl("span", "card-meta");
+          frontMeta.appendChild(createEl("span", "", `Front ${idx + 1}/${total}`));
+          frontMeta.appendChild(createEl("span", "", "Unseen"));
+          front.appendChild(frontMeta);
+          front.appendChild(createEl("span", "card-text", item.front));
+          front.appendChild(createEl("span", "card-hint", "Click to flip"));
+
+          const back = createEl("span", "flashcard-face flashcard-back");
+          const backMeta = createEl("span", "card-meta");
+          backMeta.appendChild(createEl("span", "", `Back ${idx + 1}/${total}`));
+          backMeta.appendChild(createEl("span", "", "Answer"));
+          back.appendChild(backMeta);
+          back.appendChild(createEl("span", "card-text", item.back));
+          back.appendChild(createEl("span", "card-hint", "Click to flip back"));
+
+          inner.appendChild(front);
+          inner.appendChild(back);
+          card.appendChild(inner);
+
+          card.addEventListener("click", () => {
+            const flipped = card.classList.toggle("is-flipped");
+            card.setAttribute("aria-pressed", String(flipped));
+            frontMeta.lastChild.textContent = "Reviewed";
+            state.flippedCards.add(idx);
+            updateProgress();
+          });
+
+          els.flashcardsGrid.appendChild(card);
+        });
+      }
+
+      function renderQuiz() {
+        const total = STUDY_DATA.quiz.length;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        els.quizCountMeta.textContent = `${state.currentQuestion + 1} of ${total}`;
+
+        els.quizNavPills.replaceChildren();
+        STUDY_DATA.quiz.forEach((_, idx) => {
+          const pill = createEl("button", "quiz-pill", `Q${idx + 1}`);
+          pill.type = "button";
+          if (idx === state.currentQuestion) pill.classList.add("is-active");
+          if (state.quizSelections[idx] !== null) pill.classList.add("is-answered");
+          pill.addEventListener("click", () => {
+            state.currentQuestion = idx;
+            renderQuiz();
+          });
+          els.quizNavPills.appendChild(pill);
+        });
+
+        els.quizPrevBtn.disabled = state.currentQuestion <= 0;
+        els.quizNextBtn.disabled = state.currentQuestion >= total - 1;
+
+        els.quizList.replaceChildren();
+        const qIdx = state.currentQuestion;
+        const q = STUDY_DATA.quiz[qIdx];
+        if (!q) return;
+
+        const card = createEl("div", "quiz-card");
+        card.setAttribute("role", "radiogroup");
+        card.setAttribute("aria-labelledby", `quiz-q-label-${qIdx}`);
+        card.dataset.questionIndex = String(qIdx);
+
+        const prompt = createEl("p", "quiz-prompt", `Q${qIdx + 1}. ${q.prompt}`);
+        prompt.id = `quiz-q-label-${qIdx}`;
+        card.appendChild(prompt);
+
+        if (q.code && q.code.trim()) {
+          const pre = createEl("pre");
+          pre.appendChild(createEl("code", "", q.code));
+          card.appendChild(pre);
+        }
+
+        const chosen = state.quizSelections[qIdx];
+        const optionsWrap = createEl("div", "quiz-options");
+        q.options.forEach((optText, oIdx) => {
+          const label = createEl("label", "quiz-option");
+          const radio = createEl("input");
+          radio.type = "radio";
+          radio.name = `quiz-q-${qIdx}`;
+          radio.value = String(oIdx);
+          radio.checked = chosen === oIdx;
+          radio.disabled = state.quizChecked;
+
+          if (state.quizChecked) {
+            if (oIdx === q.correctIndex) label.classList.add("is-correct");
+            if (chosen !== q.correctIndex && oIdx === chosen) label.classList.add("is-wrong");
+          }
+
+          radio.addEventListener("change", () => {
+            if (state.quizChecked) return;
+            state.quizSelections[qIdx] = oIdx;
+            const answeredCount = state.quizSelections.filter((v) => v !== null).length;
+            els.quizStatus.textContent = `${answeredCount} of ${total} answered`;
+            renderQuiz();
+          });
+
+          label.appendChild(radio);
+          label.appendChild(createEl("span", "option-letter", letters[oIdx] || String(oIdx + 1)));
+          label.appendChild(createEl("span", "", optText));
+          optionsWrap.appendChild(label);
+        });
+
+        card.appendChild(optionsWrap);
+
+        if (state.quizChecked) {
+          const isRight = chosen === q.correctIndex;
+          const feedback = createEl("div", `quiz-feedback ${isRight ? "is-right" : "is-wrong"}`);
+          const chosenNote = (q.optionNotes && q.optionNotes[chosen]) ? ` ${q.optionNotes[chosen]}` : "";
+          const statusLabel = isRight ? "Correct:" : "Incorrect:";
+          feedback.replaceChildren(
+            createEl("strong", "", statusLabel),
+            document.createTextNode(`${chosenNote} `),
+            createEl("span", "", q.explanation)
+          );
+          card.appendChild(feedback);
+        }
+
+        els.quizList.appendChild(card);
+      }
+
+      function checkQuiz() {
+        if (state.quizChecked) return;
+
+        const missingIdx = state.quizSelections.findIndex((v) => v === null);
+        if (missingIdx !== -1) {
+          state.currentQuestion = missingIdx;
+          renderQuiz();
+          els.quizStatus.textContent = `Please answer Q${missingIdx + 1} before checking answers.`;
+          return;
+        }
+
+        const total = STUDY_DATA.quiz.length;
+        const score = STUDY_DATA.quiz.reduce(
+          (acc, q, idx) => acc + (state.quizSelections[idx] === q.correctIndex ? 1 : 0),
+          0
+        );
+
+        state.quizChecked = true;
+        els.checkQuizBtn.disabled = true;
+        els.quizStatus.textContent = "";
+
+        const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+        els.quizScore.hidden = false;
+        els.quizScore.textContent = `Score: ${score} / ${total} (${pct}%).`;
+
+        renderQuiz();
+        updateProgress();
+      }
+
+      function resetSession() {
+        state.revealedConcepts.clear();
+        state.flippedCards.clear();
+        state.quizSelections = new Array(STUDY_DATA.quiz.length).fill(null);
+        state.currentQuestion = 0;
+        state.quizChecked = false;
+        els.checkQuizBtn.disabled = false;
+        els.quizStatus.textContent = `0 of ${STUDY_DATA.quiz.length} answered`;
+        els.quizScore.hidden = true;
+        els.quizScore.textContent = "";
+        renderConcepts();
+        renderFlashcards();
+        renderQuiz();
+        updateProgress();
+      }
+
+      function init() {
+        document.title = `Notebook — ${STUDY_DATA.title}`;
+        els.title.textContent = STUDY_DATA.title;
+        els.level.textContent = STUDY_DATA.level;
+        els.lessonTag.textContent = STUDY_DATA.lessonTag || "STUDY LESSON";
+        els.readingTime.textContent = STUDY_DATA.readingTime || "5 min";
+        els.subtitle.textContent = STUDY_DATA.subtitle;
+
+        initTheme();
+        renderVideo();
+        renderNotes();
+        resetSession();
+
+        els.quizPrevBtn.addEventListener("click", () => {
+          if (state.currentQuestion > 0) {
+            state.currentQuestion -= 1;
+            renderQuiz();
+          }
+        });
+        els.quizNextBtn.addEventListener("click", () => {
+          if (state.currentQuestion < STUDY_DATA.quiz.length - 1) {
+            state.currentQuestion += 1;
+            renderQuiz();
+          }
+        });
+
+        els.noteForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const val = els.noteInput.value.trim();
+          if (!val) return;
+          const notes = loadNotes();
+          notes.unshift({ text: val, time: "In this lesson · just now" });
+          saveNotes(notes);
+          els.noteInput.value = "";
+          renderNotes();
+        });
+
+        els.themeToggle.addEventListener("click", () => {
+          const current = els.root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+          applyTheme(current === "dark" ? "light" : "dark");
+        });
+        els.resetBtn.addEventListener("click", resetSession);
+        els.checkQuizBtn.addEventListener("click", checkQuiz);
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

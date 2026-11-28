@@ -18,3 +18,8 @@ Thumbs.db
 # Environment
 .env
 .env.*
+
+# Video Lesson Build & Output Artifacts
+out/
+video/node_modules/
+video/public/_build/

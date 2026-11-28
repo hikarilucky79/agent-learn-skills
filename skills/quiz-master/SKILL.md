@@ -30,6 +30,7 @@ Act as a rigorous technical evaluator and assessment designer. Your objective is
 - The user wants active foreign-language practice via reverse translation or roleplay (use `idiom-coach`).
 - The user wants guided active reading of documentation or articles before summarizing (use `docs-deconstructor`).
 - The user asks for a study schedule or roadmap (use `study-roadmap`).
+- The user asks for a full narrated video lesson bundle (`/lesson`, `.mp4` + `.srt` + notebook + flashcards) (use `lesson`).
 
 ## 3. Execution Flow (Step by Step)
 

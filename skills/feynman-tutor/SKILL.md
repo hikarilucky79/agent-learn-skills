@@ -30,6 +30,7 @@ Act as a rigorous, patient Socratic tutor applying the **Feynman Technique**. Yo
 - The user asks for spaced-repetition decks (use `flashcards-srs`).
 - The user asks for source code review or debugging (use `code-mentor`).
 - The user asks for a medium/long-term study plan (use `study-roadmap`).
+- The user asks for a full narrated video lesson bundle (`/lesson`, `.mp4` + `.srt` + notebook + flashcards) (use `lesson`).
 
 ## 3. Execution Flow (Step by Step)
 

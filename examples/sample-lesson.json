@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "id": "event-loop-nodejs",
+    "title": "Event Loop no Node.js: Call Stack, Microtasks e Timers",
+    "discipline": "Node.js / Backend",
+    "language": "pt-BR",
+    "aspectRatio": "16:9"
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "heading": "Como o Node.js concorre com uma única thread?",
+      "subtitle": "Call Stack, filas de microtasks e timers na prática",
+      "body": "Entenda a ordem exata de execução sem adivinhar callbacks.",
+      "narration": "Bem-vindo a esta aula prática sobre o Event Loop no Node.js. Hoje vamos descobrir como o JavaScript atende milhares de requisições concorrentes sem travar a thread principal."
+    },
+    {
+      "type": "concept",
+      "heading": "Três filas com prioridades diferentes",
+      "body": "O código síncrono esvazia a Call Stack primeiro. Antes de avançar para qualquer callback de timer, o runtime drena toda a fila de microtasks.",
+      "bullets": [
+        "1. Call Stack: executa instruções síncronas linha a linha.",
+        "2. Microtasks: Promise.then e queueMicrotask rodam logo após a pilha zerar.",
+        "3. Macrotasks (Timers): setTimeout e callbacks de entrada e saída aguardam a próxima volta."
+      ],
+      "formula": "Call Stack (síncrono) -> Microtasks (Promises) -> Macrotasks (setTimeout / I/O)",
+      "narration": "Pense em três estágios com prioridade bem definida. Primeiro, a Call Stack executa tudo o que for síncrono. Assim que a pilha fica vazia, o Node drena completamente as microtasks de Promises antes de olhar para a fila de timers."
+    },
+    {
+      "type": "code_trace",
+      "heading": "Rastreando a ordem de saída no terminal",
+      "codeLanguage": "javascript",
+      "code": "console.log('1: inicio');\nsetTimeout(() => console.log('2: timer'), 0);\nPromise.resolve().then(() => console.log('3: microtask'));\nconsole.log('4: fim');",
+      "highlightLines": [1, 4, 3, 2],
+      "narration": "Observe estas quatro linhas. A linha um imprime início de forma síncrona. A linha dois agenda um timer e a linha três registra uma microtask. A linha quatro imprime fim. Só depois da pilha zerar entram a microtask e, por último, o timer."
+    },
+    {
+      "type": "active_pause",
+      "heading": "Previsão Rápida: o que acontece com microtasks encadeadas?",
+      "body": "Se uma Promise.then agendar outra Promise.then dentro dela, o setTimeout com zero milissegundos roda antes ou depois da segunda microtask?",
+      "pauseSeconds": 4,
+      "answer": "Depois! O Node drena toda a fila de microtasks — inclusive novas microtasks criadas durante a drenagem — antes de avançar para a fase de timers.",
+      "narration": "Sua vez de prever antes da resposta aparecer. Se uma microtask agendar outra microtask dentro dela, o setTimeout com zero milissegundos roda antes ou depois dessa segunda microtask? Pense por alguns segundos."
+    },
+    {
+      "type": "quiz_recap",
+      "heading": "Checagem Final de Conceito",
+      "question": "Qual sequência é exibida no console pelo exemplo anterior?",
+      "options": [
+        "1: inicio -> 2: timer -> 3: microtask -> 4: fim",
+        "1: inicio -> 4: fim -> 2: timer -> 3: microtask",
+        "1: inicio -> 4: fim -> 3: microtask -> 2: timer",
+        "1: inicio -> 3: microtask -> 4: fim -> 2: timer"
+      ],
+      "correctIndex": 2,
+      "explanation": "A alternativa C está correta: o código síncrono imprime 1 e 4, em seguida a fila de microtasks imprime 3, e somente na próxima fase do Event Loop o timer imprime 2.",
+      "narration": "Para fechar, teste seu modelo mental. Qual sequência exata aparece no console? A resposta certa é a letra C: um e quatro síncronos, três da microtask e dois do timer."
+    }
+  ]
+}
