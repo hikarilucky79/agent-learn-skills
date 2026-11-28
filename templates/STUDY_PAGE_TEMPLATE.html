@@ -246,6 +246,54 @@
       max-width: 72ch;
     }
 
+    .video-block {
+      margin: 0 0 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .video-player {
+      width: 100%;
+      display: block;
+      background: #262821;
+      border: 1px solid var(--border);
+    }
+
+    /* Offline .tex / LaTeX Math Formatting */
+    .tex-math {
+      font-family: var(--font-serif);
+      font-style: italic;
+      letter-spacing: 0.01em;
+    }
+
+    .tex-block {
+      display: block;
+      margin: 8px 0;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05em;
+      text-align: center;
+    }
+
+    .tex-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 3px;
+      font-size: 0.88em;
+      line-height: 1.15;
+    }
+
+    .tex-num {
+      border-bottom: 1px solid currentColor;
+      padding: 0 3px 1px;
+    }
+
+    .tex-den {
+      padding: 1px 3px 0;
+    }
+
     .concept-card {
       padding: 16px 0;
       border-top: 1px solid var(--border);
@@ -807,6 +855,7 @@
           <h1 class="lesson-title" id="study-title">[Topic Title]</h1>
           <p class="lesson-subtitle" id="study-subtitle">[Short active-learning subtitle]</p>
 
+          <div id="video-slot"></div>
           <div id="concepts-list"></div>
         </div>
 
@@ -877,6 +926,9 @@
         level: "[Discipline / Unit]",
         lessonTag: "SAMPLE LESSON",
         readingTime: "5 min",
+        videoSrc: "",
+        subtitlesSrc: "",
+        subtitlesLang: "en",
         subtitle: "[Short objective guiding what the learner should verify in this session.]",
         concepts: [
           {
@@ -960,6 +1012,7 @@
         progressFill: document.getElementById("progress-fill"),
         progressStats: document.getElementById("progress-stats"),
         conceptsList: document.getElementById("concepts-list"),
+        videoSlot: document.getElementById("video-slot"),
         flashcardsGrid: document.getElementById("flashcards-grid"),
         quizCountMeta: document.getElementById("quiz-count-meta"),
         quizNavPills: document.getElementById("quiz-nav-pills"),
@@ -980,6 +1033,111 @@
         if (className) node.className = className;
         if (typeof text === "string") node.textContent = text;
         return node;
+      }
+
+      const TEX_SYMBOLS = {
+        "\\rightarrow": "→", "\\to": "→", "\\leftarrow": "←", "\\leftrightarrow": "↔",
+        "\\Rightarrow": "⇒", "\\implies": "⇒", "\\iff": "⇔",
+        "\\times": "×", "\\cdot": "·", "\\div": "÷", "\\pm": "±", "\\mp": "∓",
+        "\\approx": "≈", "\\neq": "≠", "\\leq": "≤", "\\geq": "≥", "\\equiv": "≡",
+        "\\infty": "∞", "\\partial": "∂", "\\nabla": "∇", "\\sum": "∑", "\\prod": "∏",
+        "\\int": "∫", "\\in": "∈", "\\notin": "∉", "\\subset": "⊂", "\\cup": "∪",
+        "\\cap": "∩", "\\forall": "∀", "\\exists": "∃", "\\degree": "°",
+        "\\alpha": "α", "\\beta": "β", "\\gamma": "γ", "\\delta": "δ", "\\epsilon": "ε",
+        "\\theta": "θ", "\\lambda": "λ", "\\mu": "μ", "\\pi": "π", "\\rho": "ρ",
+        "\\sigma": "σ", "\\tau": "τ", "\\phi": "φ", "\\omega": "ω",
+        "\\Delta": "Δ", "\\Sigma": "Σ", "\\Omega": "Ω", "\\Phi": "Φ", "\\Psi": "Ψ"
+      };
+
+      function readBraced(str, start) {
+        if (str[start] !== "{") return null;
+        let depth = 0;
+        for (let i = start; i < str.length; i++) {
+          if (str[i] === "{") depth++;
+          else if (str[i] === "}") {
+            depth--;
+            if (depth === 0) return { content: str.slice(start + 1, i), end: i + 1 };
+          }
+        }
+        return null;
+      }
+
+      function renderTexExpr(parent, expr) {
+        let s = expr.replace(/\\text\{([^{}]*)\}/g, "$1").replace(/\\mathrm\{([^{}]*)\}/g, "$1");
+        Object.keys(TEX_SYMBOLS).forEach((cmd) => {
+          s = s.split(cmd).join(TEX_SYMBOLS[cmd]);
+        });
+        let i = 0;
+        while (i < s.length) {
+          if (s.startsWith("\\frac{", i)) {
+            const num = readBraced(s, i + 5);
+            const den = num ? readBraced(s, num.end) : null;
+            if (num && den) {
+              const frac = createEl("span", "tex-frac");
+              const numEl = createEl("span", "tex-num");
+              const denEl = createEl("span", "tex-den");
+              renderTexExpr(numEl, num.content);
+              renderTexExpr(denEl, den.content);
+              frac.appendChild(numEl);
+              frac.appendChild(denEl);
+              parent.appendChild(frac);
+              i = den.end;
+              continue;
+            }
+          }
+          if (s.startsWith("\\sqrt{", i)) {
+            const inner = readBraced(s, i + 5);
+            if (inner) {
+              parent.appendChild(document.createTextNode("√("));
+              renderTexExpr(parent, inner.content);
+              parent.appendChild(document.createTextNode(")"));
+              i = inner.end;
+              continue;
+            }
+          }
+          if ((s[i] === "^" || s[i] === "_") && i + 1 < s.length) {
+            const tag = s[i] === "^" ? "sup" : "sub";
+            const el = document.createElement(tag);
+            if (s[i + 1] === "{") {
+              const grp = readBraced(s, i + 1);
+              if (grp) {
+                renderTexExpr(el, grp.content);
+                parent.appendChild(el);
+                i = grp.end;
+                continue;
+              }
+            } else {
+              el.textContent = s[i + 1];
+              parent.appendChild(el);
+              i += 2;
+              continue;
+            }
+          }
+          parent.appendChild(document.createTextNode(s[i]));
+          i++;
+        }
+      }
+
+      function appendTexText(parent, text) {
+        if (typeof text !== "string" || !text) return;
+        const tokenRe = /(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g;
+        let last = 0;
+        let m;
+        while ((m = tokenRe.exec(text)) !== null) {
+          if (m.index > last) {
+            parent.appendChild(document.createTextNode(text.slice(last, m.index)));
+          }
+          const raw = m[0];
+          const isBlock = raw.startsWith("$$");
+          const inner = raw.slice(isBlock ? 2 : 1, isBlock ? -2 : -1).trim();
+          const holder = createEl(isBlock ? "span" : "span", isBlock ? "tex-block" : "tex-math");
+          renderTexExpr(holder, inner);
+          parent.appendChild(holder);
+          last = m.index + raw.length;
+        }
+        if (last < text.length) {
+          parent.appendChild(document.createTextNode(text.slice(last)));
+        }
       }
 
       function applyTheme(theme) {
@@ -1062,15 +1220,48 @@
           `Quiz: ${state.quizChecked ? "Checked" : "Pending"}`;
       }
 
+      function renderVideo() {
+        els.videoSlot.replaceChildren();
+        if (!STUDY_DATA.videoSrc || !STUDY_DATA.videoSrc.trim()) return;
+        const wrap = createEl("div", "video-block");
+        const video = createEl("video", "video-player");
+        video.controls = true;
+        video.preload = "metadata";
+
+        const source = document.createElement("source");
+        source.src = STUDY_DATA.videoSrc;
+        source.type = "video/mp4";
+        video.appendChild(source);
+
+        if (STUDY_DATA.subtitlesSrc && STUDY_DATA.subtitlesSrc.trim()) {
+          const track = document.createElement("track");
+          track.kind = "subtitles";
+          track.src = STUDY_DATA.subtitlesSrc;
+          track.srclang = STUDY_DATA.subtitlesLang || "en";
+          track.label = "Subtitles";
+          track.default = true;
+          video.appendChild(track);
+        }
+
+        wrap.appendChild(video);
+        els.videoSlot.appendChild(wrap);
+      }
+
       function renderConcepts() {
         els.conceptsList.replaceChildren();
         STUDY_DATA.concepts.forEach((item, idx) => {
           const card = createEl("article", "concept-card");
-          card.appendChild(createEl("h3", "", item.title));
-          card.appendChild(createEl("p", "", item.summary));
+          const h3 = createEl("h3", "");
+          appendTexText(h3, item.title);
+          card.appendChild(h3);
+          const sumP = createEl("p", "");
+          appendTexText(sumP, item.summary);
+          card.appendChild(sumP);
 
           if (item.keyFormula && item.keyFormula.trim()) {
-            card.appendChild(createEl("div", "key-formula", item.keyFormula));
+            const kf = createEl("div", "key-formula");
+            appendTexText(kf, item.keyFormula);
+            card.appendChild(kf);
           }
 
           if (item.code && item.code.trim()) {
@@ -1081,7 +1272,9 @@
 
           const promptBox = createEl("div", "prompt-box");
           promptBox.appendChild(createEl("span", "prompt-label", "Think first, then reveal"));
-          promptBox.appendChild(createEl("span", "", item.predictionPrompt));
+          const promptSpan = createEl("span", "");
+          appendTexText(promptSpan, item.predictionPrompt);
+          promptBox.appendChild(promptSpan);
           card.appendChild(promptBox);
 
           const btn = createEl("button", "reveal-btn", "Reveal Answer");
@@ -1090,7 +1283,9 @@
 
           const revealBox = createEl("div", "reveal-body");
           revealBox.hidden = true;
-          revealBox.appendChild(createEl("p", "", item.revealAnswer));
+          const revealP = createEl("p", "");
+          appendTexText(revealP, item.revealAnswer);
+          revealBox.appendChild(revealP);
 
           btn.addEventListener("click", () => {
             const willShow = revealBox.hidden;
@@ -1124,7 +1319,9 @@
           frontMeta.appendChild(createEl("span", "", `Front ${idx + 1}/${total}`));
           frontMeta.appendChild(createEl("span", "", "Unseen"));
           front.appendChild(frontMeta);
-          front.appendChild(createEl("span", "card-text", item.front));
+          const frontText = createEl("span", "card-text");
+          appendTexText(frontText, item.front);
+          front.appendChild(frontText);
           front.appendChild(createEl("span", "card-hint", "Click to flip"));
 
           const back = createEl("span", "flashcard-face flashcard-back");
@@ -1132,7 +1329,9 @@
           backMeta.appendChild(createEl("span", "", `Back ${idx + 1}/${total}`));
           backMeta.appendChild(createEl("span", "", "Answer"));
           back.appendChild(backMeta);
-          back.appendChild(createEl("span", "card-text", item.back));
+          const backText = createEl("span", "card-text");
+          appendTexText(backText, item.back);
+          back.appendChild(backText);
           back.appendChild(createEl("span", "card-hint", "Click to flip back"));
 
           inner.appendChild(front);
@@ -1182,7 +1381,8 @@
         card.setAttribute("aria-labelledby", `quiz-q-label-${qIdx}`);
         card.dataset.questionIndex = String(qIdx);
 
-        const prompt = createEl("p", "quiz-prompt", `Q${qIdx + 1}. ${q.prompt}`);
+        const prompt = createEl("p", "quiz-prompt");
+        appendTexText(prompt, `Q${qIdx + 1}. ${q.prompt}`);
         prompt.id = `quiz-q-label-${qIdx}`;
         card.appendChild(prompt);
 
@@ -1218,7 +1418,9 @@
 
           label.appendChild(radio);
           label.appendChild(createEl("span", "option-letter", letters[oIdx] || String(oIdx + 1)));
-          label.appendChild(createEl("span", "", optText));
+          const optSpan = createEl("span", "");
+          appendTexText(optSpan, optText);
+          label.appendChild(optSpan);
           optionsWrap.appendChild(label);
         });
 
@@ -1229,10 +1431,11 @@
           const feedback = createEl("div", `quiz-feedback ${isRight ? "is-right" : "is-wrong"}`);
           const chosenNote = (q.optionNotes && q.optionNotes[chosen]) ? ` ${q.optionNotes[chosen]}` : "";
           const statusLabel = isRight ? "Correct:" : "Incorrect:";
+          const expSpan = createEl("span", "");
+          appendTexText(expSpan, `${chosenNote} ${q.explanation}`);
           feedback.replaceChildren(
             createEl("strong", "", statusLabel),
-            document.createTextNode(`${chosenNote} `),
-            createEl("span", "", q.explanation)
+            expSpan
           );
           card.appendChild(feedback);
         }
@@ -1294,6 +1497,7 @@
         els.subtitle.textContent = STUDY_DATA.subtitle;
 
         initTheme();
+        renderVideo();
         renderNotes();
         resetSession();
 

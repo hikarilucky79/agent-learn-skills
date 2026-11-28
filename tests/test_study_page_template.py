@@ -107,6 +107,9 @@ class TestStudyPageTemplate(unittest.TestCase):
             'id="quiz-score"',
             "flashcard-front",
             "flashcard-back",
+            "appendTexText",
+            "tex-math",
+            "tex-frac",
         ]
         for token in required_tokens:
             self.assertIn(token, self.template_text)
