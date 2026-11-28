@@ -47,9 +47,31 @@ An open-source repository of **Agent Skills for active learning** built on the `
 
 ## Installation & Usage
 
-### Quick Install (Recommended)
+### 1-Line Install (No Clone Required)
 
-Clone the repository and run the installer for your agent (`claude`, `cursor`, `codex`, `opencode`, or `antigravity`):
+Install all 10 skills directly into your agent (`claude`, `cursor`, `codex`, `opencode`, or `antigravity`) with a single command:
+
+**Linux / macOS ([`scripts/remote-install.sh`](scripts/remote-install.sh)):**
+```bash
+# Default: installs all skills globally for Claude Code
+curl -fsSL https://raw.githubusercontent.com/hikarilucky79/agent-learn-skills/main/scripts/remote-install.sh | bash
+
+# Target a specific agent or skills (e.g., Cursor, Antigravity, or Codex)
+curl -fsSL https://raw.githubusercontent.com/hikarilucky79/agent-learn-skills/main/scripts/remote-install.sh | bash -s -- --agent cursor --scope global --force
+```
+
+**Windows PowerShell ([`scripts/remote-install.ps1`](scripts/remote-install.ps1)):**
+```powershell
+# Default: installs all skills globally for Claude Code
+irm https://raw.githubusercontent.com/hikarilucky79/agent-learn-skills/main/scripts/remote-install.ps1 | iex
+
+# Target a specific agent or skills (e.g., Cursor, Antigravity, or Codex)
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/hikarilucky79/agent-learn-skills/main/scripts/remote-install.ps1))) -Agent cursor -Scope global -Force
+```
+
+### Local Clone Install (Recommended for `/lesson` Video Rendering)
+
+Clone the repository and run the local installer:
 
 **Linux / macOS ([`scripts/install.sh`](scripts/install.sh)):**
 ```bash
@@ -121,6 +143,8 @@ agent-learn-skills/
 │   ├── install.ps1
 │   ├── install.sh
 │   ├── new_skill.py
+│   ├── remote-install.ps1
+│   ├── remote-install.sh
 │   └── validate_skills.py
 ├── templates/
 │   ├── SKILL_TEMPLATE.md
