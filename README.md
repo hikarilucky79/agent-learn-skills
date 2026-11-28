@@ -1,6 +1,8 @@
 # agent-learn-skills
 
 [![Validate Skills](https://github.com/hikarilucky79/agent-learn-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/hikarilucky79/agent-learn-skills/actions/workflows/validate.yml)
+[![npm version](https://img.shields.io/npm/v/agent-learn-skills.svg)](https://www.npmjs.com/package/agent-learn-skills)
+[![PyPI version](https://img.shields.io/pypi/v/agent-learn-skills.svg)](https://pypi.org/project/agent-learn-skills/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -11,7 +13,7 @@ An open-source repository of **Agent Skills for active learning** built on the `
 ## Value Proposition
 
 - **Active learning first:** the agent requires an attempt, explanation, or debugging step before revealing ready-made answers.
-- **Offline interactive study page in every skill:** every skill automatically generates a single-file offline `.html` study page (`templates/STUDY_PAGE_TEMPLATE.html`) with active-reveal concept cards (*"Think first, then reveal"*), 4–8 flip flashcards, and a diagnostic quiz (hidden key until **Check Answers**), plus Light/Dark toggle, progress bar, and Reset.
+- **Offline Editorial Notebook in every skill:** every skill automatically generates and opens a single-file offline `.html` study page (`templates/STUDY_PAGE_TEMPLATE.html`) with active-reveal concept cards (*"Think first, then reveal"*), offline `.tex`/LaTeX formula rendering, `localStorage` private notes, 4–8 flip flashcards, and a paginated diagnostic quiz (hidden key until **Check Answers**), plus Light/Dark toggle, progress bar, and Reset.
 - **Modularity:** each skill executes a single pedagogical method with clear boundaries and zero trigger overlap.
 - **Lean context:** concise, actionable instructions that save model context window.
 - **Portability:** compatible with modern `SKILL.md`-based agents (Claude Code, Codex CLI, Cursor, OpenCode, Antigravity, and others).
@@ -210,8 +212,8 @@ python scripts/build_video.py examples/sample-lesson.json --out out/sample/sampl
 npm publish --access public
 
 # PyPI (pip install agent-learn-skills)
-python -m build
-twine upload dist/*
+# Automated via GitHub Actions Trusted Publisher (.github/workflows/publish-pypi.yml)
+# on GitHub Release publish, or manually via workflow_dispatch.
 ```
 
 ---
