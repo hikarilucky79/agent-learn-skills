@@ -1,0 +1,41 @@
+{
+  "name": "agent-learn-skills",
+  "version": "1.1.0",
+  "description": "Open-source catalog of SKILL.md Agent Skills for active learning, offline Editorial Notebook HTML study pages, and MP4 video lessons.",
+  "type": "module",
+  "bin": {
+    "agent-learn-skills": "./bin/cli.mjs"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "templates/STUDY_PAGE_TEMPLATE.html",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "agent-skills",
+    "skill-md",
+    "active-learning",
+    "claude-code",
+    "cursor",
+    "codex",
+    "opencode",
+    "antigravity",
+    "anki",
+    "flashcards"
+  ],
+  "author": "Kauã Oliveira",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hikarilucky79/agent-learn-skills.git"
+  },
+  "homepage": "https://github.com/hikarilucky79/agent-learn-skills#readme",
+  "bugs": {
+    "url": "https://github.com/hikarilucky79/agent-learn-skills/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
