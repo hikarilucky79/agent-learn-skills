@@ -41,6 +41,7 @@ An open-source repository of **Agent Skills for active learning** built on the `
 | [`idiom-coach`](skills/idiom-coach/SKILL.md) | Reverse translation, roleplay, and surgical correction | Active foreign-language production with targeted feedback | *"Let's practice B1 English via reverse translation for daily standups."* |
 | [`docs-deconstructor`](skills/docs-deconstructor/SKILL.md) | Active reading and invariant extraction pre-summary | Dissecting dense docs, RFCs, or technical articles before summarizing | *"Help me actively read this HTTP caching excerpt before summarizing it."* |
 | [`debug-postmortem`](skills/debug-postmortem/SKILL.md) | Blameless post-bug metacognitive retrospective | Analyzing false hypotheses, root cause, and systemic prevention after a fix | *"I fixed a duplicate-job bug after blaming Redis; help me run a postmortem."* |
+| [`lesson`](skills/lesson/SKILL.md) | Unified active lesson + narrated MP4 video (`edge-tts` + Remotion) | Generating a full bundle: `.mp4` + `.srt` + embedded Editorial Notebook `.html` + Anki `.csv` | *"/lesson Event Loop in Node.js (intermediate, pt-BR, 16:9)"* |
 
 ---
 
@@ -152,8 +153,28 @@ agent-learn-skills/
     │   └── SKILL.md
     ├── docs-deconstructor/
     │   └── SKILL.md
-    └── debug-postmortem/
-        └── SKILL.md
+    ├── debug-postmortem/
+    │   └── SKILL.md
+    └── lesson/
+        ├── SKILL.md
+        └── assets/
+            └── STUDY_PAGE_TEMPLATE.html
+```
+
+### Video Lesson Pipeline (`/lesson` Prerequisites)
+
+To render `.mp4` videos with the `lesson` skill, install Python (`edge-tts`, `jsonschema`, `mutagen`) and Remotion dependencies:
+
+```bash
+pip install -r requirements.txt
+cd video && npm install
+```
+
+Render any validated `lesson.json` directly:
+
+```bash
+python scripts/validate_lesson.py examples/sample-lesson.json
+python scripts/build_video.py examples/sample-lesson.json --out out/sample/sample.mp4
 ```
 
 ---
